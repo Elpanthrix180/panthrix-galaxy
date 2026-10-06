@@ -1,7 +1,7 @@
 {
   "itemGroup.panthrixsgalaxy.pg_main_tab": "Panthrixs Galaxy",
   "itemGroup.panthrixsgalaxy.pg_blocks_tab": "Panthrixs Galaxy: Blocks",
-  "itemGroup.panthrixsgalaxy.pg_tools_tab": "Panthrixs Galaxy: Tools",
+  "itemGroup.panthrixsgalaxy.pg_tools_tab": "Panthrixs Galaxy: Equipment",
   "item.panthrixsgalaxy.pg_test_item": "PG Test Item",
   "block.panthrixsgalaxy.pg_test_block": "PG Test Block",
   "tooltip.panthrixsgalaxy.pg_test_item": "Right-click to test the mod",
@@ -70,5 +70,16 @@
   "item.panthrixsgalaxy.pg_xenite_pickaxe": "Xenite Pickaxe",
   "item.panthrixsgalaxy.pg_xenite_axe": "Xenite Axe",
   "item.panthrixsgalaxy.pg_xenite_shovel": "Xenite Shovel",
-  "item.panthrixsgalaxy.pg_xenite_hoe": "Xenite Hoe"
+  "item.panthrixsgalaxy.pg_xenite_hoe": "Xenite Hoe",
+  "item.panthrixsgalaxy.pg_space_fabric": "Space Fabric",
+  "item.panthrixsgalaxy.pg_reinforced_plate": "Reinforced Plate",
+  "item.panthrixsgalaxy.pg_helmet_visor": "Helmet Visor",
+  "item.panthrixsgalaxy.pg_space_gloves": "Space Gloves",
+  "item.panthrixsgalaxy.pg_space_helmet": "Space Helmet",
+  "item.panthrixsgalaxy.pg_space_chestplate": "Space Chestplate",
+  "item.panthrixsgalaxy.pg_space_leggings": "Space Leggings",
+  "item.panthrixsgalaxy.pg_space_boots": "Space Boots",
+  "tooltip.panthrixsgalaxy.space_helmet": "Essential to breathe outside Earth",
+  "tooltip.panthrixsgalaxy.space_suit_piece": "Space suit piece (wear all 4)",
+  "message.panthrixsgalaxy.space_suit_complete": "Space suit complete: systems online"
 }

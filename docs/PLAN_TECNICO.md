@@ -50,7 +50,8 @@ src/main/java/com/panthrixsgalaxy/
 ├── init/                    Listas de registro: ModItems, ModBlocks, ModCreativeTabs...
 ├── item/                    Objetos con comportamiento propio
 ├── block/                   (Fase 2+) Bloques con comportamiento propio
-├── armor/                   (Fase 4) Traje espacial
+├── armor/                   Traje espacial (material + piezas)
+├── event/                   Reacciones a eventos del juego (traje completo...)
 ├── tool/                    Niveles de herramienta (PGToolTiers)
 ├── weapon/                  (Fase 15-16) Láseres y espadas láser
 ├── entity/                  (Fase 9, 17-18) Cohetes, naves, mobs, jefes
@@ -96,7 +97,7 @@ pleno vuelo, sin portal ni pantalla de "pulsa botón", para que se sienta contin
 | 1 | Proyecto base | Sí | ✅ Hecho |
 | 2 | Materiales y minerales | Sí | ✅ Hecho (generación en el mundo: Fases 12, 13, 20, 21) |
 | 3 | Herramientas | Sí (tiers simples) | ✅ Hecho: 4 niveles con orden propio (Java mínimo: `TierSortingRegistry`) |
-| 4 | Traje espacial | Sí (armadura) | Armadura + mochila como objeto equipable |
+| 4 | Traje espacial | Sí (armadura) | ✅ Hecho. Guantes integrados en la pechera (no hay ranura de manos); mochila en Fase 6 |
 | 5 | Oxígeno | Parcial (procedimientos) | Java: evento por tick, NBT, HUD |
 | 6 | Mochilas | Parcial (sin depósitos separados) | Java: menú + inventario + depósitos |
 | 7 | Energía | Parcial | Java: `IEnergyStorage` de Forge |

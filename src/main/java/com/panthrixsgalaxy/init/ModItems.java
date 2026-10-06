@@ -1,8 +1,11 @@
 package com.panthrixsgalaxy.init;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.armor.PGArmorMaterials;
+import com.panthrixsgalaxy.armor.PGSpaceSuitItem;
 import com.panthrixsgalaxy.item.PGTestItem;
 import com.panthrixsgalaxy.tool.PGToolTiers;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
@@ -118,6 +121,31 @@ public final class ModItems {
             () -> new ShovelItem(PGToolTiers.XENITE, 1.5f, -3.0f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
     public static final RegistryObject<Item> PG_XENITE_HOE = ITEMS.register("pg_xenite_hoe",
             () -> new HoeItem(PGToolTiers.XENITE, -5, 0.0f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+
+    // ===== TRAJE ESPACIAL (Fase 4) =====
+    // Se fabrica con materiales de la Tierra, para poder hacer el primer viaje a la Luna.
+
+    /** Tela espacial: lana + cuero + cuerda. */
+    public static final RegistryObject<Item> PG_SPACE_FABRIC = material("pg_space_fabric");
+    /** Placa reforzada: hierro + cobre. También repara el traje en el yunque. */
+    public static final RegistryObject<Item> PG_REINFORCED_PLATE = material("pg_reinforced_plate");
+    /** Visor del casco: paneles de cristal + oro. */
+    public static final RegistryObject<Item> PG_HELMET_VISOR = material("pg_helmet_visor");
+    /**
+     * Guantes espaciales. Minecraft no tiene ranura para guantes, así que se usan
+     * para fabricar la pechera y se ven puestos en las manos del traje.
+     */
+    public static final RegistryObject<Item> PG_SPACE_GLOVES = material("pg_space_gloves");
+
+    /** PG_Space_Helmet: la pieza más importante. Permitirá respirar fuera de la Tierra (Fase 5). */
+    public static final RegistryObject<Item> PG_SPACE_HELMET = ITEMS.register("pg_space_helmet",
+            () -> new PGSpaceSuitItem(PGArmorMaterials.SPACE_SUIT, ArmorItem.Type.HELMET, new Item.Properties()));
+    public static final RegistryObject<Item> PG_SPACE_CHESTPLATE = ITEMS.register("pg_space_chestplate",
+            () -> new PGSpaceSuitItem(PGArmorMaterials.SPACE_SUIT, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+    public static final RegistryObject<Item> PG_SPACE_LEGGINGS = ITEMS.register("pg_space_leggings",
+            () -> new PGSpaceSuitItem(PGArmorMaterials.SPACE_SUIT, ArmorItem.Type.LEGGINGS, new Item.Properties()));
+    public static final RegistryObject<Item> PG_SPACE_BOOTS = ITEMS.register("pg_space_boots",
+            () -> new PGSpaceSuitItem(PGArmorMaterials.SPACE_SUIT, ArmorItem.Type.BOOTS, new Item.Properties()));
 
     // ===== AYUDANTES =====
 

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "F F",
+    "P P"
+  ],
+  "key": {
+    "F": {
+      "item": "panthrixsgalaxy:pg_space_fabric"
+    },
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_space_gloves"
+  }
+}

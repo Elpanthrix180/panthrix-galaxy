@@ -3,6 +3,7 @@ package com.panthrixsgalaxy.init;
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -20,14 +21,14 @@ public final class ModCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, PanthrixsGalaxy.MOD_ID);
 
-    /** Pestaña principal: objetos y materiales (todo lo que NO es un bloque ni una herramienta). */
+    /** Pestaña principal: objetos y materiales (todo lo que NO es un bloque ni equipo). */
     public static final RegistryObject<CreativeModeTab> PG_MAIN_TAB = CREATIVE_TABS.register("pg_main_tab",
             () -> CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup.panthrixsgalaxy.pg_main_tab"))
                     .icon(() -> new ItemStack(ModItems.PG_LUNARITE_INGOT.get()))
                     .displayItems((parameters, output) -> ModItems.ITEMS.getEntries().forEach(entry -> {
                         Item item = entry.get();
-                        if (!(item instanceof BlockItem) && !(item instanceof TieredItem)) {
+                        if (!(item instanceof BlockItem) && !isEquipment(item)) {
                             output.accept(item);
                         }
                     }))
@@ -47,7 +48,7 @@ public final class ModCreativeTabs {
                     }))
                     .build());
 
-    /** Pestaña de herramientas: picos, hachas, palas, azadas y espadas (todo lo que tiene "nivel"). */
+    /** Pestaña de equipo: herramientas, armas y trajes. */
     public static final RegistryObject<CreativeModeTab> PG_TOOLS_TAB = CREATIVE_TABS.register("pg_tools_tab",
             () -> CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup.panthrixsgalaxy.pg_tools_tab"))
@@ -55,11 +56,16 @@ public final class ModCreativeTabs {
                     .withTabsBefore(PG_BLOCKS_TAB.getKey())
                     .displayItems((parameters, output) -> ModItems.ITEMS.getEntries().forEach(entry -> {
                         Item item = entry.get();
-                        if (item instanceof TieredItem) {
+                        if (isEquipment(item)) {
                             output.accept(item);
                         }
                     }))
                     .build());
+
+    /** Equipo = herramientas y armas (tienen "nivel") o piezas de armadura. */
+    private static boolean isEquipment(Item item) {
+        return item instanceof TieredItem || item instanceof ArmorItem;
+    }
 
     private ModCreativeTabs() {
     }

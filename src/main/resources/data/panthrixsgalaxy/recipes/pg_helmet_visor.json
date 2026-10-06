@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "NPN",
+    "PPP"
+  ],
+  "key": {
+    "N": {
+      "item": "minecraft:gold_nugget"
+    },
+    "P": {
+      "item": "minecraft:glass_pane"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_helmet_visor"
+  }
+}

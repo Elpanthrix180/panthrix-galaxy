@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "PFP",
+    "F F",
+    "F F"
+  ],
+  "key": {
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    },
+    "F": {
+      "item": "panthrixsgalaxy:pg_space_fabric"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_space_leggings"
+  }
+}

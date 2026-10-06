@@ -1,7 +1,7 @@
 {
   "itemGroup.panthrixsgalaxy.pg_main_tab": "Panthrixs Galaxy",
   "itemGroup.panthrixsgalaxy.pg_blocks_tab": "Panthrixs Galaxy: Bloques",
-  "itemGroup.panthrixsgalaxy.pg_tools_tab": "Panthrixs Galaxy: Herramientas",
+  "itemGroup.panthrixsgalaxy.pg_tools_tab": "Panthrixs Galaxy: Equipo",
   "item.panthrixsgalaxy.pg_test_item": "Objeto de prueba PG",
   "block.panthrixsgalaxy.pg_test_block": "Bloque de prueba PG",
   "tooltip.panthrixsgalaxy.pg_test_item": "Haz clic derecho para comprobar el mod",
@@ -70,5 +70,16 @@
   "item.panthrixsgalaxy.pg_xenite_pickaxe": "Pico de xenita",
   "item.panthrixsgalaxy.pg_xenite_axe": "Hacha de xenita",
   "item.panthrixsgalaxy.pg_xenite_shovel": "Pala de xenita",
-  "item.panthrixsgalaxy.pg_xenite_hoe": "Azada de xenita"
+  "item.panthrixsgalaxy.pg_xenite_hoe": "Azada de xenita",
+  "item.panthrixsgalaxy.pg_space_fabric": "Tela espacial",
+  "item.panthrixsgalaxy.pg_reinforced_plate": "Placa reforzada",
+  "item.panthrixsgalaxy.pg_helmet_visor": "Visor del casco",
+  "item.panthrixsgalaxy.pg_space_gloves": "Guantes espaciales",
+  "item.panthrixsgalaxy.pg_space_helmet": "Casco espacial",
+  "item.panthrixsgalaxy.pg_space_chestplate": "Pechera espacial",
+  "item.panthrixsgalaxy.pg_space_leggings": "Pantalones espaciales",
+  "item.panthrixsgalaxy.pg_space_boots": "Botas espaciales",
+  "tooltip.panthrixsgalaxy.space_helmet": "Imprescindible para respirar fuera de la Tierra",
+  "tooltip.panthrixsgalaxy.space_suit_piece": "Pieza del traje espacial (equipa las 4)",
+  "message.panthrixsgalaxy.space_suit_complete": "Traje espacial completo: sistemas en línea"
 }

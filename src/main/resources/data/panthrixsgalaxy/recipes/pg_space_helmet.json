@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "PFP",
+    "PVP"
+  ],
+  "key": {
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    },
+    "F": {
+      "item": "panthrixsgalaxy:pg_space_fabric"
+    },
+    "V": {
+      "item": "panthrixsgalaxy:pg_helmet_visor"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_space_helmet"
+  }
+}
