@@ -2,8 +2,14 @@ package com.panthrixsgalaxy.init;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.item.PGTestItem;
+import com.panthrixsgalaxy.tool.PGToolTiers;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.ShovelItem;
+import net.minecraft.world.item.SwordItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -60,6 +66,58 @@ public final class ModItems {
     /** 4 fragmentos de necronita + 4 lingotes de osmio. No arde en lava. */
     public static final RegistryObject<Item> PG_NECRONITE_INGOT = ITEMS.register("pg_necronite_ingot",
             () -> new Item(new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+
+    // ===== HERRAMIENTAS (Fase 3) =====
+    // Los números son (daño, velocidad de ataque) igual que en Minecraft normal.
+    // El daño final = 1 + daño extra del nivel (PGToolTiers) + este número.
+
+    // --- Lunarita (Luna): mejor que hierro ---
+    public static final RegistryObject<Item> PG_LUNARITE_SWORD = ITEMS.register("pg_lunarite_sword",
+            () -> new SwordItem(PGToolTiers.LUNARITE, 3, -2.4f, new Item.Properties()));
+    public static final RegistryObject<Item> PG_LUNARITE_PICKAXE = ITEMS.register("pg_lunarite_pickaxe",
+            () -> new PickaxeItem(PGToolTiers.LUNARITE, 1, -2.8f, new Item.Properties()));
+    public static final RegistryObject<Item> PG_LUNARITE_AXE = ITEMS.register("pg_lunarite_axe",
+            () -> new AxeItem(PGToolTiers.LUNARITE, 6.0f, -3.1f, new Item.Properties()));
+    public static final RegistryObject<Item> PG_LUNARITE_SHOVEL = ITEMS.register("pg_lunarite_shovel",
+            () -> new ShovelItem(PGToolTiers.LUNARITE, 1.5f, -3.0f, new Item.Properties()));
+    public static final RegistryObject<Item> PG_LUNARITE_HOE = ITEMS.register("pg_lunarite_hoe",
+            () -> new HoeItem(PGToolTiers.LUNARITE, -2, -1.0f, new Item.Properties()));
+
+    // --- Marteíta (Marte): mejor que diamante ---
+    public static final RegistryObject<Item> PG_MARTIANITE_SWORD = ITEMS.register("pg_martianite_sword",
+            () -> new SwordItem(PGToolTiers.MARTIANITE, 3, -2.4f, new Item.Properties()));
+    public static final RegistryObject<Item> PG_MARTIANITE_PICKAXE = ITEMS.register("pg_martianite_pickaxe",
+            () -> new PickaxeItem(PGToolTiers.MARTIANITE, 1, -2.8f, new Item.Properties()));
+    public static final RegistryObject<Item> PG_MARTIANITE_AXE = ITEMS.register("pg_martianite_axe",
+            () -> new AxeItem(PGToolTiers.MARTIANITE, 5.0f, -3.0f, new Item.Properties()));
+    public static final RegistryObject<Item> PG_MARTIANITE_SHOVEL = ITEMS.register("pg_martianite_shovel",
+            () -> new ShovelItem(PGToolTiers.MARTIANITE, 1.5f, -3.0f, new Item.Properties()));
+    public static final RegistryObject<Item> PG_MARTIANITE_HOE = ITEMS.register("pg_martianite_hoe",
+            () -> new HoeItem(PGToolTiers.MARTIANITE, -3, 0.0f, new Item.Properties()));
+
+    // --- Osmio (asteroides): mejor que netherita ---
+    public static final RegistryObject<Item> PG_OSMIUM_SWORD = ITEMS.register("pg_osmium_sword",
+            () -> new SwordItem(PGToolTiers.OSMIUM, 3, -2.4f, new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> PG_OSMIUM_PICKAXE = ITEMS.register("pg_osmium_pickaxe",
+            () -> new PickaxeItem(PGToolTiers.OSMIUM, 1, -2.8f, new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> PG_OSMIUM_AXE = ITEMS.register("pg_osmium_axe",
+            () -> new AxeItem(PGToolTiers.OSMIUM, 5.0f, -3.0f, new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> PG_OSMIUM_SHOVEL = ITEMS.register("pg_osmium_shovel",
+            () -> new ShovelItem(PGToolTiers.OSMIUM, 1.5f, -3.0f, new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> PG_OSMIUM_HOE = ITEMS.register("pg_osmium_hoe",
+            () -> new HoeItem(PGToolTiers.OSMIUM, -4, 0.0f, new Item.Properties().rarity(Rarity.UNCOMMON)));
+
+    // --- Xenita (alienígena): el mejor nivel. No arde en lava ---
+    public static final RegistryObject<Item> PG_XENITE_SWORD = ITEMS.register("pg_xenite_sword",
+            () -> new SwordItem(PGToolTiers.XENITE, 3, -2.4f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> PG_XENITE_PICKAXE = ITEMS.register("pg_xenite_pickaxe",
+            () -> new PickaxeItem(PGToolTiers.XENITE, 1, -2.8f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> PG_XENITE_AXE = ITEMS.register("pg_xenite_axe",
+            () -> new AxeItem(PGToolTiers.XENITE, 5.0f, -3.0f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> PG_XENITE_SHOVEL = ITEMS.register("pg_xenite_shovel",
+            () -> new ShovelItem(PGToolTiers.XENITE, 1.5f, -3.0f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
+    public static final RegistryObject<Item> PG_XENITE_HOE = ITEMS.register("pg_xenite_hoe",
+            () -> new HoeItem(PGToolTiers.XENITE, -5, 0.0f, new Item.Properties().rarity(Rarity.RARE).fireResistant()));
 
     // ===== AYUDANTES =====
 

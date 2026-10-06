@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.panthrixsgalaxy.init.ModBlocks;
 import com.panthrixsgalaxy.init.ModCreativeTabs;
 import com.panthrixsgalaxy.init.ModItems;
+import com.panthrixsgalaxy.tool.PGToolTiers;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -26,6 +27,9 @@ public class PanthrixsGalaxy {
 
     public PanthrixsGalaxy() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        // Niveles de herramienta: deben registrarse al arrancar, antes que nada
+        PGToolTiers.register();
 
         // Registros del mod (el orden no importa, Forge los procesa en su momento)
         ModBlocks.BLOCKS.register(modEventBus);

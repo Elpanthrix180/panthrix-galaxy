@@ -51,7 +51,7 @@ src/main/java/com/panthrixsgalaxy/
 ├── item/                    Objetos con comportamiento propio
 ├── block/                   (Fase 2+) Bloques con comportamiento propio
 ├── armor/                   (Fase 4) Traje espacial
-├── tool/                    (Fase 3) Herramientas
+├── tool/                    Niveles de herramienta (PGToolTiers)
 ├── weapon/                  (Fase 15-16) Láseres y espadas láser
 ├── entity/                  (Fase 9, 17-18) Cohetes, naves, mobs, jefes
 ├── dimension/               (Fase 11-13) Espacio, Luna, Marte
@@ -95,7 +95,7 @@ pleno vuelo, sin portal ni pantalla de "pulsa botón", para que se sienta contin
 |---|---|---|---|
 | 1 | Proyecto base | Sí | ✅ Hecho |
 | 2 | Materiales y minerales | Sí | ✅ Hecho (generación en el mundo: Fases 12, 13, 20, 21) |
-| 3 | Herramientas | Sí | Tiers de herramienta |
+| 3 | Herramientas | Sí (tiers simples) | ✅ Hecho: 4 niveles con orden propio (Java mínimo: `TierSortingRegistry`) |
 | 4 | Traje espacial | Sí (armadura) | Armadura + mochila como objeto equipable |
 | 5 | Oxígeno | Parcial (procedimientos) | Java: evento por tick, NBT, HUD |
 | 6 | Mochilas | Parcial (sin depósitos separados) | Java: menú + inventario + depósitos |

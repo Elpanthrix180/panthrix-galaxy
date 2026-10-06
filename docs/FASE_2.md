@@ -18,7 +18,7 @@ drops y recetas de horno.
 | Regolito lunar | `pg_lunar_regolith` | Superficie lunar (pala) | Construcción de bases lunares, hormigón lunar |
 | Piedra lunar | `pg_lunar_stone` | Subsuelo lunar (pico) | Construcción; roca donde están las menas |
 | Mena de lunarita → Lunarita en bruto | `pg_lunarite_ore` → `pg_raw_lunarite` | Pico de piedra+ | Fundir en lingote |
-| Lingote de lunarita | `pg_lunarite_ingot` | Horno | Casco del **cohete básico**, placas del traje, herramientas lunares |
+| Lingote de lunarita | `pg_lunarite_ingot` | Horno | **Cohete avanzado** (Tierra → Marte), mejoras del traje, herramientas de lunarita |
 | Mena de selenita → Cristal de selenita | `pg_selenite_ore` → `pg_selenite_crystal` | Pico de hierro+ | **Paneles solares** y circuitos |
 | Regolito rico en helio-3 → Helio-3 | `pg_helium_3_ore` → `pg_helium_3` | Pico de piedra+ | **Combustible** del cohete avanzado y del reactor |
 | Bloque de lunarita | `pg_lunarite_block` | 9 lingotes | Almacenamiento / decoración |
@@ -29,9 +29,9 @@ drops y recetas de horno.
 | Suelo marciano | `pg_martian_soil` | Superficie (pala) | Construcción de colonias |
 | Piedra marciana | `pg_martian_stone` | Subsuelo (pico) | Construcción; roca de las menas |
 | Mena mineral marciana → Mineral marciano | `pg_martian_ore` → `pg_martian_mineral` | Pico de piedra+ | **Cerámica térmica** para motores |
-| Mena de marteíta → Marteíta en bruto | `pg_martianite_ore` → `pg_raw_martianite` | Pico de hierro+ | Fundir en lingote |
-| Lingote de marteíta | `pg_martianite_ingot` | Horno | **Cohete avanzado**, herramientas marcianas |
-| Mena de cristal marciano → Cristal marciano | `pg_martian_crystal_ore` → `pg_martian_crystal` | Pico de hierro+ | **Lentes de los láseres**, baterías avanzadas |
+| Mena de marteíta → Marteíta en bruto | `pg_martianite_ore` → `pg_raw_martianite` | Pico de lunarita+ | Fundir en lingote |
+| Lingote de marteíta | `pg_martianite_ingot` | Horno | **Nave espacial**, herramientas de marteíta |
+| Mena de cristal marciano → Cristal marciano | `pg_martian_crystal_ore` → `pg_martian_crystal` | Pico de lunarita+ | **Lentes de los láseres**, baterías avanzadas |
 | Mena de hierro oxidado → Hierro oxidado en bruto | `pg_rusted_iron_ore` → `pg_raw_rusted_iron` | Pico de piedra+ | Se funde en **hierro normal** (sobrevivir en Marte); más adelante, **extraer oxígeno** |
 | Bloque de marteíta | `pg_martianite_block` | 9 lingotes | Almacenamiento |
 
@@ -40,22 +40,26 @@ drops y recetas de horno.
 |---|---|---|---|
 | Roca de asteroide | `pg_asteroid_rock` | Asteroides (pico) | Construcción; roca de las menas |
 | Mena de meteorita → Fragmento de meteorita | `pg_meteorite_ore` → `pg_meteorite_fragment` | Pico de hierro+ | **Escudos térmicos** para entrar en atmósferas |
-| Mena de metal de asteroide → Metal en bruto → Lingote | `pg_asteroid_metal_ore` → `pg_raw_asteroid_metal` → `pg_asteroid_metal_ingot` | Pico de hierro+ | **Casco de las naves espaciales** |
-| Mena de osmio → Osmio en bruto → Lingote | `pg_osmium_ore` → `pg_raw_osmium` → `pg_osmium_ingot` | Pico de diamante+ | Blindaje avanzado, reactor, **lingote de necronita** |
+| Mena de metal de asteroide → Metal en bruto → Lingote | `pg_asteroid_metal_ore` → `pg_raw_asteroid_metal` → `pg_asteroid_metal_ingot` | Pico de lunarita+ | Casco de la **nave avanzada** |
+| Mena de osmio → Osmio en bruto → Lingote | `pg_osmium_ore` → `pg_raw_osmium` → `pg_osmium_ingot` | Pico de marteíta+ | Blindaje avanzado, reactor, **lingote de necronita** |
 | Bloques de metal de asteroide y de osmio | `pg_asteroid_metal_block`, `pg_osmium_block` | 9 lingotes | Almacenamiento |
 
 ### 👽 Alienígena
 | Bloque / objeto | ID | Se obtiene | Uso previsto |
 |---|---|---|---|
 | Piedra alienígena | `pg_alien_stone` | Planetas alienígenas (pico) | Construcción; roca de las menas |
-| Mena de xenita → Xenita en bruto → Lingote | `pg_xenite_ore` → `pg_raw_xenite` → `pg_xenite_ingot` | Pico de diamante+ | **Circuitos alienígenas**, nave avanzada |
-| Mena de astralita → Cristal de astralita | `pg_astralite_ore` → `pg_astralite_crystal` | Pico de diamante+ | Celdas energéticas, navegación interestelar |
-| Mena de cristal cósmico → Cristal cósmico | `pg_cosmic_crystal_ore` → `pg_cosmic_crystal` | Pico de **netherita** | **Láser blanco**, mochila experimental |
+| Mena de xenita → Xenita en bruto → Lingote | `pg_xenite_ore` → `pg_raw_xenite` → `pg_xenite_ingot` | Pico de osmio+ | **Circuitos alienígenas**, nave avanzada |
+| Mena de astralita → Cristal de astralita | `pg_astralite_ore` → `pg_astralite_crystal` | Pico de osmio+ | Celdas energéticas, navegación interestelar |
+| Mena de cristal cósmico → Cristal cósmico | `pg_cosmic_crystal_ore` → `pg_cosmic_crystal` | Pico de **xenita** | **Láser blanco**, mochila experimental |
 | Fragmento de necronita | `pg_necronite_shard` | Drop de la **Reina Alienígena** (Fase 18) | Lingote de necronita |
 | Lingote de necronita | `pg_necronite_ingot` | 4 fragmentos + 4 lingotes de osmio | **Espada láser negra**, tecnología prohibida |
 | Bloque de xenita / de necronita | `pg_xenite_block`, `pg_necronite_block` | 9 lingotes | Almacenamiento |
 
 Ningún material es solo decorativo: todos tienen un uso en fases posteriores.
+
+> 🔧 **Corrección (Fase 3):** el **cohete básico** (Tierra → Luna) se fabricará con materiales de la
+> **Tierra** (hierro, cobre, redstone...), porque la lunarita solo existe en la Luna. La lunarita pasa al
+> cohete avanzado. Los niveles de pico de las menas también cambiaron: ver `docs/FASE_3.md`.
 
 ## 🛠️ Cómo funciona (explicación sencilla)
 Para que un bloque exista en Minecraft hacen falta **6 piezas**. Ejemplo con la mena de lunarita:
@@ -71,8 +75,9 @@ Para que un bloque exista en Minecraft hacen falta **6 piezas**. Ejemplo con la 
 
 Y además los **tags** (`data/minecraft/tags/blocks/`):
 - `mineable/pickaxe.json` / `mineable/shovel.json` → con qué herramienta se rompe rápido.
-- `needs_stone_tool.json`, `needs_iron_tool.json`, `needs_diamond_tool.json` y
-  `data/forge/tags/blocks/needs_netherite_tool.json` → qué pico mínimo hace falta.
+- `needs_stone_tool.json`, `needs_iron_tool.json`, `needs_diamond_tool.json` → qué pico mínimo hace falta.
+- *(Desde la Fase 3)* `data/panthrixsgalaxy/tags/blocks/needs_lunarite_tool.json` y similares → menas que
+  necesitan picos espaciales. Mira `docs/FASE_3.md`.
 
 Los objetos solo necesitan: registro (`init/ModItems.java`), modelo, textura y traducción.
 
@@ -103,7 +108,7 @@ Recomendado: [Blockbench](https://www.blockbench.net/) o cualquier editor de pí
    - [ ] Los nombres raros tienen color: helio-3 y osmio amarillo, cristal cósmico cian, necronita morado.
 3. Cambia a **supervivencia** (`/gamemode survival`), coloca menas y rómpelas:
    - [ ] Mena de lunarita con pico de **madera** → no suelta nada. Con pico de **piedra** → lunarita en bruto.
-   - [ ] Mena de osmio necesita pico de **diamante**; cristal cósmico, de **netherita**.
+   - [ ] *(Actualizado en la Fase 3)* Mena de osmio necesita pico de **marteíta**; cristal cósmico, de **xenita**.
    - [ ] Las menas de cristal sueltan experiencia.
    - [ ] Regolito y suelo marciano se recogen con la mano o la pala.
 4. Horno: funde lunarita en bruto → lingote. Funde hierro oxidado → lingote de hierro.

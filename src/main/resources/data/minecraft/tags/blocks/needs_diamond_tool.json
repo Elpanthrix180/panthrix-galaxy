@@ -1,9 +1,6 @@
 {
   "replace": false,
   "values": [
-    "panthrixsgalaxy:pg_osmium_ore",
-    "panthrixsgalaxy:pg_xenite_ore",
-    "panthrixsgalaxy:pg_astralite_ore",
     "panthrixsgalaxy:pg_osmium_block",
     "panthrixsgalaxy:pg_xenite_block",
     "panthrixsgalaxy:pg_necronite_block"
