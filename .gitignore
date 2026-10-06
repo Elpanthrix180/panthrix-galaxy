@@ -1,0 +1,26 @@
+# Gradle / compilación
+.gradle/
+build/
+out/
+bin/
+classes/
+
+# Carpetas de ejecución de Minecraft
+run/
+run-data/
+logs/
+
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.classpath
+.project
+eclipse/
+
+# Sistema
+.DS_Store
+Thumbs.db

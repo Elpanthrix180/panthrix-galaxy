@@ -1,0 +1,124 @@
+# 🚀 Panthrixs Galaxy — Plan técnico
+
+Documento vivo: lo actualizaremos al terminar cada fase.
+
+## 1. Datos del proyecto
+
+| Campo | Valor |
+|---|---|
+| Nombre | Panthrixs Galaxy |
+| Mod ID / Namespace | `panthrixsgalaxy` |
+| Minecraft | Java Edition 1.20.1 |
+| Loader | Forge 47.x (proyecto creado con 47.3.0) |
+| Java | 17 |
+| Paquete Java | `com.panthrixsgalaxy` |
+| Dependencias externas | Ninguna (solo Forge) |
+
+## 2. MCreator y este repositorio (importante)
+
+MCreator es un programa de escritorio con ventanas: **no se puede ejecutar en este entorno en la nube**.
+Lo que hace MCreator por dentro es generar un proyecto Forge con Gradle, código Java y archivos JSON.
+Este repositorio es exactamente eso, pero escrito a mano y ordenado, así que:
+
+- Todo lo que MCreator haría (objetos, bloques, recetas, armaduras, logros, mobs sencillos, dimensiones)
+  lo escribimos en archivos JSON o en Java muy simple y comentado.
+- Las partes que **MCreator no sabe hacer bien** (cohete que despega físicamente, oxígeno, energía,
+  mochilas con depósitos, gravedad reducida, cielo espacial) habrían necesitado Java de todas formas.
+
+> ⚠️ Un workspace de MCreator (`.mcreator`) y un proyecto Forge escrito a mano **no se pueden mezclar
+> fácilmente**: MCreator regenera su código y sobrescribe los cambios. Hay que elegir un camino.
+> Recomendación: seguir con este proyecto (lo vemos y lo explicamos fase a fase).
+> Si prefieres MCreator, se puede crear el workspace en tu PC y yo te guío paso a paso; los nombres,
+> texturas y diseño de este plan sirven igual.
+
+## 3. Convención de nombres
+
+En el diseño usamos `PG_Nombre`. Minecraft obliga a que los IDs de registro estén **en minúsculas**,
+así que se convierten así:
+
+| Diseño | ID en el juego | Constante Java |
+|---|---|---|
+| PG_Space_Helmet | `panthrixsgalaxy:pg_space_helmet` | `PG_SPACE_HELMET` |
+| PG_Lunarite | `panthrixsgalaxy:pg_lunarite` | `PG_LUNARITE` |
+| PG_Space_Rocket | `panthrixsgalaxy:pg_space_rocket` | `PG_SPACE_ROCKET` |
+
+## 4. Organización del código
+
+```
+src/main/java/com/panthrixsgalaxy/
+├── PanthrixsGalaxy.java     Clase principal (solo conecta los registros)
+├── init/                    Listas de registro: ModItems, ModBlocks, ModCreativeTabs...
+├── item/                    Objetos con comportamiento propio
+├── block/                   (Fase 2+) Bloques con comportamiento propio
+├── armor/                   (Fase 4) Traje espacial
+├── tool/                    (Fase 3) Herramientas
+├── weapon/                  (Fase 15-16) Láseres y espadas láser
+├── entity/                  (Fase 9, 17-18) Cohetes, naves, mobs, jefes
+├── dimension/               (Fase 11-13) Espacio, Luna, Marte
+├── system/                  (Fase 5-7) Oxígeno, energía, gravedad
+├── menu/ + client/screen/   (Fase 6, 8) GUIs: mochilas, Banco de Ingeniería
+└── planet/                  (Fase 11) Registro de cuerpos celestes
+src/main/resources/
+├── assets/panthrixsgalaxy/  blockstates, models, textures, lang, sounds
+└── data/panthrixsgalaxy/    recipes, loot_tables, advancements, dimension, worldgen, tags
+```
+Las carpetas marcadas con (Fase N) se crean cuando lleguemos a esa fase.
+
+## 5. Arquitectura clave para el futuro
+
+### 5.1 Registro de planetas (preparado para añadir planetas sin rehacer nada)
+Cada cuerpo celeste será un objeto de datos `PGPlanet` con: id, dimensión, gravedad, ¿oxígeno?,
+temperatura, nivel de cohete necesario y posición en el mapa espacial. Añadir Venus = añadir
+una entrada + su dimensión JSON + texturas. Todo lo demás (oxígeno, gravedad, navegación) lee
+esos datos automáticamente.
+
+### 5.2 Viaje físico (sin portales)
+```
+Tierra (overworld) → cohete sube (entidad con física propia, cámara del jugador montado)
+→ al pasar Y≈350 cambia a dimensión "Espacio" (cielo negro, estrellas, planetas renderizados)
+→ el jugador pilota la nave en el Espacio hacia el planeta
+→ al acercarse al planeta → cambia a la dimensión del planeta a gran altura
+→ descenso controlado → aterrizaje.
+```
+El cambio de dimensión es inevitable (Minecraft no permite dos mundos en uno), pero se hace en
+pleno vuelo, sin portal ni pantalla de "pulsa botón", para que se sienta continuo.
+
+### 5.3 Sistemas con datos guardados en el jugador / objeto
+- **Oxígeno y energía**: guardados en el propio objeto (bombona, batería, mochila) mediante NBT.
+- **Advertencia sin casco**: comprobación cada segundo con tiempo de gracia antes del daño.
+- **Energía**: usaremos el sistema de energía que ya trae Forge (`IEnergyStorage`), sin APIs externas,
+  mostrado en el juego como "PG Energía".
+
+## 6. Fases: qué hace MCreator y qué necesita Java
+
+| Fase | Sistema | ¿MCreator puede? | Solución aquí |
+|---|---|---|---|
+| 1 | Proyecto base | Sí | ✅ Hecho |
+| 2 | Materiales y minerales | Sí | JSON + registro simple |
+| 3 | Herramientas | Sí | Tiers de herramienta |
+| 4 | Traje espacial | Sí (armadura) | Armadura + mochila como objeto equipable |
+| 5 | Oxígeno | Parcial (procedimientos) | Java: evento por tick, NBT, HUD |
+| 6 | Mochilas | Parcial (sin depósitos separados) | Java: menú + inventario + depósitos |
+| 7 | Energía | Parcial | Java: `IEnergyStorage` de Forge |
+| 8 | Banco de Ingeniería | Parcial (GUI básica) | Java: menú y recetas propias |
+| 9 | Cohete | No (entidad montable con física) | Java: entidad + modelo |
+| 10 | Lanzamiento | No | Java: cuenta atrás, partículas, sonido |
+| 11 | Tierra → Espacio | No | Java: cambio de dimensión en vuelo + cielo |
+| 12 | Luna | Parcial (dimensión) | JSON worldgen + Java gravedad/cielo |
+| 13 | Marte | Parcial | JSON worldgen + Java tormentas |
+| 14 | Naves | No | Java: entidad pilotable |
+| 15 | Armas láser | Parcial | Java: proyectil + energía |
+| 16 | Espadas láser | Parcial | Java: activación, energía, partículas |
+| 17 | Mobs | Sí (básicos) | Java: IA y modelos |
+| 18 | Jefes | Parcial | Java: fases y barra de jefe |
+| 19 | Estaciones espaciales | Parcial | Java + estructuras |
+| 20 | Asteroides | Parcial | Worldgen JSON + Java |
+| 21 | Planetas extra | Sí con la arquitectura 5.1 | Datos + dimensiones |
+| 22 | Logros | Sí | JSON advancements + triggers Java para los especiales |
+| 23-25 | Optimización, pruebas, lanzamiento | — | Perfilado, pruebas, `.jar` final |
+
+## 7. Progresión
+
+Tierra → herramientas → traje → mochila → oxígeno → cohete → Luna → minerales lunares →
+energía → láseres → Marte → mobs → espadas láser → Sistema Solar → asteroides →
+tecnología alienígena → planetas alienígenas → jefes finales.

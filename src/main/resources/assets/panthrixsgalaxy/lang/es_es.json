@@ -1,0 +1,7 @@
+{
+  "itemGroup.panthrixsgalaxy.pg_main_tab": "Panthrixs Galaxy",
+  "item.panthrixsgalaxy.pg_test_item": "Objeto de prueba PG",
+  "block.panthrixsgalaxy.pg_test_block": "Bloque de prueba PG",
+  "tooltip.panthrixsgalaxy.pg_test_item": "Haz clic derecho para comprobar el mod",
+  "message.panthrixsgalaxy.test_item_used": "¡Panthrixs Galaxy funciona! Preparados para el despegue."
+}
