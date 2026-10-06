@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy.init;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.item.PGOxygenTankItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ArmorItem;
@@ -28,7 +29,9 @@ public final class ModCreativeTabs {
                     .icon(() -> new ItemStack(ModItems.PG_LUNARITE_INGOT.get()))
                     .displayItems((parameters, output) -> ModItems.ITEMS.getEntries().forEach(entry -> {
                         Item item = entry.get();
-                        if (!(item instanceof BlockItem) && !isEquipment(item)) {
+                        if (item instanceof PGOxygenTankItem tank) {
+                            output.accept(tank.createFull()); // en creativo, las bombonas salen llenas
+                        } else if (!(item instanceof BlockItem) && !isEquipment(item)) {
                             output.accept(item);
                         }
                     }))

@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.panthrixsgalaxy.init.ModBlocks;
 import com.panthrixsgalaxy.init.ModCreativeTabs;
 import com.panthrixsgalaxy.init.ModItems;
+import com.panthrixsgalaxy.network.PGNetwork;
 import com.panthrixsgalaxy.tool.PGToolTiers;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -35,6 +36,9 @@ public class PanthrixsGalaxy {
         ModBlocks.BLOCKS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModCreativeTabs.CREATIVE_TABS.register(modEventBus);
+
+        // Canal de comunicación servidor <-> pantalla del jugador (indicador de oxígeno...)
+        PGNetwork.register();
 
         modEventBus.addListener(this::commonSetup);
     }

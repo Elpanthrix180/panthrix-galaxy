@@ -1,0 +1,85 @@
+package com.panthrixsgalaxy.client;
+
+import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.system.oxygen.OxygenState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.network.chat.Component;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
+import net.minecraftforge.client.gui.overlay.IGuiOverlay;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
+/**
+ * Indicador de oxígeno en pantalla.
+ * Solo aparece cuando estás en un lugar sin aire. Se dibuja encima de la barra de comida:
+ *   O₂ [██████████░░░░] 72%
+ * y, si hay peligro, un aviso rojo parpadeante en el centro de la pantalla.
+ *
+ * "value = Dist.CLIENT" significa que esta clase solo existe en el juego del jugador,
+ * nunca en un servidor dedicado (los servidores no tienen pantalla).
+ */
+@Mod.EventBusSubscriber(modid = PanthrixsGalaxy.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+public final class OxygenHudOverlay {
+
+    private static final int BAR_WIDTH = 60;
+    private static final int COLOR_OK = 0xFF55CCFF;
+    private static final int COLOR_LOW = 0xFFFFAA00;
+    private static final int COLOR_EMPTY = 0xFFFF4444;
+    private static final int COLOR_BACKGROUND = 0xAA000000;
+
+    public static final IGuiOverlay OXYGEN_HUD = (gui, graphics, partialTick, screenWidth, screenHeight) -> {
+        Minecraft minecraft = Minecraft.getInstance();
+        OxygenState state = ClientOxygenData.getState();
+        if (minecraft.player == null || minecraft.options.hideGui || state == OxygenState.BREATHABLE) {
+            return;
+        }
+        Font font = minecraft.font;
+
+        // ----- Barra de oxígeno (encima de la comida, a la derecha del centro) -----
+        int capacity = ClientOxygenData.getCapacity();
+        int oxygen = ClientOxygenData.getOxygen();
+        int percent = capacity > 0 ? Math.round(100.0f * oxygen / capacity) : 0;
+        int color = switch (state) {
+            case LOW -> COLOR_LOW;
+            case NO_HELMET, NO_OXYGEN -> COLOR_EMPTY;
+            default -> COLOR_OK;
+        };
+
+        int x = screenWidth / 2 + 10;
+        int y = screenHeight - 59;
+        graphics.drawString(font, "O₂", x, y, color);
+        int barX = x + 14;
+        graphics.fill(barX, y + 1, barX + BAR_WIDTH, y + 7, COLOR_BACKGROUND);
+        graphics.fill(barX, y + 1, barX + BAR_WIDTH * percent / 100, y + 7, color);
+        graphics.drawString(font, percent + "%", barX + BAR_WIDTH + 3, y, color);
+
+        // ----- Avisos en el centro de la pantalla -----
+        boolean blink = (minecraft.player.tickCount / 10) % 2 == 0;
+        Component warning = switch (state) {
+            case NO_HELMET -> Component.translatable("hud.panthrixsgalaxy.no_helmet");
+            case NO_OXYGEN -> Component.translatable("hud.panthrixsgalaxy.no_oxygen");
+            case LOW -> Component.translatable("hud.panthrixsgalaxy.low_oxygen");
+            default -> null;
+        };
+        if (warning != null && (blink || state == OxygenState.LOW)) {
+            graphics.drawCenteredString(font, warning, screenWidth / 2, screenHeight / 2 + 20, color);
+        }
+        if (state == OxygenState.NO_HELMET || state == OxygenState.NO_OXYGEN) {
+            int grace = ClientOxygenData.getGraceSecondsLeft();
+            Component detail = grace > 0
+                    ? Component.translatable("hud.panthrixsgalaxy.grace", grace)
+                    : Component.translatable("hud.panthrixsgalaxy.suffocating");
+            graphics.drawCenteredString(font, detail, screenWidth / 2, screenHeight / 2 + 32, COLOR_EMPTY);
+        }
+    };
+
+    @SubscribeEvent
+    public static void registerOverlays(RegisterGuiOverlaysEvent event) {
+        event.registerAboveAll("oxygen", OXYGEN_HUD);
+    }
+
+    private OxygenHudOverlay() {
+    }
+}

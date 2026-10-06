@@ -49,14 +49,17 @@ src/main/java/com/panthrixsgalaxy/
 ├── PanthrixsGalaxy.java     Clase principal (solo conecta los registros)
 ├── init/                    Listas de registro: ModItems, ModBlocks, ModCreativeTabs...
 ├── item/                    Objetos con comportamiento propio
-├── block/                   (Fase 2+) Bloques con comportamiento propio
 ├── armor/                   Traje espacial (material + piezas)
 ├── event/                   Reacciones a eventos del juego (traje completo...)
 ├── tool/                    Niveles de herramienta (PGToolTiers)
 ├── weapon/                  (Fase 15-16) Láseres y espadas láser
 ├── entity/                  (Fase 9, 17-18) Cohetes, naves, mobs, jefes
 ├── dimension/               (Fase 11-13) Espacio, Luna, Marte
-├── system/                  (Fase 5-7) Oxígeno, energía, gravedad
+├── system/oxygen/           Oxígeno: atmósfera, consumo, avisos, daño
+├── block/                   Bloques con comportamiento propio (recargador...)
+├── network/                 Mensajes servidor <-> pantalla
+├── client/                  Solo pantalla: indicadores (HUD)
+├── command/                 Comandos de prueba (/pgvacuum)
 ├── menu/ + client/screen/   (Fase 6, 8) GUIs: mochilas, Banco de Ingeniería
 └── planet/                  (Fase 11) Registro de cuerpos celestes
 src/main/resources/
@@ -98,7 +101,7 @@ pleno vuelo, sin portal ni pantalla de "pulsa botón", para que se sienta contin
 | 2 | Materiales y minerales | Sí | ✅ Hecho (generación en el mundo: Fases 12, 13, 20, 21) |
 | 3 | Herramientas | Sí (tiers simples) | ✅ Hecho: 4 niveles con orden propio (Java mínimo: `TierSortingRegistry`) |
 | 4 | Traje espacial | Sí (armadura) | ✅ Hecho. Guantes integrados en la pechera (no hay ranura de manos); mochila en Fase 6 |
-| 5 | Oxígeno | Parcial (procedimientos) | Java: evento por tick, NBT, HUD |
+| 5 | Oxígeno | Parcial (procedimientos) | ✅ Hecho: bombonas con NBT, evento por segundo, HUD con red propia, `/pgvacuum` |
 | 6 | Mochilas | Parcial (sin depósitos separados) | Java: menú + inventario + depósitos |
 | 7 | Energía | Parcial | Java: `IEnergyStorage` de Forge |
 | 8 | Banco de Ingeniería | Parcial (GUI básica) | Java: menú y recetas propias |

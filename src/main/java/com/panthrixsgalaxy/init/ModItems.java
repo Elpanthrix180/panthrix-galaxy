@@ -3,6 +3,7 @@ package com.panthrixsgalaxy.init;
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.armor.PGArmorMaterials;
 import com.panthrixsgalaxy.armor.PGSpaceSuitItem;
+import com.panthrixsgalaxy.item.PGOxygenTankItem;
 import com.panthrixsgalaxy.item.PGTestItem;
 import com.panthrixsgalaxy.tool.PGToolTiers;
 import net.minecraft.world.item.ArmorItem;
@@ -146,6 +147,19 @@ public final class ModItems {
             () -> new PGSpaceSuitItem(PGArmorMaterials.SPACE_SUIT, ArmorItem.Type.LEGGINGS, new Item.Properties()));
     public static final RegistryObject<Item> PG_SPACE_BOOTS = ITEMS.register("pg_space_boots",
             () -> new PGSpaceSuitItem(PGArmorMaterials.SPACE_SUIT, ArmorItem.Type.BOOTS, new Item.Properties()));
+
+    // ===== OXÍGENO (Fase 5) =====
+    // 1 unidad de oxígeno = 1 segundo respirando. Se fabrican vacías: llénalas en el recargador.
+
+    /** PG_Oxygen_Tank: 10 minutos de oxígeno. */
+    public static final RegistryObject<Item> PG_OXYGEN_TANK = ITEMS.register("pg_oxygen_tank",
+            () -> new PGOxygenTankItem(600, new Item.Properties()));
+    /** Bombona grande: 30 minutos. */
+    public static final RegistryObject<Item> PG_LARGE_OXYGEN_TANK = ITEMS.register("pg_large_oxygen_tank",
+            () -> new PGOxygenTankItem(1800, new Item.Properties()));
+    /** Tanque espacial: 100 minutos. Necesita lunarita (se fabrica tras llegar a la Luna). */
+    public static final RegistryObject<Item> PG_SPACE_OXYGEN_TANK = ITEMS.register("pg_space_oxygen_tank",
+            () -> new PGOxygenTankItem(6000, new Item.Properties().rarity(Rarity.UNCOMMON)));
 
     // ===== AYUDANTES =====
 

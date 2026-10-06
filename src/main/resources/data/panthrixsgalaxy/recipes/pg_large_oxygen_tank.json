@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "PTP",
+    "PTP"
+  ],
+  "key": {
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    },
+    "T": {
+      "item": "panthrixsgalaxy:pg_oxygen_tank"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_large_oxygen_tank"
+  }
+}

@@ -24,6 +24,7 @@
     "panthrixsgalaxy:pg_asteroid_metal_block",
     "panthrixsgalaxy:pg_osmium_block",
     "panthrixsgalaxy:pg_xenite_block",
-    "panthrixsgalaxy:pg_necronite_block"
+    "panthrixsgalaxy:pg_necronite_block",
+    "panthrixsgalaxy:pg_oxygen_recharger"
   ]
 }

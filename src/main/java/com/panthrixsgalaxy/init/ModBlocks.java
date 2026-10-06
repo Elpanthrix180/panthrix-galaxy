@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy.init;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.block.PGOxygenRechargerBlock;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -114,6 +115,13 @@ public final class ModBlocks {
     public static final RegistryObject<Block> PG_NECRONITE_BLOCK = registerBlock("pg_necronite_block",
             () -> new Block(stone(MapColor.COLOR_BLACK, 50.0f, 1200.0f, SoundType.NETHERITE_BLOCK)),
             new Item.Properties().rarity(Rarity.EPIC).fireResistant());
+
+    // ===== OXÍGENO (Fase 5) =====
+
+    /** Recargador de oxígeno: clic derecho con una bombona para llenarla (solo donde hay aire). */
+    public static final RegistryObject<Block> PG_OXYGEN_RECHARGER = registerBlock("pg_oxygen_recharger",
+            () -> new PGOxygenRechargerBlock(stone(MapColor.METAL, 3.5f, 6.0f, SoundType.METAL)
+                    .lightLevel(state -> 4)));
 
     // ===== AYUDANTES =====
     // Pequeños "moldes" para no repetir las mismas propiedades en cada bloque.

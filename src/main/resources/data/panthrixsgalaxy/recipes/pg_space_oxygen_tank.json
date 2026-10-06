@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "LTL",
+    "LTL"
+  ],
+  "key": {
+    "L": {
+      "item": "panthrixsgalaxy:pg_lunarite_ingot"
+    },
+    "T": {
+      "item": "panthrixsgalaxy:pg_large_oxygen_tank"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_space_oxygen_tank"
+  }
+}
