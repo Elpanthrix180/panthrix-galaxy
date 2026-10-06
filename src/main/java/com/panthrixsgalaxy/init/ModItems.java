@@ -3,6 +3,7 @@ package com.panthrixsgalaxy.init;
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.armor.PGArmorMaterials;
 import com.panthrixsgalaxy.armor.PGSpaceSuitItem;
+import com.panthrixsgalaxy.item.PGBackpackItem;
 import com.panthrixsgalaxy.item.PGOxygenTankItem;
 import com.panthrixsgalaxy.item.PGTestItem;
 import com.panthrixsgalaxy.tool.PGToolTiers;
@@ -160,6 +161,25 @@ public final class ModItems {
     /** Tanque espacial: 100 minutos. Necesita lunarita (se fabrica tras llegar a la Luna). */
     public static final RegistryObject<Item> PG_SPACE_OXYGEN_TANK = ITEMS.register("pg_space_oxygen_tank",
             () -> new PGOxygenTankItem(6000, new Item.Properties().rarity(Rarity.UNCOMMON)));
+
+    // ===== MOCHILAS (Fase 6) =====
+    // PGBackpackItem(filas, oxígeno, energía FE, combustible mB, agua mB, modelo en la espalda, propiedades)
+
+    /** PG_Space_Backpack: 9 huecos. Materiales de la Tierra. */
+    public static final RegistryObject<Item> PG_SPACE_BACKPACK = ITEMS.register("pg_space_backpack",
+            () -> new PGBackpackItem(1, 1200, 5000, 2000, 2000, "pg_space_backpack", new Item.Properties()));
+    /** Mochila avanzada: 18 huecos. Necesita lunarita y selenita (Luna). */
+    public static final RegistryObject<Item> PG_ADVANCED_SPACE_BACKPACK = ITEMS.register("pg_advanced_space_backpack",
+            () -> new PGBackpackItem(2, 3000, 20000, 4000, 4000, "pg_advanced_space_backpack",
+                    new Item.Properties().rarity(Rarity.UNCOMMON)));
+    /** Mochila tecnológica: 27 huecos. Necesita marteíta y cristal marciano (Marte). */
+    public static final RegistryObject<Item> PG_TECH_SPACE_BACKPACK = ITEMS.register("pg_tech_space_backpack",
+            () -> new PGBackpackItem(3, 6000, 50000, 8000, 8000, "pg_tech_space_backpack",
+                    new Item.Properties().rarity(Rarity.RARE)));
+    /** Mochila experimental: 36 huecos. Necesita xenita, osmio y cristal cósmico. No arde en lava. */
+    public static final RegistryObject<Item> PG_EXPERIMENTAL_SPACE_BACKPACK = ITEMS.register("pg_experimental_space_backpack",
+            () -> new PGBackpackItem(4, 12000, 200000, 16000, 16000, "pg_experimental_space_backpack",
+                    new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
 
     // ===== AYUDANTES =====
 

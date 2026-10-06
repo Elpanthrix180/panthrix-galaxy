@@ -45,6 +45,7 @@ P P P                               P R P      B = barrotes de hierro  R = redst
                   → después: pierdes vida poco a poco ("¡Te estás asfixiando!").
 ```
 - Las bombonas sirven en **cualquier sitio del inventario** (o en la mano secundaria). Se gastan en orden.
+- *(Desde la Fase 6)* El depósito de oxígeno de la **mochila equipada** se gasta antes que las bombonas.
 - El daño por falta de oxígeno **atraviesa la armadura**. Mensaje de muerte: *"Jugador se quedó sin oxígeno"*.
 - En **creativo** no se gasta oxígeno ni se recibe daño.
 - Las bombonas fabricadas salen **vacías**; las de la pestaña creativa salen **llenas**.

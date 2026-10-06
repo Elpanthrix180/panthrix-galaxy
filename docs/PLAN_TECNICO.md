@@ -60,7 +60,8 @@ src/main/java/com/panthrixsgalaxy/
 ├── network/                 Mensajes servidor <-> pantalla
 ├── client/                  Solo pantalla: indicadores (HUD)
 ├── command/                 Comandos de prueba (/pgvacuum)
-├── menu/ + client/screen/   (Fase 6, 8) GUIs: mochilas, Banco de Ingeniería
+├── system/backpack/         Hueco de mochila del jugador (capability)
+├── menu/ + client/screen/   Ventanas: mochila (Fase 6), Banco de Ingeniería (Fase 8)
 └── planet/                  (Fase 11) Registro de cuerpos celestes
 src/main/resources/
 ├── assets/panthrixsgalaxy/  blockstates, models, textures, lang, sounds
@@ -102,7 +103,7 @@ pleno vuelo, sin portal ni pantalla de "pulsa botón", para que se sienta contin
 | 3 | Herramientas | Sí (tiers simples) | ✅ Hecho: 4 niveles con orden propio (Java mínimo: `TierSortingRegistry`) |
 | 4 | Traje espacial | Sí (armadura) | ✅ Hecho. Guantes integrados en la pechera (no hay ranura de manos); mochila en Fase 6 |
 | 5 | Oxígeno | Parcial (procedimientos) | ✅ Hecho: bombonas con NBT, evento por segundo, HUD con red propia, `/pgvacuum` |
-| 6 | Mochilas | Parcial (sin depósitos separados) | Java: menú + inventario + depósitos |
+| 6 | Mochilas | Parcial (sin depósitos separados) | ✅ Hecho: hueco propio (capability), 4 mochilas, depósitos, panel, modelo en la espalda |
 | 7 | Energía | Parcial | Java: `IEnergyStorage` de Forge |
 | 8 | Banco de Ingeniería | Parcial (GUI básica) | Java: menú y recetas propias |
 | 9 | Cohete | No (entidad montable con física) | Java: entidad + modelo |

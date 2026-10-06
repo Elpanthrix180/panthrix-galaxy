@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "FPF",
+    "FCF",
+    "FFF"
+  ],
+  "key": {
+    "F": {
+      "item": "panthrixsgalaxy:pg_space_fabric"
+    },
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    },
+    "C": {
+      "item": "minecraft:chest"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_space_backpack"
+  }
+}

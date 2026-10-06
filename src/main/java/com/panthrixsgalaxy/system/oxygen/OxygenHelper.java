@@ -1,6 +1,8 @@
 package com.panthrixsgalaxy.system.oxygen;
 
+import com.panthrixsgalaxy.item.PGBackpackItem;
 import com.panthrixsgalaxy.item.PGOxygenTankItem;
+import com.panthrixsgalaxy.system.backpack.PGBackpackSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -8,13 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Cuenta y gasta el oxígeno de las bombonas que lleva el jugador.
- * Busca en el inventario principal y en la mano secundaria.
- * (En la Fase 6 añadiremos aquí los depósitos de la mochila.)
+ * Cuenta y gasta el oxígeno que lleva el jugador.
+ *
+ * Fuentes de oxígeno, en este orden:
+ *   1. El depósito de oxígeno de la MOCHILA EQUIPADA (Fase 6).
+ *   2. Las bombonas del inventario y de la mano secundaria (Fase 5).
  */
 public final class OxygenHelper {
 
-    /** Todas las bombonas de oxígeno que lleva el jugador. */
+    /** Todas las bombonas de oxígeno que lleva el jugador en el inventario. */
     public static List<ItemStack> findTanks(Player player) {
         List<ItemStack> tanks = new ArrayList<>();
         for (ItemStack stack : player.getInventory().offhand) {
@@ -30,18 +34,26 @@ public final class OxygenHelper {
         return tanks;
     }
 
-    /** Oxígeno total disponible (suma de todas las bombonas). */
+    /** Oxígeno total disponible (mochila + bombonas). */
     public static int getTotalOxygen(Player player) {
         int total = 0;
+        ItemStack backpack = PGBackpackSlot.getEquipped(player);
+        if (backpack.getItem() instanceof PGBackpackItem) {
+            total += PGBackpackItem.getTank(backpack, PGBackpackItem.Tank.OXYGEN);
+        }
         for (ItemStack tank : findTanks(player)) {
             total += PGOxygenTankItem.getOxygen(tank);
         }
         return total;
     }
 
-    /** Capacidad total (suma del máximo de todas las bombonas). */
+    /** Capacidad total (mochila + bombonas). */
     public static int getTotalCapacity(Player player) {
         int total = 0;
+        ItemStack backpack = PGBackpackSlot.getEquipped(player);
+        if (backpack.getItem() instanceof PGBackpackItem item) {
+            total += item.getCapacity(PGBackpackItem.Tank.OXYGEN);
+        }
         for (ItemStack tank : findTanks(player)) {
             total += ((PGOxygenTankItem) tank.getItem()).getCapacity();
         }
@@ -49,11 +61,20 @@ public final class OxygenHelper {
     }
 
     /**
-     * Gasta oxígeno, empezando por la primera bombona que tenga.
+     * Gasta oxígeno: primero de la mochila y después de las bombonas.
      * @return cuánto se ha podido gastar realmente.
      */
     public static int consume(Player player, int amount) {
         int remaining = amount;
+
+        ItemStack backpack = PGBackpackSlot.getEquipped(player);
+        if (backpack.getItem() instanceof PGBackpackItem) {
+            int inBackpack = PGBackpackItem.getTank(backpack, PGBackpackItem.Tank.OXYGEN);
+            int used = Math.min(inBackpack, remaining);
+            PGBackpackItem.setTank(backpack, PGBackpackItem.Tank.OXYGEN, inBackpack - used);
+            remaining -= used;
+        }
+
         for (ItemStack tank : findTanks(player)) {
             if (remaining <= 0) {
                 break;

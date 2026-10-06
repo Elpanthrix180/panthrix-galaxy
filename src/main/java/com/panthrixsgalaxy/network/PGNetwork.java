@@ -32,6 +32,16 @@ public final class PGNetwork {
                 .decoder(OxygenSyncPacket::new)
                 .consumerMainThread(OxygenSyncPacket::handle)
                 .add();
+        CHANNEL.messageBuilder(BackpackSyncPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(BackpackSyncPacket::encode)
+                .decoder(BackpackSyncPacket::new)
+                .consumerMainThread(BackpackSyncPacket::handle)
+                .add();
+        CHANNEL.messageBuilder(BackpackActionPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(BackpackActionPacket::encode)
+                .decoder(BackpackActionPacket::new)
+                .consumerMainThread(BackpackActionPacket::handle)
+                .add();
     }
 
     /** Envía un paquete del servidor a un jugador concreto. */

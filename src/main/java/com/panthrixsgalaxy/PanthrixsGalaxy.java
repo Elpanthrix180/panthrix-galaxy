@@ -4,7 +4,9 @@ import com.mojang.logging.LogUtils;
 import com.panthrixsgalaxy.init.ModBlocks;
 import com.panthrixsgalaxy.init.ModCreativeTabs;
 import com.panthrixsgalaxy.init.ModItems;
+import com.panthrixsgalaxy.init.ModMenuTypes;
 import com.panthrixsgalaxy.network.PGNetwork;
+import com.panthrixsgalaxy.system.backpack.PGBackpackSlot;
 import com.panthrixsgalaxy.tool.PGToolTiers;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -36,6 +38,10 @@ public class PanthrixsGalaxy {
         ModBlocks.BLOCKS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModCreativeTabs.CREATIVE_TABS.register(modEventBus);
+        ModMenuTypes.MENUS.register(modEventBus);
+
+        // Hueco de mochila de los jugadores (Fase 6)
+        modEventBus.addListener(PGBackpackSlot::registerCapability);
 
         // Canal de comunicación servidor <-> pantalla del jugador (indicador de oxígeno...)
         PGNetwork.register();
