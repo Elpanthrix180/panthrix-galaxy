@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "panthrixsgalaxy:pg_selenite_ore",
+    "panthrixsgalaxy:pg_martianite_ore",
+    "panthrixsgalaxy:pg_martian_crystal_ore",
+    "panthrixsgalaxy:pg_meteorite_ore",
+    "panthrixsgalaxy:pg_asteroid_metal_ore",
+    "panthrixsgalaxy:pg_martianite_block",
+    "panthrixsgalaxy:pg_asteroid_metal_block"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "panthrixsgalaxy:pg_necronite_shard"
+    },
+    {
+      "item": "panthrixsgalaxy:pg_necronite_shard"
+    },
+    {
+      "item": "panthrixsgalaxy:pg_necronite_shard"
+    },
+    {
+      "item": "panthrixsgalaxy:pg_necronite_shard"
+    },
+    {
+      "item": "panthrixsgalaxy:pg_osmium_ingot"
+    },
+    {
+      "item": "panthrixsgalaxy:pg_osmium_ingot"
+    },
+    {
+      "item": "panthrixsgalaxy:pg_osmium_ingot"
+    },
+    {
+      "item": "panthrixsgalaxy:pg_osmium_ingot"
+    }
+  ],
+  "result": {
+    "item": "panthrixsgalaxy:pg_necronite_ingot"
+  }
+}

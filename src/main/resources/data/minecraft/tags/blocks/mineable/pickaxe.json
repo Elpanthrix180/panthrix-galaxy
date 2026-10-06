@@ -1,6 +1,29 @@
 {
   "replace": false,
   "values": [
-    "panthrixsgalaxy:pg_test_block"
+    "panthrixsgalaxy:pg_test_block",
+    "panthrixsgalaxy:pg_lunar_stone",
+    "panthrixsgalaxy:pg_martian_stone",
+    "panthrixsgalaxy:pg_asteroid_rock",
+    "panthrixsgalaxy:pg_alien_stone",
+    "panthrixsgalaxy:pg_lunarite_ore",
+    "panthrixsgalaxy:pg_selenite_ore",
+    "panthrixsgalaxy:pg_helium_3_ore",
+    "panthrixsgalaxy:pg_martian_ore",
+    "panthrixsgalaxy:pg_martianite_ore",
+    "panthrixsgalaxy:pg_martian_crystal_ore",
+    "panthrixsgalaxy:pg_rusted_iron_ore",
+    "panthrixsgalaxy:pg_meteorite_ore",
+    "panthrixsgalaxy:pg_asteroid_metal_ore",
+    "panthrixsgalaxy:pg_osmium_ore",
+    "panthrixsgalaxy:pg_xenite_ore",
+    "panthrixsgalaxy:pg_astralite_ore",
+    "panthrixsgalaxy:pg_cosmic_crystal_ore",
+    "panthrixsgalaxy:pg_lunarite_block",
+    "panthrixsgalaxy:pg_martianite_block",
+    "panthrixsgalaxy:pg_asteroid_metal_block",
+    "panthrixsgalaxy:pg_osmium_block",
+    "panthrixsgalaxy:pg_xenite_block",
+    "panthrixsgalaxy:pg_necronite_block"
   ]
 }

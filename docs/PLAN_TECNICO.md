@@ -94,7 +94,7 @@ pleno vuelo, sin portal ni pantalla de "pulsa botón", para que se sienta contin
 | Fase | Sistema | ¿MCreator puede? | Solución aquí |
 |---|---|---|---|
 | 1 | Proyecto base | Sí | ✅ Hecho |
-| 2 | Materiales y minerales | Sí | JSON + registro simple |
+| 2 | Materiales y minerales | Sí | ✅ Hecho (generación en el mundo: Fases 12, 13, 20, 21) |
 | 3 | Herramientas | Sí | Tiers de herramienta |
 | 4 | Traje espacial | Sí (armadura) | Armadura + mochila como objeto equipable |
 | 5 | Oxígeno | Parcial (procedimientos) | Java: evento por tick, NBT, HUD |

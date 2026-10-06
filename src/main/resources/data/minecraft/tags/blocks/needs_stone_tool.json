@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "panthrixsgalaxy:pg_lunarite_ore",
+    "panthrixsgalaxy:pg_helium_3_ore",
+    "panthrixsgalaxy:pg_martian_ore",
+    "panthrixsgalaxy:pg_rusted_iron_ore",
+    "panthrixsgalaxy:pg_lunarite_block"
+  ]
+}

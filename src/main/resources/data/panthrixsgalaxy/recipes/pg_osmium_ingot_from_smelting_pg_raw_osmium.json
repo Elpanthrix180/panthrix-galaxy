@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": {
+    "item": "panthrixsgalaxy:pg_raw_osmium"
+  },
+  "result": "panthrixsgalaxy:pg_osmium_ingot",
+  "experience": 1.0,
+  "cookingtime": 200
+}
