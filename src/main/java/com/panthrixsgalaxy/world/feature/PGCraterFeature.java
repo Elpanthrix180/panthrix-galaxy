@@ -55,7 +55,8 @@ public class PGCraterFeature extends Feature<NoneFeatureConfiguration> {
                 if (distance <= radius) {
                     // Cuenco: más hondo en el centro
                     double t = distance / radius;
-                    int bottom = centerY - 1 - (int) Math.round(depth * (1.0 - t * t));
+                    // En cuestas el suelo puede estar más bajo que el cuenco: no se deja nada flotando
+                    int bottom = Math.min(top, centerY - 1 - (int) Math.round(depth * (1.0 - t * t)));
                     for (int y = top; y > bottom; y--) {
                         level.setBlock(new BlockPos(x, y, z), air, 2);
                     }

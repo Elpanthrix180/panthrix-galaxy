@@ -4,6 +4,7 @@ import com.panthrixsgalaxy.entity.laser.PGLaserBoltEntity;
 import com.panthrixsgalaxy.init.ModItems;
 import com.panthrixsgalaxy.weapon.LaserTier;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -30,6 +31,7 @@ import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.Nullable;
 
@@ -67,7 +69,7 @@ public class PGAlienSoldierEntity extends Monster implements RangedAttackMob {
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.7));
         goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 12.0f));
         goalSelector.addGoal(7, new RandomLookAroundGoal(this));
-        targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
+        targetSelector.addGoal(1, new PGAlienHurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
@@ -79,6 +81,23 @@ public class PGAlienSoldierEntity extends Monster implements RangedAttackMob {
         populateDefaultEquipmentSlots(level.getRandom(), difficulty);
         restrictTo(blockPosition(), GUARD_RADIUS);
         return data;
+    }
+
+    /** Recordar la zona que protege al guardar el mundo (Minecraft no lo guarda solo). */
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        if (hasRestriction()) {
+            tag.put("GuardCenter", NbtUtils.writeBlockPos(getRestrictCenter()));
+        }
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        if (tag.contains("GuardCenter")) {
+            restrictTo(NbtUtils.readBlockPos(tag.getCompound("GuardCenter")), GUARD_RADIUS);
+        }
     }
 
     @Override
@@ -118,5 +137,11 @@ public class PGAlienSoldierEntity extends Monster implements RangedAttackMob {
     @Override
     public float getVoicePitch() {
         return 0.45f;
+    }
+
+    /** La luz ya la comprueba PGSpawnRules (sol sí, antorchas no). Sin esto, de día no aparecerían. */
+    @Override
+    public boolean checkSpawnRules(LevelAccessor level, MobSpawnType reason) {
+        return true;
     }
 }

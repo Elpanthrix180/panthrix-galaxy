@@ -19,6 +19,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -95,6 +96,15 @@ public class PGLaserBoltEntity extends Projectile {
         HitResult hit = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
         if (hit.getType() != HitResult.Type.MISS && !level().isClientSide) {
             onHit(hit);
+            // Si ha atravesado a un enemigo, mirar si hay una pared justo detrás (en el mismo tick)
+            if (!isRemoved() && hit.getType() == HitResult.Type.ENTITY) {
+                Vec3 from = hit.getLocation();
+                BlockHitResult wall = level().clip(new ClipContext(from, position().add(getDeltaMovement()),
+                        ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+                if (wall.getType() != HitResult.Type.MISS) {
+                    onHit(wall);
+                }
+            }
         }
         if (isRemoved()) {
             return;

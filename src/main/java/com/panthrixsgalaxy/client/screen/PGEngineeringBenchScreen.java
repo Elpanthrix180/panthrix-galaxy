@@ -23,7 +23,7 @@ import java.util.List;
  * Pantalla del Banco de Ingeniería Espacial.
  *
  * A la izquierda hay una GUÍA DE RECETAS:
- *   - 10 botones de categoría (trajes, mochilas, oxígeno...).
+ *   - Un botón por categoría (trajes, mochilas, oxígeno...), 5 por fila.
  *   - Las recetas de la categoría elegida.
  *   - Al hacer clic en una receta, sus ingredientes aparecen en gris en la cuadrícula
  *     para saber qué poner en cada hueco.
@@ -39,7 +39,8 @@ public class PGEngineeringBenchScreen extends AbstractContainerScreen<PGEngineer
     private static final int CATEGORY_ROWS = (EngineeringCategory.values().length + COLUMNS - 1) / COLUMNS;
     private static final int LABEL_Y = 15 + CATEGORY_ROWS * 18 + 3;
     private static final int RECIPES_Y = LABEL_Y + 12;
-    private static final int MAX_RECIPES = 25;
+    /** Filas de recetas que caben antes del texto de ayuda (que empieza 22 px antes del final de los 166 px). */
+    private static final int MAX_RECIPES = (166 - 22 - RECIPES_Y) / 18 * COLUMNS;
     private static final int COLOR_PANEL = 0xE0161B26;
     private static final int COLOR_BORDER = 0xFF55CCFF;
     private static final int COLOR_SELECTED = 0x8055CCFF;

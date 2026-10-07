@@ -20,6 +20,9 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -96,6 +99,8 @@ public class PGShipEntity extends Entity implements PGSpaceVehicle {
     private int reboardTicks;
     /** Combustible "a medias" pendiente de gastar (por el multiplicador de la configuración). */
     private double fuelDebt;
+    /** true mientras la nave pasa a otra dimensión (para que el piloto pueda "bajarse" en el viaje). */
+    private boolean transferring;
     @Nullable
     private PGPlanet lastWarnedPlanet;
 
@@ -171,7 +176,15 @@ public class PGShipEntity extends Entity implements PGSpaceVehicle {
 
     @Override
     public BlockPos getSpaceOrigin() {
-        return entityData.get(SPACE_ORIGIN);
+        BlockPos origin = entityData.get(SPACE_ORIGIN);
+        // Sin origen (vehículo colocado fuera de la Tierra): se usa el punto de llegada estándar del Espacio
+        return origin.equals(BlockPos.ZERO) ? new BlockPos(0, PGPlanets.SPACE_ARRIVAL_Y, 0) : origin;
+    }
+
+    /** Paquete para que la pantalla de los jugadores sepa que esta entidad existe. */
+    @Override
+    public Packet<ClientGamePacketListener> getAddEntityPacket() {
+        return new ClientboundAddEntityPacket(this);
     }
 
     /** La cabina solo tiene aire si queda energía para el soporte vital. */
@@ -183,6 +196,9 @@ public class PGShipEntity extends Entity implements PGSpaceVehicle {
     /** En vuelo = en el Espacio, o en el aire con los motores encendidos. */
     @Override
     public boolean isInFlight() {
+        if (transferring) {
+            return false; // cambiando de dimensión: el piloto se baja y se vuelve a subir al otro lado
+        }
         return isInSpace() || (areEnginesOn() && !onGround());
     }
 
@@ -317,8 +333,9 @@ public class PGShipEntity extends Entity implements PGSpaceVehicle {
     private void explode() {
         setEngines(false);
         ejectPassengers();
-        Containers.dropContents(level(), blockPosition(), cargo);
+        // Primero la explosión y después la carga (si no, la explosión destruiría lo que cae)
         level().explode(this, getX(), getY() + 0.5, getZ(), 3.5f, Level.ExplosionInteraction.TNT);
+        Containers.dropContents(level(), blockPosition(), cargo);
         discard();
     }
 
@@ -400,12 +417,17 @@ public class PGShipEntity extends Entity implements PGSpaceVehicle {
         ServerPlayer pilot = getFirstPassenger() instanceof ServerPlayer player ? player : null;
         boolean engines = areEnginesOn();
         setEngines(false);
+        transferring = true;
         if (pilot != null) {
             pilot.stopRiding();
         }
         target.getChunk(SectionPos.blockToSectionCoord(position.x), SectionPos.blockToSectionCoord(position.z));
 
         PGShipEntity copy = ModEntities.SHIP.get().create(target);
+        if (copy == null) {
+            transferring = false;
+            return this;
+        }
         copy.setTier(getTier());
         copy.setFuel(getFuel());
         copy.setEnergy(getEnergy());
@@ -528,6 +550,7 @@ public class PGShipEntity extends Entity implements PGSpaceVehicle {
         tag.putInt("Fuel", getFuel());
         tag.putInt("Energy", getEnergy());
         tag.putInt("Integrity", getIntegrity());
+        tag.put("SpaceOrigin", NbtUtils.writeBlockPos(entityData.get(SPACE_ORIGIN)));
         NonNullList<ItemStack> items = NonNullList.withSize(MAX_CARGO, ItemStack.EMPTY);
         for (int i = 0; i < MAX_CARGO; i++) {
             items.set(i, cargo.getItem(i));
@@ -550,6 +573,9 @@ public class PGShipEntity extends Entity implements PGSpaceVehicle {
         setFuel(tag.getInt("Fuel"));
         setEnergy(tag.getInt("Energy"));
         setIntegrity(tag.contains("Integrity") ? tag.getInt("Integrity") : getTier().getMaxIntegrity());
+        if (tag.contains("SpaceOrigin")) {
+            entityData.set(SPACE_ORIGIN, NbtUtils.readBlockPos(tag.getCompound("SpaceOrigin")));
+        }
         NonNullList<ItemStack> items = NonNullList.withSize(MAX_CARGO, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag.getCompound("Cargo"), items);
         for (int i = 0; i < MAX_CARGO; i++) {

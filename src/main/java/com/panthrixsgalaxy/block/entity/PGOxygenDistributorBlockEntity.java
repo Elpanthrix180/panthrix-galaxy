@@ -138,7 +138,7 @@ public class PGOxygenDistributorBlockEntity extends PGEnergyBlockEntity {
     @Override
     public void setRemoved() {
         super.setRemoved();
-        if (level != null) {
+        if (level != null && !level.isClientSide()) { // solo el servidor guarda salas
             PGSealedRooms.setRoom(level, worldPosition, null);
         }
     }
@@ -146,7 +146,7 @@ public class PGOxygenDistributorBlockEntity extends PGEnergyBlockEntity {
     @Override
     public void onChunkUnloaded() {
         super.onChunkUnloaded();
-        if (level != null) {
+        if (level != null && !level.isClientSide()) { // solo el servidor guarda salas
             PGSealedRooms.setRoom(level, worldPosition, null);
         }
     }

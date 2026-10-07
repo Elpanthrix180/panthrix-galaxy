@@ -25,9 +25,10 @@ public class PGBackpackScreen extends ContainerScreen {
         super(menu, playerInventory, title);
     }
 
+    /** El panel se dibuja con el fondo, así los tooltips de los objetos quedan por encima. */
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        super.render(graphics, mouseX, mouseY, partialTick);
+    protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
+        super.renderBg(graphics, partialTick, mouseX, mouseY);
         if (menu instanceof PGBackpackMenu backpackMenu) {
             renderTankPanel(graphics, backpackMenu);
         }

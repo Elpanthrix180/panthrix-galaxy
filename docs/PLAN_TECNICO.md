@@ -129,7 +129,8 @@ pleno vuelo, sin portal ni pantalla de "pulsa botón", para que se sienta contin
 | 21 | Planetas adicionales | Sí (dimensiones JSON) | ✅ Hecho: Mercurio, Venus, Plutón, Xenoria (alienígena) + 4 gigantes gaseosos; colmena de la Reina |
 | 22 | Logros | Sí | ✅ Hecho: 30 logros en árbol, contadores Java, secretos (monolito, aldea alienígena, planeta Nyx) |
 | 23 | Optimización | — | ✅ Hecho: caché de cables, distribuidores en reposo, estrellas en GPU, menos paquetes; archivo de configuración |
-| 24-25 | Pruebas, lanzamiento | — | Pruebas, `.jar` final |
+| 24 | Pruebas finales ✅ | Comandos de prueba | PRUEBAS.md, revisión y arreglos |
+| 25 | Lanzamiento | — | `.jar` final |
 
 ## 7. Progresión
 

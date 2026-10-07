@@ -19,6 +19,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.Nullable;
 
@@ -72,5 +73,11 @@ public class PGCrawlerEntity extends Spider {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason,
                                         @Nullable SpawnGroupData spawnData, @Nullable CompoundTag tag) {
         return spawnData;
+    }
+
+    /** La luz ya la comprueba PGSpawnRules (sol sí, antorchas no). Sin esto, de día no aparecerían. */
+    @Override
+    public boolean checkSpawnRules(LevelAccessor level, MobSpawnType reason) {
+        return true;
     }
 }

@@ -18,8 +18,8 @@ import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayDeque;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * SALAS SELLADAS: el aire de las bases y estaciones espaciales.
@@ -43,7 +43,7 @@ public final class PGSealedRooms {
     }
 
     /** Salas con aire de cada dimensión: posición del distribuidor -> bloques de su sala. */
-    private static final Map<ResourceKey<Level>, Map<BlockPos, LongSet>> ROOMS = new HashMap<>();
+    private static final Map<ResourceKey<Level>, Map<BlockPos, LongSet>> ROOMS = new ConcurrentHashMap<>();
 
     /**
      * Mide la sala (o salas) de un distribuidor: los bloques con aire, o null si todas tienen fuga.
@@ -83,7 +83,13 @@ public final class PGSealedRooms {
             }
             for (Direction direction : Direction.values()) {
                 BlockPos next = pos.relative(direction);
-                if (!region.contains(next.asLong()) && !blocksAir(level, next)) {
+                if (region.contains(next.asLong())) {
+                    continue;
+                }
+                if (!level.isLoaded(next)) {
+                    return false; // no se cargan trozos nuevos: se cuenta como fuga
+                }
+                if (!blocksAir(level, next)) {
                     region.add(next.asLong());
                     queue.add(next);
                 }
@@ -106,7 +112,7 @@ public final class PGSealedRooms {
 
     /** Guarda (o quita, con null) la sala de un distribuidor. */
     public static void setRoom(Level level, BlockPos distributor, @Nullable LongSet room) {
-        Map<BlockPos, LongSet> rooms = ROOMS.computeIfAbsent(level.dimension(), key -> new HashMap<>());
+        Map<BlockPos, LongSet> rooms = ROOMS.computeIfAbsent(level.dimension(), key -> new ConcurrentHashMap<>());
         if (room == null) {
             rooms.remove(distributor);
         } else {

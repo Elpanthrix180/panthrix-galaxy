@@ -17,6 +17,9 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -161,7 +164,15 @@ public class PGRocketEntity extends Entity implements PGSpaceVehicle {
 
     @Override
     public BlockPos getSpaceOrigin() {
-        return entityData.get(SPACE_ORIGIN);
+        BlockPos origin = entityData.get(SPACE_ORIGIN);
+        // Sin origen (vehículo colocado fuera de la Tierra): se usa el punto de llegada estándar del Espacio
+        return origin.equals(BlockPos.ZERO) ? new BlockPos(0, PGPlanets.SPACE_ARRIVAL_Y, 0) : origin;
+    }
+
+    /** Paquete para que la pantalla de los jugadores sepa que esta entidad existe. */
+    @Override
+    public Packet<ClientGamePacketListener> getAddEntityPacket() {
+        return new ClientboundAddEntityPacket(this);
     }
 
     /** La cabina del cohete siempre está presurizada. */

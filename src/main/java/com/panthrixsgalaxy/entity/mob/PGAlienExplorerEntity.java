@@ -4,6 +4,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -16,6 +17,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 
 /**
  * Alien explorador: PATRULLA el terreno tranquilamente y NO ataca si no le atacas.
@@ -50,7 +52,7 @@ public class PGAlienExplorerEntity extends Monster {
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.8, 0.002f)); // patrulla
         goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 10.0f));
         goalSelector.addGoal(7, new RandomLookAroundGoal(this));
-        targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
+        targetSelector.addGoal(1, new PGAlienHurtByTargetGoal(this).setAlertOthers());
     }
 
     @Override
@@ -71,5 +73,11 @@ public class PGAlienExplorerEntity extends Monster {
     @Override
     public float getVoicePitch() {
         return 0.6f;
+    }
+
+    /** La luz ya la comprueba PGSpawnRules (sol sí, antorchas no). Sin esto, de día no aparecerían. */
+    @Override
+    public boolean checkSpawnRules(LevelAccessor level, MobSpawnType reason) {
+        return true;
     }
 }

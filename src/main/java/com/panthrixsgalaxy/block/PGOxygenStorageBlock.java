@@ -55,7 +55,10 @@ public class PGOxygenStorageBlock extends BaseEntityBlock {
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
                                  BlockHitResult hit) {
         if (level.isClientSide) {
-            return InteractionResult.SUCCESS;
+            // Solo tanques o mano vacía hacen algo; con otro objeto se deja colocar bloques
+            ItemStack held = player.getItemInHand(hand);
+            return held.isEmpty() || held.getItem() instanceof PGOxygenTankItem
+                    ? InteractionResult.SUCCESS : InteractionResult.PASS;
         }
         if (!(level.getBlockEntity(pos) instanceof PGOxygenStorageBlockEntity tank)) {
             return InteractionResult.PASS;
