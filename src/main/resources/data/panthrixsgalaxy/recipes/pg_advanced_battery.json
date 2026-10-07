@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " S ",
+    "LRL",
+    "LRL"
+  ],
+  "key": {
+    "S": {
+      "item": "panthrixsgalaxy:pg_selenite_crystal"
+    },
+    "L": {
+      "item": "panthrixsgalaxy:pg_lunarite_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_advanced_battery"
+  }
+}

@@ -1,7 +1,12 @@
 package com.panthrixsgalaxy.init;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.block.PGEnergyBlock;
 import com.panthrixsgalaxy.block.PGOxygenRechargerBlock;
+import com.panthrixsgalaxy.block.entity.PGEnergyCellBlockEntity;
+import com.panthrixsgalaxy.block.entity.PGGeneratorBlockEntity;
+import com.panthrixsgalaxy.block.entity.PGReactorBlockEntity;
+import com.panthrixsgalaxy.block.entity.PGSolarPanelBlockEntity;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -122,6 +127,28 @@ public final class ModBlocks {
     public static final RegistryObject<Block> PG_OXYGEN_RECHARGER = registerBlock("pg_oxygen_recharger",
             () -> new PGOxygenRechargerBlock(stone(MapColor.METAL, 3.5f, 6.0f, SoundType.METAL)
                     .lightLevel(state -> 4)));
+
+    // ===== ENERGÍA (Fase 7) =====
+
+    /** Generador: quema carbón, madera... y produce 40 FE/t. Da luz mientras funciona. */
+    public static final RegistryObject<Block> PG_GENERATOR = registerBlock("pg_generator",
+            () -> new PGEnergyBlock(stone(MapColor.METAL, 3.5f, 6.0f, SoundType.METAL)
+                    .lightLevel(state -> state.getValue(PGEnergyBlock.LIT) ? 13 : 0),
+                    PGGeneratorBlockEntity::new));
+    /** Panel solar: medio bloque de alto. Hasta 15 FE/t con sol (el doble sin atmósfera). */
+    public static final RegistryObject<Block> PG_SOLAR_PANEL = registerBlock("pg_solar_panel",
+            () -> new PGEnergyBlock(stone(MapColor.COLOR_BLUE, 2.0f, 6.0f, SoundType.METAL).noOcclusion(),
+                    PGSolarPanelBlockEntity::new, Block.box(0, 0, 0, 16, 8, 16)));
+    /** Reactor de helio-3: 400 FE/t. */
+    public static final RegistryObject<Block> PG_HELIUM_3_REACTOR = registerBlock("pg_helium_3_reactor",
+            () -> new PGEnergyBlock(stone(MapColor.COLOR_CYAN, 5.0f, 12.0f, SoundType.METAL)
+                    .lightLevel(state -> state.getValue(PGEnergyBlock.LIT) ? 15 : 3),
+                    PGReactorBlockEntity::new));
+    /** Celda energética: guarda 1 000 000 FE y los conserva al romperla. */
+    public static final RegistryObject<Block> PG_ENERGY_CELL = registerBlock("pg_energy_cell",
+            () -> new PGEnergyBlock(stone(MapColor.COLOR_YELLOW, 4.0f, 9.0f, SoundType.METAL)
+                    .lightLevel(state -> 5),
+                    PGEnergyCellBlockEntity::new));
 
     // ===== AYUDANTES =====
     // Pequeños "moldes" para no repetir las mismas propiedades en cada bloque.

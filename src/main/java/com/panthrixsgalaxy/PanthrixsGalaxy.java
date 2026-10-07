@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy;
 
 import com.mojang.logging.LogUtils;
+import com.panthrixsgalaxy.init.ModBlockEntities;
 import com.panthrixsgalaxy.init.ModBlocks;
 import com.panthrixsgalaxy.init.ModCreativeTabs;
 import com.panthrixsgalaxy.init.ModItems;
@@ -39,6 +40,7 @@ public class PanthrixsGalaxy {
         ModItems.ITEMS.register(modEventBus);
         ModCreativeTabs.CREATIVE_TABS.register(modEventBus);
         ModMenuTypes.MENUS.register(modEventBus);
+        ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
 
         // Hueco de mochila de los jugadores (Fase 6)
         modEventBus.addListener(PGBackpackSlot::registerCapability);

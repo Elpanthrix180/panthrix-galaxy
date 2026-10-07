@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "side": "panthrixsgalaxy:block/pg_generator_side",
+    "top": "panthrixsgalaxy:block/pg_generator_top",
+    "bottom": "panthrixsgalaxy:block/pg_machine_bottom"
+  }
+}

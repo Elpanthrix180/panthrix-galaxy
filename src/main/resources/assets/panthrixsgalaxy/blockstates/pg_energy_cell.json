@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "panthrixsgalaxy:block/pg_energy_cell"
+    },
+    "lit=true": {
+      "model": "panthrixsgalaxy:block/pg_energy_cell"
+    }
+  }
+}

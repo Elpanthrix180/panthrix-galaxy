@@ -2,6 +2,7 @@ package com.panthrixsgalaxy.init;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.item.PGBackpackItem;
+import com.panthrixsgalaxy.item.PGBatteryItem;
 import com.panthrixsgalaxy.item.PGOxygenTankItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -32,6 +33,9 @@ public final class ModCreativeTabs {
                         Item item = entry.get();
                         if (item instanceof PGOxygenTankItem tank) {
                             output.accept(tank.createFull()); // en creativo, las bombonas salen llenas
+                        } else if (item instanceof PGBatteryItem battery) {
+                            output.accept(new ItemStack(battery));  // vacía
+                            output.accept(battery.createFull());     // y llena
                         } else if (!(item instanceof BlockItem) && !isEquipment(item)) {
                             output.accept(item);
                         }

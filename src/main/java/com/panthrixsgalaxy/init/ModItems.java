@@ -4,6 +4,7 @@ import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.armor.PGArmorMaterials;
 import com.panthrixsgalaxy.armor.PGSpaceSuitItem;
 import com.panthrixsgalaxy.item.PGBackpackItem;
+import com.panthrixsgalaxy.item.PGBatteryItem;
 import com.panthrixsgalaxy.item.PGOxygenTankItem;
 import com.panthrixsgalaxy.item.PGTestItem;
 import com.panthrixsgalaxy.tool.PGToolTiers;
@@ -180,6 +181,16 @@ public final class ModItems {
     public static final RegistryObject<Item> PG_EXPERIMENTAL_SPACE_BACKPACK = ITEMS.register("pg_experimental_space_backpack",
             () -> new PGBackpackItem(4, 12000, 200000, 16000, 16000, "pg_experimental_space_backpack",
                     new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+
+    // ===== ENERGÍA (Fase 7) =====
+    // PGBatteryItem(capacidad FE, máximo por transferencia, propiedades)
+
+    /** Batería básica: 50 000 FE. Cobre y redstone (Tierra). */
+    public static final RegistryObject<Item> PG_BASIC_BATTERY = ITEMS.register("pg_basic_battery",
+            () -> new PGBatteryItem(50_000, 10_000, new Item.Properties()));
+    /** Batería avanzada: 250 000 FE. Lunarita y selenita (Luna). */
+    public static final RegistryObject<Item> PG_ADVANCED_BATTERY = ITEMS.register("pg_advanced_battery",
+            () -> new PGBatteryItem(250_000, 50_000, new Item.Properties().rarity(Rarity.UNCOMMON)));
 
     // ===== AYUDANTES =====
 
