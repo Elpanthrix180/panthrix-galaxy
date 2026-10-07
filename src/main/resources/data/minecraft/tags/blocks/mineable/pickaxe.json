@@ -32,6 +32,8 @@
     "panthrixsgalaxy:pg_energy_cell",
     "panthrixsgalaxy:pg_energy_cable",
     "panthrixsgalaxy:pg_electric_oxygen_recharger",
-    "panthrixsgalaxy:pg_engineering_bench"
+    "panthrixsgalaxy:pg_engineering_bench",
+    "panthrixsgalaxy:pg_launch_pad",
+    "panthrixsgalaxy:pg_fuel_refinery"
   ]
 }

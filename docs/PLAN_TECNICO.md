@@ -53,7 +53,9 @@ src/main/java/com/panthrixsgalaxy/
 ├── event/                   Reacciones a eventos del juego (traje completo...)
 ├── tool/                    Niveles de herramienta (PGToolTiers)
 ├── weapon/                  (Fase 15-16) Láseres y espadas láser
-├── entity/                  (Fase 9, 17-18) Cohetes, naves, mobs, jefes
+├── entity/rocket/           Cohete: entidad y niveles (Fase 9)
+├── entity/                  (Fase 14, 17-18) Naves, mobs, jefes
+├── client/model/, renderer/ Modelos 3D y dibujo de entidades
 ├── dimension/               (Fase 11-13) Espacio, Luna, Marte
 ├── system/oxygen/           Oxígeno: atmósfera, consumo, avisos, daño
 ├── block/                   Bloques con comportamiento propio (recargador, máquinas)
@@ -109,7 +111,7 @@ pleno vuelo, sin portal ni pantalla de "pulsa botón", para que se sienta contin
 | 6 | Mochilas | Parcial (sin depósitos separados) | ✅ Hecho: hueco propio (capability), 4 mochilas, depósitos, panel, modelo en la espalda |
 | 7 | Energía | Parcial | ✅ 7A generar y almacenar · 7B cables, recargador eléctrico, oxígeno de emergencia |
 | 8 | Banco de Ingeniería | Parcial (GUI básica) | ✅ Hecho: tipo de receta propio con categorías, guía integrada, 16 recetas movidas |
-| 9 | Cohete | No (entidad montable con física) | Java: entidad + modelo |
+| 9 | Cohete | No (entidad montable con física) | ✅ Hecho: componentes, 2 cohetes (entidad + modelo), plataforma 3×3, refinería y combustible |
 | 10 | Lanzamiento | No | Java: cuenta atrás, partículas, sonido |
 | 11 | Tierra → Espacio | No | Java: cambio de dimensión en vuelo + cielo |
 | 12 | Luna | Parcial (dimensión) | JSON worldgen + Java gravedad/cielo |

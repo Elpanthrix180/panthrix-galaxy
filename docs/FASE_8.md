@@ -32,8 +32,8 @@ Todo se consigue en la **Tierra**, así que es lo primero que fabricas antes del
 | 🎒 Mochilas | Las 4 mochilas | — |
 | 🫁 Oxígeno | Bombona grande, tanque espacial | — |
 | 🔋 Energía | Batería avanzada, panel solar, celda energética | — |
-| ⚙️ Máquinas | Recargador de oxígeno eléctrico, reactor de helio-3 | Más máquinas |
-| 🚀 Cohetes | *Próximamente* | Fase 9 |
+| ⚙️ Máquinas | Recargador de oxígeno eléctrico, reactor de helio-3, *(Fase 9)* refinería | Más máquinas |
+| 🚀 Cohetes | *(Fase 9)* 5 componentes, cohete básico y avanzado | Más cohetes |
 | 🛸 Naves | *Próximamente* | Fase 14 |
 | 🔫 Láseres | *Próximamente* | Fase 15 |
 | ⚔️ Espadas láser | *Próximamente* | Fase 16 |

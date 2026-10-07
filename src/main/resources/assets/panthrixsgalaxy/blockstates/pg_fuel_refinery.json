@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "panthrixsgalaxy:block/pg_fuel_refinery"
+    },
+    "lit=true": {
+      "model": "panthrixsgalaxy:block/pg_fuel_refinery_on"
+    }
+  }
+}

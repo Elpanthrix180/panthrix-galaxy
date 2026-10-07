@@ -1,8 +1,11 @@
 package com.panthrixsgalaxy.client;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.client.model.PGRocketModel;
+import com.panthrixsgalaxy.client.renderer.PGRocketRenderer;
 import com.panthrixsgalaxy.client.screen.PGBackpackScreen;
 import com.panthrixsgalaxy.client.screen.PGEngineeringBenchScreen;
+import com.panthrixsgalaxy.init.ModEntities;
 import com.panthrixsgalaxy.init.ModItems;
 import com.panthrixsgalaxy.init.ModMenuTypes;
 import com.panthrixsgalaxy.init.ModRecipes;
@@ -58,6 +61,18 @@ public final class PGClientModEvents {
                 event.register(BackpackRenderLayer.wornModelLocation(backpack));
             }
         });
+    }
+
+    /** Une cada entidad con la clase que la dibuja. */
+    @SubscribeEvent
+    public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(ModEntities.ROCKET.get(), PGRocketRenderer::new);
+    }
+
+    /** Registra los modelos 3D de las entidades. */
+    @SubscribeEvent
+    public static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(PGRocketModel.LAYER_LOCATION, PGRocketModel::createBodyLayer);
     }
 
     /** Añade la capa "mochila en la espalda" a los dos tipos de jugador (brazos normales y finos). */

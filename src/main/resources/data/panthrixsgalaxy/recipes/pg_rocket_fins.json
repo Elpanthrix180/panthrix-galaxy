@@ -1,0 +1,19 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "rockets",
+  "category": "misc",
+  "pattern": [
+    "  P",
+    " PP",
+    "PPP"
+  ],
+  "key": {
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_rocket_fins",
+    "count": 4
+  }
+}

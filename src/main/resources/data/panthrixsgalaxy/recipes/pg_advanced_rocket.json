@@ -1,0 +1,33 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "rockets",
+  "category": "misc",
+  "pattern": [
+    "LNL",
+    "HTH",
+    "FEF"
+  ],
+  "key": {
+    "L": {
+      "item": "panthrixsgalaxy:pg_lunarite_block"
+    },
+    "N": {
+      "item": "panthrixsgalaxy:pg_rocket_nose_cone"
+    },
+    "H": {
+      "item": "panthrixsgalaxy:pg_rocket_hull"
+    },
+    "T": {
+      "item": "panthrixsgalaxy:pg_rocket_fuel_tank"
+    },
+    "F": {
+      "item": "panthrixsgalaxy:pg_rocket_fins"
+    },
+    "E": {
+      "item": "panthrixsgalaxy:pg_rocket_engine"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_advanced_rocket"
+  }
+}

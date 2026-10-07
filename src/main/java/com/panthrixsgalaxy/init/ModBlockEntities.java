@@ -4,6 +4,7 @@ import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.block.entity.PGCableBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGElectricOxygenRechargerBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGEnergyCellBlockEntity;
+import com.panthrixsgalaxy.block.entity.PGFuelRefineryBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGGeneratorBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGReactorBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGSolarPanelBlockEntity;
@@ -50,6 +51,11 @@ public final class ModBlockEntities {
     public static final RegistryObject<BlockEntityType<PGElectricOxygenRechargerBlockEntity>> ELECTRIC_OXYGEN_RECHARGER =
             BLOCK_ENTITIES.register("electric_oxygen_recharger", () -> BlockEntityType.Builder
                     .of(PGElectricOxygenRechargerBlockEntity::new, ModBlocks.PG_ELECTRIC_OXYGEN_RECHARGER.get()).build(null));
+
+    @SuppressWarnings("DataFlowIssue")
+    public static final RegistryObject<BlockEntityType<PGFuelRefineryBlockEntity>> FUEL_REFINERY =
+            BLOCK_ENTITIES.register("fuel_refinery", () -> BlockEntityType.Builder
+                    .of(PGFuelRefineryBlockEntity::new, ModBlocks.PG_FUEL_REFINERY.get()).build(null));
 
     private ModBlockEntities() {
     }

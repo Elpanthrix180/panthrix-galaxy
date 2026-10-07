@@ -1,11 +1,13 @@
 package com.panthrixsgalaxy.client;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.entity.rocket.PGRocketEntity;
 import com.panthrixsgalaxy.network.BackpackActionPacket;
 import com.panthrixsgalaxy.network.PGNetwork;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -27,6 +29,14 @@ public final class PGClientEvents {
                         : BackpackActionPacket.Action.OPEN;
                 PGNetwork.CHANNEL.sendToServer(new BackpackActionPacket(action));
             }
+        }
+    }
+
+    /** El astronauta va DENTRO del cohete: no se dibuja (si no, atravesaría las paredes). */
+    @SubscribeEvent
+    public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
+        if (event.getEntity().getVehicle() instanceof PGRocketEntity) {
+            event.setCanceled(true);
         }
     }
 

@@ -1,0 +1,24 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "rockets",
+  "category": "misc",
+  "pattern": [
+    "PCP",
+    "PBP",
+    "PCP"
+  ],
+  "key": {
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    },
+    "C": {
+      "item": "minecraft:copper_block"
+    },
+    "B": {
+      "item": "minecraft:bucket"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_rocket_fuel_tank"
+  }
+}

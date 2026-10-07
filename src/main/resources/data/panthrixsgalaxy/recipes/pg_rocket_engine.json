@@ -1,0 +1,27 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "rockets",
+  "category": "misc",
+  "pattern": [
+    "PRP",
+    "PFP",
+    "I I"
+  ],
+  "key": {
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    },
+    "F": {
+      "item": "minecraft:blast_furnace"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_rocket_engine"
+  }
+}

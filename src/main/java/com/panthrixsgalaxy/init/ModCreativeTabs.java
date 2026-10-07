@@ -3,6 +3,8 @@ package com.panthrixsgalaxy.init;
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.item.PGBackpackItem;
 import com.panthrixsgalaxy.item.PGBatteryItem;
+import com.panthrixsgalaxy.item.PGFuelCanisterItem;
+import com.panthrixsgalaxy.item.PGRocketItem;
 import com.panthrixsgalaxy.item.PGOxygenTankItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -33,6 +35,9 @@ public final class ModCreativeTabs {
                         Item item = entry.get();
                         if (item instanceof PGOxygenTankItem tank) {
                             output.accept(tank.createFull()); // en creativo, las bombonas salen llenas
+                        } else if (item instanceof PGFuelCanisterItem canister) {
+                            output.accept(new ItemStack(canister));  // vacío
+                            output.accept(canister.createFull());     // y lleno
                         } else if (item instanceof PGBatteryItem battery) {
                             output.accept(new ItemStack(battery));  // vacía
                             output.accept(battery.createFull());     // y llena
@@ -72,7 +77,8 @@ public final class ModCreativeTabs {
 
     /** Equipo = herramientas y armas (tienen "nivel"), piezas de armadura y mochilas. */
     private static boolean isEquipment(Item item) {
-        return item instanceof TieredItem || item instanceof ArmorItem || item instanceof PGBackpackItem;
+        return item instanceof TieredItem || item instanceof ArmorItem || item instanceof PGBackpackItem
+                || item instanceof PGRocketItem;
     }
 
     private ModCreativeTabs() {

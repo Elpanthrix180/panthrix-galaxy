@@ -7,6 +7,7 @@ import com.panthrixsgalaxy.block.PGEngineeringBenchBlock;
 import com.panthrixsgalaxy.block.PGOxygenRechargerBlock;
 import com.panthrixsgalaxy.block.entity.PGElectricOxygenRechargerBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGEnergyCellBlockEntity;
+import com.panthrixsgalaxy.block.entity.PGFuelRefineryBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGGeneratorBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGReactorBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGSolarPanelBlockEntity;
@@ -174,6 +175,17 @@ public final class ModBlocks {
     public static final RegistryObject<Block> PG_ENGINEERING_BENCH = registerBlock("pg_engineering_bench",
             () -> new PGEngineeringBenchBlock(stone(MapColor.METAL, 3.5f, 6.0f, SoundType.METAL)
                     .lightLevel(state -> 6)));
+
+    // ===== COHETES (Fase 9) =====
+
+    /** Plataforma de lanzamiento: el cohete se coloca en el centro de 3x3 plataformas. */
+    public static final RegistryObject<Block> PG_LAUNCH_PAD = registerBlock("pg_launch_pad",
+            () -> new Block(stone(MapColor.COLOR_GRAY, 3.0f, 12.0f, SoundType.METAL)));
+    /** Refinería de combustible: materiales + energía -> combustible de cohete. */
+    public static final RegistryObject<Block> PG_FUEL_REFINERY = registerBlock("pg_fuel_refinery",
+            () -> new PGEnergyBlock(stone(MapColor.COLOR_ORANGE, 3.5f, 6.0f, SoundType.METAL)
+                    .lightLevel(state -> state.getValue(PGEnergyBlock.LIT) ? 11 : 0),
+                    PGFuelRefineryBlockEntity::new));
 
     // ===== AYUDANTES =====
     // Pequeños "moldes" para no repetir las mismas propiedades en cada bloque.

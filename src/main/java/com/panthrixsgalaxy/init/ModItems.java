@@ -3,8 +3,11 @@ package com.panthrixsgalaxy.init;
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.armor.PGArmorMaterials;
 import com.panthrixsgalaxy.armor.PGSpaceSuitItem;
+import com.panthrixsgalaxy.entity.rocket.RocketTier;
 import com.panthrixsgalaxy.item.PGBackpackItem;
 import com.panthrixsgalaxy.item.PGBatteryItem;
+import com.panthrixsgalaxy.item.PGFuelCanisterItem;
+import com.panthrixsgalaxy.item.PGRocketItem;
 import com.panthrixsgalaxy.item.PGOxygenTankItem;
 import com.panthrixsgalaxy.item.PGTestItem;
 import com.panthrixsgalaxy.tool.PGToolTiers;
@@ -191,6 +194,26 @@ public final class ModItems {
     /** Batería avanzada: 250 000 FE. Lunarita y selenita (Luna). */
     public static final RegistryObject<Item> PG_ADVANCED_BATTERY = ITEMS.register("pg_advanced_battery",
             () -> new PGBatteryItem(250_000, 50_000, new Item.Properties().rarity(Rarity.UNCOMMON)));
+
+    // ===== COHETES (Fase 9) =====
+
+    /** Componentes del cohete (se fabrican en el Banco de Ingeniería, categoría Cohetes). */
+    public static final RegistryObject<Item> PG_ROCKET_HULL = material("pg_rocket_hull");
+    public static final RegistryObject<Item> PG_ROCKET_ENGINE = material("pg_rocket_engine");
+    public static final RegistryObject<Item> PG_ROCKET_FUEL_TANK = material("pg_rocket_fuel_tank");
+    public static final RegistryObject<Item> PG_ROCKET_NOSE_CONE = material("pg_rocket_nose_cone");
+    public static final RegistryObject<Item> PG_ROCKET_FINS = material("pg_rocket_fins");
+
+    /** Bidón de combustible: 1000 mB. */
+    public static final RegistryObject<Item> PG_FUEL_CANISTER = ITEMS.register("pg_fuel_canister",
+            () -> new PGFuelCanisterItem(1_000, new Item.Properties()));
+
+    /** PG_Space_Rocket básico: Tierra -> Luna. */
+    public static final RegistryObject<Item> PG_BASIC_ROCKET = ITEMS.register("pg_basic_rocket",
+            () -> new PGRocketItem(RocketTier.BASIC, new Item.Properties().rarity(Rarity.UNCOMMON)));
+    /** Cohete avanzado: Tierra -> Marte. Lleva lunarita. */
+    public static final RegistryObject<Item> PG_ADVANCED_ROCKET = ITEMS.register("pg_advanced_rocket",
+            () -> new PGRocketItem(RocketTier.ADVANCED, new Item.Properties().rarity(Rarity.RARE)));
 
     // ===== AYUDANTES =====
 
