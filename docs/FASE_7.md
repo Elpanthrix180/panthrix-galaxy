@@ -32,6 +32,8 @@ Usamos el sistema de energía **que ya trae Forge** (FE = Forge Energy). Ventaja
 
 Además, la **mochila** ya puede llenar su depósito de energía.
 
+> *(Desde la Fase 8)* Batería avanzada, panel solar, celda, reactor y recargador eléctrico se fabrican en el **Banco de Ingeniería Espacial**.
+
 ### ☀️ Panel solar: Sol → panel → energía → batería
 - Necesita **ver el cielo** (nada encima) y que sea **de día**.
 - Produce el máximo a mediodía; menos al amanecer, al atardecer y con lluvia o tormenta.

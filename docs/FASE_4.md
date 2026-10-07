@@ -27,6 +27,8 @@ Se repara en el yunque con **placas reforzadas**.
 | Guantes espaciales | `pg_space_gloves` | 2 telas + 2 placas |
 
 ### Recetas (`F` = tela, `P` = placa, `V` = visor, `G` = guantes)
+> *(Desde la Fase 8)* Las piezas del traje y los guantes se fabrican en el **Banco de Ingeniería Espacial**. Tela, placa y visor siguen en la mesa normal.
+
 ```
 Casco      Pechera     Pantalones   Botas      Guantes
 P F P      F . F       P F P        P . P      F . F

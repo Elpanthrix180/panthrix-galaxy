@@ -3,6 +3,7 @@ package com.panthrixsgalaxy.init;
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.block.PGCableBlock;
 import com.panthrixsgalaxy.block.PGEnergyBlock;
+import com.panthrixsgalaxy.block.PGEngineeringBenchBlock;
 import com.panthrixsgalaxy.block.PGOxygenRechargerBlock;
 import com.panthrixsgalaxy.block.entity.PGElectricOxygenRechargerBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGEnergyCellBlockEntity;
@@ -166,6 +167,13 @@ public final class ModBlocks {
             () -> new PGEnergyBlock(stone(MapColor.COLOR_LIGHT_BLUE, 3.5f, 6.0f, SoundType.METAL)
                     .lightLevel(state -> state.getValue(PGEnergyBlock.LIT) ? 10 : 2),
                     PGElectricOxygenRechargerBlockEntity::new));
+
+    // ===== BANCO DE INGENIERÍA ESPACIAL (Fase 8) =====
+
+    /** PG_Engineering_Bench: fabrica la tecnología avanzada del mod. */
+    public static final RegistryObject<Block> PG_ENGINEERING_BENCH = registerBlock("pg_engineering_bench",
+            () -> new PGEngineeringBenchBlock(stone(MapColor.METAL, 3.5f, 6.0f, SoundType.METAL)
+                    .lightLevel(state -> 6)));
 
     // ===== AYUDANTES =====
     // Pequeños "moldes" para no repetir las mismas propiedades en cada bloque.

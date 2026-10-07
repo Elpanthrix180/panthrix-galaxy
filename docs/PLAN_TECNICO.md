@@ -64,6 +64,7 @@ src/main/java/com/panthrixsgalaxy/
 ├── command/                 Comandos de prueba (/pgvacuum)
 ├── system/backpack/         Hueco de mochila del jugador (capability)
 ├── menu/ + client/screen/   Ventanas: mochila (Fase 6), Banco de Ingeniería (Fase 8)
+├── recipe/                  Recetas del Banco de Ingeniería (tipo propio + categorías)
 └── planet/                  (Fase 11) Registro de cuerpos celestes
 src/main/resources/
 ├── assets/panthrixsgalaxy/  blockstates, models, textures, lang, sounds
@@ -107,7 +108,7 @@ pleno vuelo, sin portal ni pantalla de "pulsa botón", para que se sienta contin
 | 5 | Oxígeno | Parcial (procedimientos) | ✅ Hecho: bombonas con NBT, evento por segundo, HUD con red propia, `/pgvacuum` |
 | 6 | Mochilas | Parcial (sin depósitos separados) | ✅ Hecho: hueco propio (capability), 4 mochilas, depósitos, panel, modelo en la espalda |
 | 7 | Energía | Parcial | ✅ 7A generar y almacenar · 7B cables, recargador eléctrico, oxígeno de emergencia |
-| 8 | Banco de Ingeniería | Parcial (GUI básica) | Java: menú y recetas propias |
+| 8 | Banco de Ingeniería | Parcial (GUI básica) | ✅ Hecho: tipo de receta propio con categorías, guía integrada, 16 recetas movidas |
 | 9 | Cohete | No (entidad montable con física) | Java: entidad + modelo |
 | 10 | Lanzamiento | No | Java: cuenta atrás, partículas, sonido |
 | 11 | Tierra → Espacio | No | Java: cambio de dimensión en vuelo + cielo |

@@ -31,6 +31,8 @@ F C F        F C F        F C F         O C O        L = lunarita  S = selenita 
 F F F        L F L        M F M         X O X        X = xenita  O = osmio
 ```
 
+> *(Desde la Fase 8)* Las 4 mochilas se fabrican en el **Banco de Ingeniería Espacial**.
+
 ## 🎮 Cómo se usa
 | Acción | Cómo |
 |---|---|

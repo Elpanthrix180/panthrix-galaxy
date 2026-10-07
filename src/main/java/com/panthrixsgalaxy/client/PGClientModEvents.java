@@ -2,15 +2,19 @@ package com.panthrixsgalaxy.client;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.client.screen.PGBackpackScreen;
+import com.panthrixsgalaxy.client.screen.PGEngineeringBenchScreen;
 import com.panthrixsgalaxy.init.ModItems;
 import com.panthrixsgalaxy.init.ModMenuTypes;
+import com.panthrixsgalaxy.init.ModRecipes;
 import com.panthrixsgalaxy.item.PGBackpackItem;
+import net.minecraft.client.RecipeBookCategories;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.client.event.RegisterRecipeBookCategoriesEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -26,8 +30,19 @@ public final class PGClientModEvents {
     /** Une cada tipo de ventana con la pantalla que la dibuja. */
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> MenuScreens.<ChestMenu, PGBackpackScreen>register(
-                ModMenuTypes.BACKPACK.get(), PGBackpackScreen::new));
+        event.enqueueWork(() -> {
+            MenuScreens.<ChestMenu, PGBackpackScreen>register(ModMenuTypes.BACKPACK.get(), PGBackpackScreen::new);
+            MenuScreens.register(ModMenuTypes.ENGINEERING_BENCH.get(), PGEngineeringBenchScreen::new);
+        });
+    }
+
+    /**
+     * Las recetas del Banco no salen en el libro de recetas de Minecraft (tienen su propia guía).
+     * Esto evita avisos en el registro del juego por ese motivo.
+     */
+    @SubscribeEvent
+    public static void onRegisterRecipeBookCategories(RegisterRecipeBookCategoriesEvent event) {
+        event.registerRecipeCategoryFinder(ModRecipes.ENGINEERING_TYPE.get(), recipe -> RecipeBookCategories.UNKNOWN);
     }
 
     @SubscribeEvent

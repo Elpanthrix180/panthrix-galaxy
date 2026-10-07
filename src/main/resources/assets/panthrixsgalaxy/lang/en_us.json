@@ -155,5 +155,20 @@
   "message.panthrixsgalaxy.need_water": "Needs water: use a water bucket or place it next to water",
   "message.panthrixsgalaxy.need_energy": "Needs energy: connect it with cables to a generator or cell",
   "status.panthrixsgalaxy.water": "Water: %s / %s mB",
-  "hud.panthrixsgalaxy.emergency_oxygen": "Emergency oxygen: the backpack is using water and energy"
+  "hud.panthrixsgalaxy.emergency_oxygen": "Emergency oxygen: the backpack is using water and energy",
+  "block.panthrixsgalaxy.pg_engineering_bench": "Space Engineering Bench",
+  "container.panthrixsgalaxy.engineering_bench": "Space Engineering Bench",
+  "gui.panthrixsgalaxy.recipe_guide": "Recipe guide",
+  "gui.panthrixsgalaxy.coming_soon": "Coming soon...",
+  "gui.panthrixsgalaxy.recipe_guide_hint": "Click a recipe to see where each ingredient goes",
+  "engineering.panthrixsgalaxy.category.suits": "Suits",
+  "engineering.panthrixsgalaxy.category.backpacks": "Backpacks",
+  "engineering.panthrixsgalaxy.category.oxygen": "Oxygen",
+  "engineering.panthrixsgalaxy.category.energy": "Energy",
+  "engineering.panthrixsgalaxy.category.rockets": "Rockets",
+  "engineering.panthrixsgalaxy.category.ships": "Ships",
+  "engineering.panthrixsgalaxy.category.lasers": "Lasers",
+  "engineering.panthrixsgalaxy.category.laser_swords": "Laser Swords",
+  "engineering.panthrixsgalaxy.category.machines": "Machines",
+  "engineering.panthrixsgalaxy.category.alien": "Alien Technology"
 }

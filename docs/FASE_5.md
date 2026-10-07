@@ -21,6 +21,8 @@ P . P        P T P      L T L       B T B      T = bombona           C = cristal
 P P P                               P R P      B = barrotes de hierro  R = redstone
 ```
 
+> *(Desde la Fase 8)* La bombona grande y el tanque espacial se fabrican en el **Banco de Ingeniería Espacial**.
+
 ## 🫁 Cómo funciona
 
 ### Variables del sistema

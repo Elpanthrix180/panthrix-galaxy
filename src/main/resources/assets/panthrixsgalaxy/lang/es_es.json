@@ -155,5 +155,20 @@
   "message.panthrixsgalaxy.need_water": "Falta agua: usa un cubo de agua o ponlo junto a agua",
   "message.panthrixsgalaxy.need_energy": "Falta energía: conéctalo con cables a un generador o celda",
   "status.panthrixsgalaxy.water": "Agua: %s / %s mB",
-  "hud.panthrixsgalaxy.emergency_oxygen": "Oxígeno de emergencia: la mochila usa agua y energía"
+  "hud.panthrixsgalaxy.emergency_oxygen": "Oxígeno de emergencia: la mochila usa agua y energía",
+  "block.panthrixsgalaxy.pg_engineering_bench": "Banco de Ingeniería Espacial",
+  "container.panthrixsgalaxy.engineering_bench": "Banco de Ingeniería Espacial",
+  "gui.panthrixsgalaxy.recipe_guide": "Guía de recetas",
+  "gui.panthrixsgalaxy.coming_soon": "Próximamente...",
+  "gui.panthrixsgalaxy.recipe_guide_hint": "Clic en una receta para ver dónde va cada ingrediente",
+  "engineering.panthrixsgalaxy.category.suits": "Trajes",
+  "engineering.panthrixsgalaxy.category.backpacks": "Mochilas",
+  "engineering.panthrixsgalaxy.category.oxygen": "Oxígeno",
+  "engineering.panthrixsgalaxy.category.energy": "Energía",
+  "engineering.panthrixsgalaxy.category.rockets": "Cohetes",
+  "engineering.panthrixsgalaxy.category.ships": "Naves",
+  "engineering.panthrixsgalaxy.category.lasers": "Láseres",
+  "engineering.panthrixsgalaxy.category.laser_swords": "Espadas láser",
+  "engineering.panthrixsgalaxy.category.machines": "Máquinas",
+  "engineering.panthrixsgalaxy.category.alien": "Tecnología alienígena"
 }

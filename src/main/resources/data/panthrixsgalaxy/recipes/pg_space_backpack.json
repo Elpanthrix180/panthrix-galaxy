@@ -1,5 +1,6 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "backpacks",
   "category": "equipment",
   "pattern": [
     "FPF",

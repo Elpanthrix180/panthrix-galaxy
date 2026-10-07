@@ -31,6 +31,7 @@
     "panthrixsgalaxy:pg_helium_3_reactor",
     "panthrixsgalaxy:pg_energy_cell",
     "panthrixsgalaxy:pg_energy_cable",
-    "panthrixsgalaxy:pg_electric_oxygen_recharger"
+    "panthrixsgalaxy:pg_electric_oxygen_recharger",
+    "panthrixsgalaxy:pg_engineering_bench"
   ]
 }

@@ -2,6 +2,7 @@ package com.panthrixsgalaxy.init;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.menu.PGBackpackMenu;
+import com.panthrixsgalaxy.menu.PGEngineeringBenchMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -17,6 +18,10 @@ public final class ModMenuTypes {
     /** Ventana de la mochila: inventario + panel de depósitos. */
     public static final RegistryObject<MenuType<PGBackpackMenu>> BACKPACK = MENUS.register("backpack",
             () -> IForgeMenuType.create(PGBackpackMenu::new));
+
+    /** Ventana del Banco de Ingeniería Espacial. */
+    public static final RegistryObject<MenuType<PGEngineeringBenchMenu>> ENGINEERING_BENCH = MENUS.register("engineering_bench",
+            () -> IForgeMenuType.create(PGEngineeringBenchMenu::new));
 
     private ModMenuTypes() {
     }
