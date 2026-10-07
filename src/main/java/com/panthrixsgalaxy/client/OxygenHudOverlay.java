@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy.client;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.system.oxygen.OxygenState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -32,7 +33,8 @@ public final class OxygenHudOverlay {
     public static final IGuiOverlay OXYGEN_HUD = (gui, graphics, partialTick, screenWidth, screenHeight) -> {
         Minecraft minecraft = Minecraft.getInstance();
         OxygenState state = ClientOxygenData.getState();
-        if (minecraft.player == null || minecraft.options.hideGui || state == OxygenState.BREATHABLE) {
+        if (minecraft.player == null || minecraft.options.hideGui || state == OxygenState.BREATHABLE
+                || !PGConfig.showOxygenHud.get()) {
             return;
         }
         Font font = minecraft.font;

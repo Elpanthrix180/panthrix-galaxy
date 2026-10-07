@@ -2,6 +2,7 @@ package com.panthrixsgalaxy.block.entity;
 
 import com.panthrixsgalaxy.advancement.PGAdvancements;
 import com.panthrixsgalaxy.block.PGEnergyBlock;
+import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.init.ModBlockEntities;
 import com.panthrixsgalaxy.planet.PGPlanets;
 import com.panthrixsgalaxy.system.oxygen.PGAtmosphere;
@@ -44,7 +45,7 @@ public class PGOxygenDistributorBlockEntity extends PGEnergyBlockEntity {
 
     /** Energía por tick que necesita una sala de este tamaño. */
     public static int energyPerTick(int volume) {
-        return 5 + volume / 40;
+        return PGConfig.distributorBaseCost.get() + volume / PGConfig.distributorBlocksPerFe.get();
     }
 
     @Override
@@ -54,6 +55,11 @@ public class PGOxygenDistributorBlockEntity extends PGEnergyBlockEntity {
         }
         if (!PGAtmosphere.isAirlessDimension(level)) {
             update(State.BREATHABLE, null);
+            return;
+        }
+        // Optimización (Fase 23): si no hay nadie cerca, nadie respira aquí. No se mide ni se gasta nada.
+        double range = PGConfig.distributorPlayerRange.get();
+        if (!level.hasNearbyAlivePlayer(worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5, range)) {
             return;
         }
         LongSet room = PGSealedRooms.measure(level, worldPosition);
@@ -121,7 +127,7 @@ public class PGOxygenDistributorBlockEntity extends PGEnergyBlockEntity {
     protected Component getStatus() {
         return switch (state) {
             case SEALED -> Component.translatable("status.panthrixsgalaxy.distributor_sealed", volume, energyPerTick(volume));
-            case LEAK -> Component.translatable("status.panthrixsgalaxy.distributor_leak", PGSealedRooms.MAX_VOLUME);
+            case LEAK -> Component.translatable("status.panthrixsgalaxy.distributor_leak", PGSealedRooms.maxVolume());
             case NO_POWER -> Component.translatable("status.panthrixsgalaxy.distributor_no_power");
             case BREATHABLE -> Component.translatable("status.panthrixsgalaxy.distributor_breathable");
             case IDLE -> Component.translatable("status.panthrixsgalaxy.distributor_starting");

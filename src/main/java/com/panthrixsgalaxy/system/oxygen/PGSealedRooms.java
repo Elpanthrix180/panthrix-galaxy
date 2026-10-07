@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy.system.oxygen;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.init.ModTags;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
@@ -26,7 +27,7 @@ import java.util.Map;
  * Un distribuidor de oxígeno "llena de aire" la sala en la que está. Para saber cuál es,
  * se expande desde cada lado del distribuidor bloque a bloque por todos los huecos (aire,
  * antorchas, camas...) hasta chocar con paredes:
- *   - Si la sala está cerrada y es pequeña (como mucho MAX_VOLUME bloques) → SELLADA: hay aire.
+ *   - Si la sala está cerrada y es pequeña (como mucho maxVolume() bloques) → SELLADA: hay aire.
  *   - Si el aire "se escapa" (un agujero, una puerta abierta, una losa...) → FUGA: no hay aire.
  *
  * ¿Qué bloques cierran una sala? Los bloques enteros (piedra, paneles, cristal...), las
@@ -36,8 +37,10 @@ import java.util.Map;
 @Mod.EventBusSubscriber(modid = PanthrixsGalaxy.MOD_ID)
 public final class PGSealedRooms {
 
-    /** Tamaño máximo de una sala sellada (por distribuidor). Unos 12 x 12 x 14 bloques. */
-    public static final int MAX_VOLUME = 2048;
+    /** Tamaño máximo de una sala sellada (por distribuidor), de la configuración. Por defecto 2048 (unos 12 x 12 x 14). */
+    public static int maxVolume() {
+        return PGConfig.maxRoomVolume.get();
+    }
 
     /** Salas con aire de cada dimensión: posición del distribuidor -> bloques de su sala. */
     private static final Map<ResourceKey<Level>, Map<BlockPos, LongSet>> ROOMS = new HashMap<>();
@@ -67,14 +70,15 @@ public final class PGSealedRooms {
         return rooms.isEmpty() ? null : rooms;
     }
 
-    /** Se expande desde un bloque. Devuelve true si la zona está cerrada y no pasa de MAX_VOLUME. */
+    /** Se expande desde un bloque. Devuelve true si la zona está cerrada y no pasa de maxVolume(). */
     private static boolean flood(Level level, BlockPos start, LongSet region) {
+        int maxVolume = maxVolume();
         ArrayDeque<BlockPos> queue = new ArrayDeque<>();
         region.add(start.asLong());
         queue.add(start);
         while (!queue.isEmpty()) {
             BlockPos pos = queue.poll();
-            if (region.size() > MAX_VOLUME || !level.isLoaded(pos) || level.isOutsideBuildHeight(pos)) {
+            if (region.size() > maxVolume || !level.isLoaded(pos) || level.isOutsideBuildHeight(pos)) {
                 return false; // demasiado grande o abierta al exterior
             }
             for (Direction direction : Direction.values()) {

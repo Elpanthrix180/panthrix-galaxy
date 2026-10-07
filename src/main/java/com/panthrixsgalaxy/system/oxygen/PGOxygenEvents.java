@@ -2,6 +2,7 @@ package com.panthrixsgalaxy.system.oxygen;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.armor.PGSpaceSuitItem;
+import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.init.ModDamageTypes;
 import com.panthrixsgalaxy.network.OxygenSyncPacket;
 import com.panthrixsgalaxy.network.PGNetwork;
@@ -10,8 +11,14 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * El "corazón" del sistema de oxígeno. Se ejecuta una vez por segundo para cada jugador:
@@ -27,14 +34,14 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = PanthrixsGalaxy.MOD_ID)
 public final class PGOxygenEvents {
 
-    /** Oxígeno que gasta el traje por segundo. */
-    public static final int CONSUMPTION_PER_SECOND = 1;
     /** Por debajo de esto se avisa de "oxígeno bajo" (60 = 1 minuto). */
     public static final int LOW_OXYGEN = 60;
-    /** Segundos de margen antes de empezar a hacer daño. */
-    public static final int GRACE_SECONDS = 5;
+    // El oxígeno que se gasta por segundo y los segundos de margen están en la configuración (PGConfig).
     /** A partir de estos segundos sin respirar el daño se duplica. */
     public static final int STRONG_DAMAGE_SECONDS = 15;
+
+    /** Último aviso de oxígeno enviado a cada jugador (para no repetir el mismo). */
+    private static final Map<UUID, Integer> LAST_SENT = new HashMap<>();
 
     /** Dato guardado en el jugador: segundos que lleva sin poder respirar. */
     private static final String NO_AIR_SECONDS_TAG = "pg_no_air_seconds";
@@ -62,11 +69,12 @@ public final class PGOxygenEvents {
             boolean hasHelmet = PGSpaceSuitItem.hasSpaceHelmet(player);
             int oxygen = OxygenHelper.getTotalOxygen(player);
 
+            int perSecond = PGConfig.oxygenPerSecond.get();
             if (hasHelmet && oxygen > 0) {
                 // Respira gracias al traje
-                OxygenHelper.consume(player, CONSUMPTION_PER_SECOND);
+                OxygenHelper.consume(player, perSecond);
                 noAirSeconds = 0;
-                state = oxygen - CONSUMPTION_PER_SECOND < LOW_OXYGEN ? OxygenState.LOW : OxygenState.OK;
+                state = oxygen - perSecond < LOW_OXYGEN ? OxygenState.LOW : OxygenState.OK;
             } else if (hasHelmet && OxygenHelper.tryEmergencyElectrolysis(player)) {
                 // Sin oxígeno, pero la mochila lo fabrica con agua + energía
                 noAirSeconds = 0;
@@ -79,7 +87,7 @@ public final class PGOxygenEvents {
                     player.playNotifySound(SoundEvents.NOTE_BLOCK_BIT.value(), SoundSource.PLAYERS, 1.0f, 0.5f);
                 }
                 noAirSeconds++;
-                if (noAirSeconds > GRACE_SECONDS) {
+                if (noAirSeconds > PGConfig.oxygenGraceSeconds.get()) {
                     float damage = noAirSeconds > STRONG_DAMAGE_SECONDS ? 2.0f : 1.0f;
                     player.hurt(ModDamageTypes.noOxygen(player.level()), damage);
                 }
@@ -89,15 +97,28 @@ public final class PGOxygenEvents {
         data.putInt(NO_AIR_SECONDS_TAG, noAirSeconds);
 
         // Temperatura extrema: hace falta el traje completo
-        boolean temperatureDanger = airless && !player.isCreative() && !player.isSpectator()
+        boolean temperatureDanger = airless && PGConfig.temperatureDamage.get() && !player.isCreative() && !player.isSpectator()
                 && !PGSpaceSuitItem.hasFullSpaceSuit(player);
         if (temperatureDanger && player.tickCount % 40 == 0) {
             player.hurt(ModDamageTypes.extremeTemperature(player.level()), 1.0f);
         }
 
-        int graceLeft = Math.max(0, GRACE_SECONDS - noAirSeconds);
-        PGNetwork.sendToPlayer(player, new OxygenSyncPacket(state,
-                OxygenHelper.getTotalOxygen(player), OxygenHelper.getTotalCapacity(player), graceLeft, temperatureDanger));
+        int graceLeft = Math.max(0, PGConfig.oxygenGraceSeconds.get() - noAirSeconds);
+        int total = OxygenHelper.getTotalOxygen(player);
+        int capacity = OxygenHelper.getTotalCapacity(player);
+        // Optimización (Fase 23): solo se envía a la pantalla si algo ha cambiado (o cada 5 s por si acaso)
+        int fingerprint = Objects.hash(state, total, capacity, graceLeft, temperatureDanger);
+        Integer last = LAST_SENT.get(player.getUUID());
+        if (last == null || last != fingerprint || player.tickCount % 100 == 0) {
+            LAST_SENT.put(player.getUUID(), fingerprint);
+            PGNetwork.sendToPlayer(player, new OxygenSyncPacket(state, total, capacity, graceLeft, temperatureDanger));
+        }
+    }
+
+    /** Al salir del servidor se olvida lo último que se le envió. */
+    @SubscribeEvent
+    public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
+        LAST_SENT.remove(event.getEntity().getUUID());
     }
 
     private PGOxygenEvents() {

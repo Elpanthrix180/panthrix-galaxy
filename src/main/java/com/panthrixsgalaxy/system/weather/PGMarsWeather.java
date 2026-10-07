@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy.system.weather;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.planet.PGPlanets;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -38,7 +39,7 @@ public final class PGMarsWeather {
      * Fuera de Marte siempre es 0.
      */
     public static float getStormIntensity(Level level) {
-        if (!level.dimension().equals(PGPlanets.MARS_LEVEL)) {
+        if (!level.dimension().equals(PGPlanets.MARS_LEVEL) || !PGConfig.marsDustStorms.get()) {
             return 0.0f;
         }
         long time = Math.floorMod(level.getDayTime(), CYCLE_TICKS);

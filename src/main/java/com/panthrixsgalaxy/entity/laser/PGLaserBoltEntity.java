@@ -1,5 +1,6 @@
 package com.panthrixsgalaxy.entity.laser;
 
+import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.entity.mob.PGAliens;
 import com.panthrixsgalaxy.init.ModDamageTypes;
 import com.panthrixsgalaxy.init.ModEntities;
@@ -131,7 +132,7 @@ public class PGLaserBoltEntity extends Projectile {
             living.invulnerableTime = 0; // los disparos rápidos no se "pierden"
         }
         boolean hurt = target.hurt(armorPiercing ? ModDamageTypes.piercingLaser(level(), this, owner)
-                : ModDamageTypes.laser(level(), this, owner), damage);
+                : ModDamageTypes.laser(level(), this, owner), damage * PGConfig.laserDamageMultiplier.get().floatValue());
         if (hurt && knockback > 0.0 && target instanceof LivingEntity living) {
             Vec3 push = getDeltaMovement().normalize();
             living.knockback(knockback, -push.x, -push.z);

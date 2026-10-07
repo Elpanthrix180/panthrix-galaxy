@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy.client;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.entity.PGSpaceVehicle;
 import com.panthrixsgalaxy.entity.rocket.LaunchState;
 import com.panthrixsgalaxy.entity.rocket.PGRocketEntity;
@@ -99,7 +100,7 @@ public final class PGClientEvents {
         double angle = PGMarsWeather.getWindAngle(minecraft.level);
         double windX = Math.cos(angle) * 0.6;
         double windZ = Math.sin(angle) * 0.6;
-        int count = (int) (intensity * 14);
+        int count = (int) (intensity * PGConfig.stormParticles.get());
         var random = minecraft.level.random;
         for (int i = 0; i < count; i++) {
             double x = minecraft.player.getX() + (random.nextDouble() - 0.5) * 24.0;
@@ -146,7 +147,8 @@ public final class PGClientEvents {
     @SubscribeEvent
     public static void onVenusFog(ViewportEvent.RenderFog event) {
         Minecraft minecraft = Minecraft.getInstance();
-        if (minecraft.level == null || !minecraft.level.dimension().equals(PGPlanets.VENUS_LEVEL)) {
+        if (minecraft.level == null || !minecraft.level.dimension().equals(PGPlanets.VENUS_LEVEL)
+                || !PGConfig.venusFog.get()) {
             return;
         }
         event.setFarPlaneDistance(Math.min(event.getFarPlaneDistance(), 48.0f));
@@ -179,7 +181,8 @@ public final class PGClientEvents {
     @SubscribeEvent
     public static void onCameraAngles(ViewportEvent.ComputeCameraAngles event) {
         Minecraft minecraft = Minecraft.getInstance();
-        if (minecraft.player == null || !(minecraft.player.getVehicle() instanceof PGRocketEntity rocket)) {
+        if (minecraft.player == null || !PGConfig.cameraShake.get()
+                || !(minecraft.player.getVehicle() instanceof PGRocketEntity rocket)) {
             return;
         }
         LaunchState state = rocket.getLaunchState();

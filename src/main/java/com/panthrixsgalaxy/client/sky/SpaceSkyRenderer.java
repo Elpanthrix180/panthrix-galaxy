@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.panthrixsgalaxy.entity.PGSpaceVehicle;
 import com.panthrixsgalaxy.planet.PGPlanet;
@@ -18,6 +19,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -100,18 +102,31 @@ public final class SpaceSkyRenderer {
         RenderSystem.depthMask(true);
     }
 
+    /**
+     * Las estrellas no se mueven: se preparan UNA vez en la tarjeta gráfica (VertexBuffer) y luego
+     * solo se dibujan. Antes se volvían a calcular las 2000 en cada fotograma (Fase 23: optimización).
+     */
+    @Nullable
+    private static VertexBuffer starBuffer;
+
     private static void renderStars(Matrix4f matrix) {
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        BufferBuilder builder = Tesselator.getInstance().getBuilder();
-        builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-        for (Star star : STARS) {
-            Vector3f[] corners = quadCorners(star.direction(), star.size());
-            float b = star.brightness();
-            for (Vector3f corner : corners) {
-                builder.vertex(matrix, corner.x(), corner.y(), corner.z()).color(b, b, b, 1.0f).endVertex();
+        if (starBuffer == null) {
+            BufferBuilder builder = Tesselator.getInstance().getBuilder();
+            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+            for (Star star : STARS) {
+                float b = star.brightness();
+                for (Vector3f corner : quadCorners(star.direction(), star.size())) {
+                    builder.vertex(corner.x(), corner.y(), corner.z()).color(b, b, b, 1.0f).endVertex();
+                }
             }
+            starBuffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
+            starBuffer.bind();
+            starBuffer.upload(builder.end());
+            VertexBuffer.unbind();
         }
-        BufferUploader.drawWithShader(builder.end());
+        starBuffer.bind();
+        starBuffer.drawWithShader(matrix, RenderSystem.getProjectionMatrix(), GameRenderer.getPositionColorShader());
+        VertexBuffer.unbind();
     }
 
     /** Dibuja los planetas del más lejano al más cercano. */

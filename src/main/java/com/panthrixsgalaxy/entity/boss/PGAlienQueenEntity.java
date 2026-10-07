@@ -1,5 +1,6 @@
 package com.panthrixsgalaxy.entity.boss;
 
+import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.entity.laser.PGLaserBoltEntity;
 import com.panthrixsgalaxy.entity.mob.PGAliens;
 import com.panthrixsgalaxy.init.ModEntities;
@@ -19,6 +20,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.BossEvent;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -26,6 +28,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -39,7 +42,9 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -284,6 +289,19 @@ public class PGAlienQueenEntity extends Monster {
         minion.setTarget(target);
         server.addFreshEntity(minion);
         server.sendParticles(ParticleTypes.PORTAL, minion.getX(), minion.getY() + 1.0, minion.getZ(), 20, 0.5, 1.0, 0.5, 0.2);
+    }
+
+    /** Al aparecer: vida según la configuración (bossHealthMultiplier, útil para jugar en grupo). */
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason,
+                                        @Nullable SpawnGroupData spawnData, @Nullable CompoundTag tag) {
+        SpawnGroupData data = super.finalizeSpawn(level, difficulty, reason, spawnData, tag);
+        double multiplier = PGConfig.bossHealthMultiplier.get();
+        if (multiplier != 1.0) {
+            getAttribute(Attributes.MAX_HEALTH).setBaseValue(300.0 * multiplier);
+            setHealth(getMaxHealth());
+        }
+        return data;
     }
 
     // ===== Daño =====

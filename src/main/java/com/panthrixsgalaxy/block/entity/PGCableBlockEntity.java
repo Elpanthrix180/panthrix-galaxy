@@ -1,5 +1,6 @@
 package com.panthrixsgalaxy.block.entity;
 
+import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.init.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -54,6 +55,35 @@ public class PGCableBlockEntity extends BlockEntity {
     private record Endpoint(BlockPos pos, Direction direction) {
     }
 
+    // ===== Caché de la red (Fase 23: optimización) =====
+    // Antes la red se recorría ENTERA cada vez que entraba energía (¡varias veces por tick!).
+    // Ahora se recuerda la lista de máquinas y solo se vuelve a recorrer si algún cable o máquina
+    // pegada a un cable cambia (networkVersion), o cada cableNetworkRefreshTicks por si acaso.
+
+    /** Sube cada vez que se pone/quita un cable o cambia algo pegado a uno. */
+    private static int networkVersion;
+
+    @Nullable
+    private List<Endpoint> cachedEndpoints;
+    private int cachedVersion = -1;
+    private long cachedAt;
+
+    /** Avisa de que alguna red de cables ha cambiado (lo llama PGCableBlock). */
+    public static void invalidateNetworks() {
+        networkVersion++;
+    }
+
+    private List<Endpoint> endpoints() {
+        long now = level == null ? 0 : level.getGameTime();
+        if (cachedEndpoints == null || cachedVersion != networkVersion
+                || now - cachedAt > PGConfig.cableNetworkRefreshTicks.get()) {
+            cachedEndpoints = findEndpoints();
+            cachedVersion = networkVersion;
+            cachedAt = now;
+        }
+        return cachedEndpoints;
+    }
+
     /** Busca todas las máquinas conectadas a esta red de cables. */
     private List<Endpoint> findEndpoints() {
         Map<BlockPos, Endpoint> endpoints = new LinkedHashMap<>();
@@ -96,7 +126,7 @@ public class PGCableBlockEntity extends BlockEntity {
 
         int remaining = Math.min(amount, MAX_TRANSFER);
         int offered = remaining;
-        for (Endpoint endpoint : findEndpoints()) {
+        for (Endpoint endpoint : endpoints()) {
             if (endpoint.pos().equals(origin)) {
                 continue; // no devolver la energía a quien la envía
             }

@@ -1,5 +1,6 @@
 package com.panthrixsgalaxy.entity.ship;
 
+import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.entity.PGSpaceVehicle;
 import com.panthrixsgalaxy.init.ModEntities;
 import com.panthrixsgalaxy.init.ModItems;
@@ -93,6 +94,8 @@ public class PGShipEntity extends Entity implements PGSpaceVehicle {
     @Nullable
     private UUID pendingPilot;
     private int reboardTicks;
+    /** Combustible "a medias" pendiente de gastar (por el multiplicador de la configuración). */
+    private double fuelDebt;
     @Nullable
     private PGPlanet lastWarnedPlanet;
 
@@ -247,13 +250,13 @@ public class PGShipEntity extends Entity implements PGSpaceVehicle {
                 setYRot(pilot.getYRot());
                 if (pilot.zza > 0.0f) {
                     velocity = velocity.add(pilot.getLookAngle().scale(tier.getAcceleration()));
-                    setFuel(getFuel() - 1);
+                    burnFuel(1.0);
                 } else if (pilot.zza < 0.0f) {
                     velocity = velocity.scale(0.8);
                 }
             }
             if (!inSpace && tickCount % 2 == 0) {
-                setFuel(getFuel() - 1); // mantenerse en el aire cuesta combustible
+                burnFuel(1.0); // mantenerse en el aire cuesta combustible
             }
             setEnergy(getEnergy() - LIFE_SUPPORT_PER_TICK);
         } else {
@@ -289,6 +292,16 @@ public class PGShipEntity extends Entity implements PGSpaceVehicle {
         }
         getPassengers().forEach(passenger -> passenger.fallDistance = 0.0f);
         checkTravel(inSpace);
+    }
+
+    /** Gasta combustible (multiplicado por la configuración; los decimales se van acumulando). */
+    private void burnFuel(double amount) {
+        fuelDebt += amount * PGConfig.shipFuelMultiplier.get();
+        int whole = (int) fuelDebt;
+        if (whole > 0) {
+            fuelDebt -= whole;
+            setFuel(getFuel() - whole);
+        }
     }
 
     private void damageHull(int amount) {

@@ -1,21 +1,24 @@
 package com.panthrixsgalaxy;
 
 import com.mojang.logging.LogUtils;
+import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.init.ModBlockEntities;
 import com.panthrixsgalaxy.init.ModBlocks;
+import com.panthrixsgalaxy.init.ModCreativeTabs;
 import com.panthrixsgalaxy.init.ModEntities;
 import com.panthrixsgalaxy.init.ModFeatures;
-import com.panthrixsgalaxy.init.ModCreativeTabs;
 import com.panthrixsgalaxy.init.ModItems;
 import com.panthrixsgalaxy.init.ModMenuTypes;
 import com.panthrixsgalaxy.init.ModRecipes;
 import com.panthrixsgalaxy.network.PGNetwork;
 import com.panthrixsgalaxy.planet.PGPlanets;
-import com.panthrixsgalaxy.system.oxygen.PGAtmosphere;
 import com.panthrixsgalaxy.system.backpack.PGBackpackSlot;
+import com.panthrixsgalaxy.system.oxygen.PGAtmosphere;
 import com.panthrixsgalaxy.tool.PGToolTiers;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
@@ -36,6 +39,10 @@ public class PanthrixsGalaxy {
 
     public PanthrixsGalaxy() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        // Configuración (Fase 23): config/panthrixsgalaxy-common.toml y -client.toml
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, PGConfig.COMMON_SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, PGConfig.CLIENT_SPEC);
 
         // Niveles de herramienta: deben registrarse al arrancar, antes que nada
         PGToolTiers.register();

@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy.client;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.entity.rocket.LaunchState;
 import com.panthrixsgalaxy.entity.rocket.PGRocketEntity;
 import com.panthrixsgalaxy.planet.PGPlanet;
@@ -56,7 +57,7 @@ public final class RocketHudOverlay {
             int alpha = (int) (255.0f * fadeTicks / FADE_TICKS);
             graphics.fill(0, 0, screenWidth, screenHeight, alpha << 24);
         }
-        if (minecraft.player == null || minecraft.options.hideGui
+        if (minecraft.player == null || minecraft.options.hideGui || !PGConfig.showVehicleHud.get()
                 || !(minecraft.player.getVehicle() instanceof PGRocketEntity rocket)) {
             return;
         }

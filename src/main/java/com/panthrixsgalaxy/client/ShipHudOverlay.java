@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy.client;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.entity.ship.PGShipEntity;
 import com.panthrixsgalaxy.planet.PGPlanet;
 import com.panthrixsgalaxy.planet.PGPlanets;
@@ -45,7 +46,7 @@ public final class ShipHudOverlay {
 
     public static final IGuiOverlay SHIP_HUD = (gui, graphics, partialTick, screenWidth, screenHeight) -> {
         Minecraft minecraft = Minecraft.getInstance();
-        if (minecraft.player == null || minecraft.options.hideGui
+        if (minecraft.player == null || minecraft.options.hideGui || !PGConfig.showVehicleHud.get()
                 || !(minecraft.player.getVehicle() instanceof PGShipEntity ship)) {
             return;
         }
