@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "G",
+    "R",
+    "P"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_station_light",
+    "count": 2
+  }
+}

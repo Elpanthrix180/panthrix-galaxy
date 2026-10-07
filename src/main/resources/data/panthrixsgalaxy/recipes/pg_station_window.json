@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "GPG"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_station_window",
+    "count": 2
+  }
+}

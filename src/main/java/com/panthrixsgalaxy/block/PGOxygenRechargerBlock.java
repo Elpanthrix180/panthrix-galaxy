@@ -52,7 +52,8 @@ public class PGOxygenRechargerBlock extends Block {
             return InteractionResult.SUCCESS;
         }
 
-        if (PGAtmosphere.isAirlessDimension(level)) {
+        // En una base sellada (Fase 19) sí funciona: se mira el aire donde está el jugador
+        if (PGAtmosphere.isAirlessAt(level, BlockPos.containing(player.getEyePosition()))) {
             player.displayClientMessage(Component.translatable("message.panthrixsgalaxy.recharger_no_air")
                     .withStyle(ChatFormatting.RED), true);
             return InteractionResult.CONSUME;

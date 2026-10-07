@@ -1,0 +1,30 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "station",
+  "category": "misc",
+  "pattern": [
+    "PVP",
+    "TBT",
+    "PRP"
+  ],
+  "key": {
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    },
+    "V": {
+      "item": "minecraft:iron_bars"
+    },
+    "T": {
+      "item": "panthrixsgalaxy:pg_oxygen_tank"
+    },
+    "B": {
+      "item": "panthrixsgalaxy:pg_basic_battery"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_oxygen_distributor"
+  }
+}

@@ -35,6 +35,10 @@ public class PGEngineeringBenchScreen extends AbstractContainerScreen<PGEngineer
 
     private static final int PANEL_WIDTH = 100;
     private static final int COLUMNS = 5;
+    /** Filas de botones de categoría (5 por fila) y, debajo, dónde empiezan el título y las recetas. */
+    private static final int CATEGORY_ROWS = (EngineeringCategory.values().length + COLUMNS - 1) / COLUMNS;
+    private static final int LABEL_Y = 15 + CATEGORY_ROWS * 18 + 3;
+    private static final int RECIPES_Y = LABEL_Y + 12;
     private static final int MAX_RECIPES = 25;
     private static final int COLOR_PANEL = 0xE0161B26;
     private static final int COLOR_BORDER = 0xFF55CCFF;
@@ -78,7 +82,7 @@ public class PGEngineeringBenchScreen extends AbstractContainerScreen<PGEngineer
         graphics.fill(x, y, x + PANEL_WIDTH, y + imageHeight, COLOR_PANEL);
         graphics.drawString(font, Component.translatable("gui.panthrixsgalaxy.recipe_guide"), x + 5, y + 4, 0xFFFFFF);
 
-        // Botones de categoría (2 filas de 5)
+        // Botones de categoría (filas de 5)
         EngineeringCategory[] categories = EngineeringCategory.values();
         for (int i = 0; i < categories.length; i++) {
             int bx = x + 5 + (i % COLUMNS) * 18;
@@ -91,17 +95,17 @@ public class PGEngineeringBenchScreen extends AbstractContainerScreen<PGEngineer
                 graphics.renderTooltip(font, Component.translatable(categories[i].getTranslationKey()), mouseX, mouseY);
             }
         }
-        graphics.drawString(font, Component.translatable(selectedCategory.getTranslationKey()), x + 5, y + 54, 0x55CCFF);
+        graphics.drawString(font, Component.translatable(selectedCategory.getTranslationKey()), x + 5, y + LABEL_Y, 0x55CCFF);
 
         // Recetas de la categoría
         List<PGEngineeringRecipe> recipes = recipesOf(selectedCategory);
         if (recipes.isEmpty()) {
-            graphics.drawString(font, Component.translatable("gui.panthrixsgalaxy.coming_soon"), x + 5, y + 68, 0x888888);
+            graphics.drawString(font, Component.translatable("gui.panthrixsgalaxy.coming_soon"), x + 5, y + RECIPES_Y + 2, 0x888888);
             return;
         }
         for (int i = 0; i < recipes.size(); i++) {
             int rx = x + 5 + (i % COLUMNS) * 18;
-            int ry = y + 66 + (i / COLUMNS) * 18;
+            int ry = y + RECIPES_Y + (i / COLUMNS) * 18;
             PGEngineeringRecipe recipe = recipes.get(i);
             if (recipe == selectedRecipe) {
                 graphics.fill(rx - 1, ry - 1, rx + 17, ry + 17, COLOR_SELECTED);
@@ -164,7 +168,7 @@ public class PGEngineeringBenchScreen extends AbstractContainerScreen<PGEngineer
         }
         List<PGEngineeringRecipe> recipes = recipesOf(selectedCategory);
         for (int i = 0; i < recipes.size(); i++) {
-            if (isInside(mouseX, mouseY, x + 5 + (i % COLUMNS) * 18, y + 66 + (i / COLUMNS) * 18)) {
+            if (isInside(mouseX, mouseY, x + 5 + (i % COLUMNS) * 18, y + RECIPES_Y + (i / COLUMNS) * 18)) {
                 PGEngineeringRecipe clicked = recipes.get(i);
                 selectedRecipe = clicked == selectedRecipe ? null : clicked;
                 return true;

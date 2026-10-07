@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom_right",
+  "textures": {
+    "bottom": "panthrixsgalaxy:block/pg_airlock_door_bottom",
+    "top": "panthrixsgalaxy:block/pg_airlock_door_top"
+  }
+}

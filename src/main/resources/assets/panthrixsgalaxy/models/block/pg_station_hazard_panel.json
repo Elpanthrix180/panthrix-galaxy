@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "panthrixsgalaxy:block/pg_station_hazard_panel"
+  }
+}

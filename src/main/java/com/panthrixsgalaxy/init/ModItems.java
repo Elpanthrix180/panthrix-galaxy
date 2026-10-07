@@ -9,6 +9,7 @@ import com.panthrixsgalaxy.item.PGAlienBeaconItem;
 import com.panthrixsgalaxy.item.PGBackpackItem;
 import com.panthrixsgalaxy.item.PGBatteryItem;
 import com.panthrixsgalaxy.item.PGFuelCanisterItem;
+import com.panthrixsgalaxy.item.PGHabitatModuleItem;
 import com.panthrixsgalaxy.item.PGRocketItem;
 import com.panthrixsgalaxy.item.PGShipItem;
 import com.panthrixsgalaxy.item.PGOxygenTankItem;
@@ -320,6 +321,12 @@ public final class ModItems {
     public static final RegistryObject<Item> PG_ALIEN_BEACON = ITEMS.register("pg_alien_beacon",
             () -> new PGAlienBeaconItem(new Item.Properties().rarity(Rarity.EPIC)));
     public static final RegistryObject<Item> PG_ALIEN_QUEEN_SPAWN_EGG = egg("alien_queen", ModEntities.ALIEN_QUEEN, 0x2A1A3A, 0x9CFF3A);
+
+    // ===== BASES Y ESTACIONES (Fase 19) =====
+
+    /** Módulo habitable: construye una base sellada completa de un clic. */
+    public static final RegistryObject<Item> PG_HABITAT_MODULE = ITEMS.register("pg_habitat_module",
+            () -> new PGHabitatModuleItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE)));
 
     // ===== AYUDANTES =====
 

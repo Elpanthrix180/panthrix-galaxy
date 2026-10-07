@@ -34,6 +34,16 @@
     "panthrixsgalaxy:pg_electric_oxygen_recharger",
     "panthrixsgalaxy:pg_engineering_bench",
     "panthrixsgalaxy:pg_launch_pad",
-    "panthrixsgalaxy:pg_fuel_refinery"
+    "panthrixsgalaxy:pg_fuel_refinery",
+    "panthrixsgalaxy:pg_station_panel",
+    "panthrixsgalaxy:pg_station_hazard_panel",
+    "panthrixsgalaxy:pg_station_floor",
+    "panthrixsgalaxy:pg_station_roof",
+    "panthrixsgalaxy:pg_station_window",
+    "panthrixsgalaxy:pg_station_light",
+    "panthrixsgalaxy:pg_oxygen_distributor",
+    "panthrixsgalaxy:pg_oxygen_storage",
+    "panthrixsgalaxy:pg_storage_crate",
+    "panthrixsgalaxy:pg_airlock_door"
   ]
 }

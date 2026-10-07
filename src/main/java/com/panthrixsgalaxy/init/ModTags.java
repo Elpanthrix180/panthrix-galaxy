@@ -21,6 +21,8 @@ public final class ModTags {
         public static final TagKey<Block> NEEDS_OSMIUM_TOOL = create("needs_osmium_tool");
         /** Bloques que necesitan como mínimo un pico de xenita. */
         public static final TagKey<Block> NEEDS_XENITE_TOOL = create("needs_xenite_tool");
+        /** Bloques que no dejan pasar el aire aunque no sean bloques enteros (Fase 19): paneles de cristal... */
+        public static final TagKey<Block> AIRTIGHT = create("airtight");
 
         private static TagKey<Block> create(String name) {
             return TagKey.create(Registries.BLOCK, new ResourceLocation(PanthrixsGalaxy.MOD_ID, name));

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "panthrixsgalaxy:block/pg_oxygen_distributor"
+    },
+    "lit=true": {
+      "model": "panthrixsgalaxy:block/pg_oxygen_distributor_on"
+    }
+  }
+}

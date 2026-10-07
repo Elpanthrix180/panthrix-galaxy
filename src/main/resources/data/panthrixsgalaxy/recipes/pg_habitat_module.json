@@ -1,0 +1,39 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "station",
+  "category": "misc",
+  "pattern": [
+    "PWP",
+    "DOS",
+    "TFC"
+  ],
+  "key": {
+    "P": {
+      "item": "panthrixsgalaxy:pg_station_panel"
+    },
+    "W": {
+      "item": "panthrixsgalaxy:pg_station_window"
+    },
+    "D": {
+      "item": "panthrixsgalaxy:pg_airlock_door"
+    },
+    "O": {
+      "item": "panthrixsgalaxy:pg_oxygen_distributor"
+    },
+    "S": {
+      "item": "panthrixsgalaxy:pg_solar_panel"
+    },
+    "T": {
+      "item": "panthrixsgalaxy:pg_oxygen_storage"
+    },
+    "F": {
+      "item": "panthrixsgalaxy:pg_station_floor"
+    },
+    "C": {
+      "item": "panthrixsgalaxy:pg_storage_crate"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_habitat_module"
+  }
+}

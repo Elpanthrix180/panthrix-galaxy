@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy.system.oxygen;
 
 import com.panthrixsgalaxy.entity.PGSpaceVehicle;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -33,12 +34,22 @@ public final class PGAtmosphere {
         return AIRLESS_DIMENSIONS.contains(level.dimension());
     }
 
+    /** ¿No hay aire en este bloque? (dimensión sin aire y fuera de una sala sellada, Fase 19) */
+    public static boolean isAirlessAt(Level level, BlockPos pos) {
+        return isAirlessDimension(level) && !PGSealedRooms.isPressurized(level, pos);
+    }
+
     /**
      * ¿Este jugador está ahora mismo en un lugar sin aire respirable?
-     * Dentro de un vehículo con la cabina presurizada hay aire (cohete siempre; nave si tiene energía).
+     * Hay aire:
+     *   - dentro de un vehículo con la cabina presurizada (cohete siempre; nave si tiene energía);
+     *   - dentro de una sala sellada con un distribuidor de oxígeno funcionando (Fase 19).
      */
     public static boolean isAirlessFor(Player player) {
         if (player.getVehicle() instanceof PGSpaceVehicle vehicle && vehicle.isPressurized()) {
+            return false;
+        }
+        if (PGSealedRooms.isPressurized(player.level(), BlockPos.containing(player.getEyePosition()))) {
             return false;
         }
         return isAirlessDimension(player.level()) || player.getPersistentData().getBoolean(VACUUM_TEST_TAG);

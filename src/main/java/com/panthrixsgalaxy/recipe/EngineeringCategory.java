@@ -22,7 +22,9 @@ public enum EngineeringCategory {
     LASERS(() -> new ItemStack(ModItems.PG_LASER_PISTOL.get())),
     LASER_SWORDS(() -> new ItemStack(ModItems.PG_BLUE_LASER_SWORD.get())),
     MACHINES(() -> new ItemStack(ModBlocks.PG_GENERATOR.get())),
-    ALIEN(() -> new ItemStack(ModItems.PG_ALIEN_TECH.get()));
+    ALIEN(() -> new ItemStack(ModItems.PG_ALIEN_TECH.get())),
+    /** Bases y estaciones espaciales (Fase 19). */
+    STATION(() -> new ItemStack(ModBlocks.PG_OXYGEN_DISTRIBUTOR.get()));
 
     private final Supplier<ItemStack> icon;
 

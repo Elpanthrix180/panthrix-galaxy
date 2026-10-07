@@ -6,8 +6,11 @@ import com.panthrixsgalaxy.block.entity.PGElectricOxygenRechargerBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGEnergyCellBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGFuelRefineryBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGGeneratorBlockEntity;
+import com.panthrixsgalaxy.block.entity.PGOxygenDistributorBlockEntity;
+import com.panthrixsgalaxy.block.entity.PGOxygenStorageBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGReactorBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGSolarPanelBlockEntity;
+import com.panthrixsgalaxy.block.entity.PGStorageCrateBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -56,6 +59,23 @@ public final class ModBlockEntities {
     public static final RegistryObject<BlockEntityType<PGFuelRefineryBlockEntity>> FUEL_REFINERY =
             BLOCK_ENTITIES.register("fuel_refinery", () -> BlockEntityType.Builder
                     .of(PGFuelRefineryBlockEntity::new, ModBlocks.PG_FUEL_REFINERY.get()).build(null));
+
+    // ===== Fase 19: bases y estaciones =====
+
+    @SuppressWarnings("DataFlowIssue")
+    public static final RegistryObject<BlockEntityType<PGOxygenDistributorBlockEntity>> OXYGEN_DISTRIBUTOR =
+            BLOCK_ENTITIES.register("oxygen_distributor", () -> BlockEntityType.Builder
+                    .of(PGOxygenDistributorBlockEntity::new, ModBlocks.PG_OXYGEN_DISTRIBUTOR.get()).build(null));
+
+    @SuppressWarnings("DataFlowIssue")
+    public static final RegistryObject<BlockEntityType<PGOxygenStorageBlockEntity>> OXYGEN_STORAGE =
+            BLOCK_ENTITIES.register("oxygen_storage", () -> BlockEntityType.Builder
+                    .of(PGOxygenStorageBlockEntity::new, ModBlocks.PG_OXYGEN_STORAGE.get()).build(null));
+
+    @SuppressWarnings("DataFlowIssue")
+    public static final RegistryObject<BlockEntityType<PGStorageCrateBlockEntity>> STORAGE_CRATE =
+            BLOCK_ENTITIES.register("storage_crate", () -> BlockEntityType.Builder
+                    .of(PGStorageCrateBlockEntity::new, ModBlocks.PG_STORAGE_CRATE.get()).build(null));
 
     private ModBlockEntities() {
     }

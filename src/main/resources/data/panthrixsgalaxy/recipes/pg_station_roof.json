@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "PI",
+    "IP"
+  ],
+  "key": {
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_station_roof",
+    "count": 4
+  }
+}

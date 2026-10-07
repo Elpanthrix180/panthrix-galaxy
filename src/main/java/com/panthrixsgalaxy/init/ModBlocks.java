@@ -5,12 +5,16 @@ import com.panthrixsgalaxy.block.PGCableBlock;
 import com.panthrixsgalaxy.block.PGEnergyBlock;
 import com.panthrixsgalaxy.block.PGEngineeringBenchBlock;
 import com.panthrixsgalaxy.block.PGOxygenRechargerBlock;
+import com.panthrixsgalaxy.block.PGOxygenStorageBlock;
+import com.panthrixsgalaxy.block.PGStorageCrateBlock;
 import com.panthrixsgalaxy.block.entity.PGElectricOxygenRechargerBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGEnergyCellBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGFuelRefineryBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGGeneratorBlockEntity;
+import com.panthrixsgalaxy.block.entity.PGOxygenDistributorBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGReactorBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGSolarPanelBlockEntity;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -18,10 +22,14 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.DropExperienceBlock;
+import net.minecraft.world.level.block.GlassBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -186,6 +194,51 @@ public final class ModBlocks {
             () -> new PGEnergyBlock(stone(MapColor.COLOR_ORANGE, 3.5f, 6.0f, SoundType.METAL)
                     .lightLevel(state -> state.getValue(PGEnergyBlock.LIT) ? 11 : 0),
                     PGFuelRefineryBlockEntity::new));
+
+    // ===== BASES Y ESTACIONES ESPACIALES (Fase 19) =====
+
+    /** Tipo de puerta hermética: se abre con la mano (no hace falta redstone) y suena a metal. */
+    public static final BlockSetType AIRLOCK = BlockSetType.register(new BlockSetType("panthrixsgalaxy:airlock", true,
+            SoundType.METAL, SoundEvents.IRON_DOOR_CLOSE, SoundEvents.IRON_DOOR_OPEN, SoundEvents.IRON_TRAPDOOR_CLOSE,
+            SoundEvents.IRON_TRAPDOOR_OPEN, SoundEvents.METAL_PRESSURE_PLATE_CLICK_OFF, SoundEvents.METAL_PRESSURE_PLATE_CLICK_ON,
+            SoundEvents.STONE_BUTTON_CLICK_OFF, SoundEvents.STONE_BUTTON_CLICK_ON));
+
+    /** Panel de la estación: paredes. */
+    public static final RegistryObject<Block> PG_STATION_PANEL = registerBlock("pg_station_panel",
+            () -> new Block(stone(MapColor.METAL, 4.0f, 9.0f, SoundType.METAL)));
+    /** Panel con franjas de aviso (amarillo y negro): esquinas y zonas de peligro. */
+    public static final RegistryObject<Block> PG_STATION_HAZARD_PANEL = registerBlock("pg_station_hazard_panel",
+            () -> new Block(stone(MapColor.COLOR_YELLOW, 4.0f, 9.0f, SoundType.METAL)));
+    /** Suelo de la estación (rejilla metálica). */
+    public static final RegistryObject<Block> PG_STATION_FLOOR = registerBlock("pg_station_floor",
+            () -> new Block(stone(MapColor.COLOR_GRAY, 4.0f, 9.0f, SoundType.METAL)));
+    /** Techo de la estación. */
+    public static final RegistryObject<Block> PG_STATION_ROOF = registerBlock("pg_station_roof",
+            () -> new Block(stone(MapColor.COLOR_LIGHT_GRAY, 4.0f, 9.0f, SoundType.METAL)));
+    /** Ventana reforzada: cristal que no deja pasar el aire. */
+    public static final RegistryObject<Block> PG_STATION_WINDOW = registerBlock("pg_station_window",
+            () -> new GlassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NONE).strength(1.5f, 9.0f)
+                    .sound(SoundType.GLASS).noOcclusion().isValidSpawn((state, level, pos, type) -> false)
+                    .isRedstoneConductor((state, level, pos) -> false).isSuffocating((state, level, pos) -> false)
+                    .isViewBlocking((state, level, pos) -> false)));
+    /** Luz de la estación: da luz de nivel 15 (¡las criaturas no aparecen en tu base!). */
+    public static final RegistryObject<Block> PG_STATION_LIGHT = registerBlock("pg_station_light",
+            () -> new Block(stone(MapColor.QUARTZ, 2.0f, 6.0f, SoundType.GLASS).lightLevel(state -> 15)));
+    /** Puerta hermética: cerrada no deja escapar el aire. Se abre con la mano. */
+    public static final RegistryObject<Block> PG_AIRLOCK_DOOR = registerBlock("pg_airlock_door",
+            () -> new DoorBlock(stone(MapColor.METAL, 5.0f, 12.0f, SoundType.METAL).noOcclusion()
+                    .pushReaction(PushReaction.DESTROY), AIRLOCK));
+    /** Distribuidor de oxígeno: llena de aire la sala sellada en la que está. */
+    public static final RegistryObject<Block> PG_OXYGEN_DISTRIBUTOR = registerBlock("pg_oxygen_distributor",
+            () -> new PGEnergyBlock(stone(MapColor.COLOR_LIGHT_BLUE, 3.5f, 6.0f, SoundType.METAL)
+                    .lightLevel(state -> state.getValue(PGEnergyBlock.LIT) ? 8 : 0),
+                    PGOxygenDistributorBlockEntity::new));
+    /** Tanque de oxígeno de la base: 20 000 de oxígeno. */
+    public static final RegistryObject<Block> PG_OXYGEN_STORAGE = registerBlock("pg_oxygen_storage",
+            () -> new PGOxygenStorageBlock(stone(MapColor.COLOR_CYAN, 3.5f, 6.0f, SoundType.METAL)));
+    /** Depósito: almacén de 54 huecos. */
+    public static final RegistryObject<Block> PG_STORAGE_CRATE = registerBlock("pg_storage_crate",
+            () -> new PGStorageCrateBlock(stone(MapColor.METAL, 3.0f, 6.0f, SoundType.METAL)));
 
     // ===== AYUDANTES =====
     // Pequeños "moldes" para no repetir las mismas propiedades en cada bloque.
