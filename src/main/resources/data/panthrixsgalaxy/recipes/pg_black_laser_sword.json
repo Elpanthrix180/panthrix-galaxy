@@ -3,16 +3,19 @@
   "engineering_category": "laser_swords",
   "category": "equipment",
   "pattern": [
-    " A ",
-    "OEO",
-    " H "
+    "TCT",
+    "NEN",
+    "THT"
   ],
   "key": {
-    "A": {
-      "item": "panthrixsgalaxy:pg_astralite_crystal"
+    "T": {
+      "item": "panthrixsgalaxy:pg_alien_tech"
     },
-    "O": {
-      "item": "panthrixsgalaxy:pg_osmium_ingot"
+    "C": {
+      "item": "panthrixsgalaxy:pg_cosmic_crystal"
+    },
+    "N": {
+      "item": "panthrixsgalaxy:pg_necronite_ingot"
     },
     "E": {
       "item": "panthrixsgalaxy:pg_laser_emitter"
@@ -22,6 +25,6 @@
     }
   },
   "result": {
-    "item": "panthrixsgalaxy:pg_purple_laser_sword"
+    "item": "panthrixsgalaxy:pg_black_laser_sword"
   }
 }

@@ -1,0 +1,30 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "lasers",
+  "category": "equipment",
+  "pattern": [
+    "OOE",
+    " BA",
+    "  P"
+  ],
+  "key": {
+    "O": {
+      "item": "panthrixsgalaxy:pg_osmium_ingot"
+    },
+    "E": {
+      "item": "panthrixsgalaxy:pg_laser_emitter"
+    },
+    "B": {
+      "item": "panthrixsgalaxy:pg_advanced_battery"
+    },
+    "A": {
+      "item": "panthrixsgalaxy:pg_astralite_crystal"
+    },
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_purple_laser_pistol"
+  }
+}

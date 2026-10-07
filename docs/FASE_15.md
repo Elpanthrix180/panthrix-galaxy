@@ -1,5 +1,7 @@
 # FASE 15 — Armas láser 🔫 ✅
 
+> 🌈 **Fase 16B:** ahora hay 6 pistolas (roja, verde, azul, púrpura, dorada, blanca) además del rifle. Ver [FASE_16B.md](FASE_16B.md).
+
 ## 🎯 Objetivo
 Las primeras armas espaciales: disparan **rayos de energía** que gastan la energía del arma (y, si se vacía, la de tu mochila).
 Servirán contra las criaturas de los planetas (Fase 17) y los jefes (Fase 18).

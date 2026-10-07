@@ -1,0 +1,30 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "lasers",
+  "category": "equipment",
+  "pattern": [
+    "LGE",
+    " BP",
+    "  P"
+  ],
+  "key": {
+    "L": {
+      "item": "panthrixsgalaxy:pg_lunarite_ingot"
+    },
+    "G": {
+      "item": "minecraft:emerald"
+    },
+    "E": {
+      "item": "panthrixsgalaxy:pg_laser_emitter"
+    },
+    "B": {
+      "item": "panthrixsgalaxy:pg_basic_battery"
+    },
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_green_laser_pistol"
+  }
+}

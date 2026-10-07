@@ -1,5 +1,7 @@
 # FASE 16 — Espadas láser ⚔️ ✅
 
+> 🌈 **Fase 16B:** ahora hay 7 espadas (azul, verde, roja, púrpura, dorada, blanca, negra) y la púrpura cambió. Ver [FASE_16B.md](FASE_16B.md).
+
 ## 🎯 Objetivo
 Armas cuerpo a cuerpo de energía: se **encienden y se apagan**, gastan energía en vez de desgastarse,
 tienen una hoja brillante de colores y pueden **devolver los rayos láser** en guardia.

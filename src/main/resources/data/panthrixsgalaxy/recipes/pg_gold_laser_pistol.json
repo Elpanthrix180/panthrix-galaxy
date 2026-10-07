@@ -1,0 +1,30 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "lasers",
+  "category": "equipment",
+  "pattern": [
+    "GGE",
+    "TBX",
+    "  X"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "E": {
+      "item": "panthrixsgalaxy:pg_laser_emitter"
+    },
+    "T": {
+      "item": "panthrixsgalaxy:pg_alien_tech"
+    },
+    "B": {
+      "item": "panthrixsgalaxy:pg_advanced_battery"
+    },
+    "X": {
+      "item": "panthrixsgalaxy:pg_xenite_ingot"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_gold_laser_pistol"
+  }
+}

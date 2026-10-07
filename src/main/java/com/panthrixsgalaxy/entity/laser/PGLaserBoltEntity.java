@@ -43,6 +43,7 @@ public class PGLaserBoltEntity extends Projectile {
     private int lifetime = 20;
     private int pierceLeft;
     private double knockback;
+    private boolean armorPiercing;
     /** Enemigos ya alcanzados (para no dañar dos veces al mismo al atravesarlo). */
     private final Set<Integer> hitEntities = new HashSet<>();
 
@@ -60,6 +61,7 @@ public class PGLaserBoltEntity extends Projectile {
         this.lifetime = tier.getLifetime();
         this.pierceLeft = tier.getPierce();
         this.knockback = tier.getKnockback();
+        this.armorPiercing = tier.isArmorPiercing();
         entityData.set(COLOR, tier.getColor());
     }
 
@@ -117,7 +119,8 @@ public class PGLaserBoltEntity extends Projectile {
         if (target instanceof LivingEntity living) {
             living.invulnerableTime = 0; // los disparos rápidos no se "pierden"
         }
-        boolean hurt = target.hurt(ModDamageTypes.laser(level(), this, owner), damage);
+        boolean hurt = target.hurt(armorPiercing ? ModDamageTypes.piercingLaser(level(), this, owner)
+                : ModDamageTypes.laser(level(), this, owner), damage);
         if (hurt && knockback > 0.0 && target instanceof LivingEntity living) {
             Vec3 push = getDeltaMovement().normalize();
             living.knockback(knockback, -push.x, -push.z);

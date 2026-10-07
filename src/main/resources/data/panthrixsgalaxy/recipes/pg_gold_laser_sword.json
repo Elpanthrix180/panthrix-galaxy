@@ -3,25 +3,28 @@
   "engineering_category": "laser_swords",
   "category": "equipment",
   "pattern": [
-    " A ",
-    "OEO",
-    " H "
+    " G ",
+    "XEX",
+    "TH "
   ],
   "key": {
-    "A": {
-      "item": "panthrixsgalaxy:pg_astralite_crystal"
+    "G": {
+      "item": "minecraft:gold_block"
     },
-    "O": {
-      "item": "panthrixsgalaxy:pg_osmium_ingot"
+    "X": {
+      "item": "panthrixsgalaxy:pg_xenite_ingot"
     },
     "E": {
       "item": "panthrixsgalaxy:pg_laser_emitter"
+    },
+    "T": {
+      "item": "panthrixsgalaxy:pg_alien_tech"
     },
     "H": {
       "item": "panthrixsgalaxy:pg_laser_sword_hilt"
     }
   },
   "result": {
-    "item": "panthrixsgalaxy:pg_purple_laser_sword"
+    "item": "panthrixsgalaxy:pg_gold_laser_sword"
   }
 }

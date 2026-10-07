@@ -31,4 +31,5 @@ Necesitas Java 17. La primera ejecución descarga Minecraft y Forge (tarda un ra
 - [Fase 14](docs/FASE_14.md) — naves espaciales
 - [Fase 15](docs/FASE_15.md) — armas láser
 - [Fase 16](docs/FASE_16.md) — espadas láser
+- [Fase 16B](docs/FASE_16B.md) — todos los colores de láseres y espadas
 - [Fase 17](docs/FASE_17.md) — criaturas

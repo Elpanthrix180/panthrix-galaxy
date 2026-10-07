@@ -34,6 +34,15 @@ public final class ModDamageTypes {
                 direct, owner);
     }
 
+    /** Láser que perfora armaduras (pistola púrpura y blanca, espada púrpura): atraviesa la armadura. */
+    public static final ResourceKey<DamageType> PIERCING_LASER =
+            ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(PanthrixsGalaxy.MOD_ID, "piercing_laser"));
+
+    public static DamageSource piercingLaser(Level level, Entity direct, @Nullable Entity owner) {
+        return new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PIERCING_LASER),
+                direct, owner);
+    }
+
     public static DamageSource noOxygen(Level level) {
         return source(level, NO_OXYGEN);
     }

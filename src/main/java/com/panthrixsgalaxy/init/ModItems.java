@@ -246,9 +246,24 @@ public final class ModItems {
     public static final RegistryObject<Item> PG_FOCUSING_LENS = material("pg_focusing_lens");
     public static final RegistryObject<Item> PG_LASER_EMITTER = material("pg_laser_emitter", Rarity.UNCOMMON);
 
-    /** Pistola láser: rápida. Lunarita y selenita (Luna). */
+    /** 🔴 Pistola láser roja: la básica. Lunarita (Luna). */
     public static final RegistryObject<Item> PG_LASER_PISTOL = ITEMS.register("pg_laser_pistol",
             () -> new PGLaserItem(LaserTier.PISTOL, new Item.Properties().rarity(Rarity.UNCOMMON)));
+    /** 🟢 Verde: gasta poca energía. Lunarita y esmeralda. */
+    public static final RegistryObject<Item> PG_GREEN_LASER_PISTOL = ITEMS.register("pg_green_laser_pistol",
+            () -> new PGLaserItem(LaserTier.GREEN, new Item.Properties().rarity(Rarity.UNCOMMON)));
+    /** 🔵 Azul: más daño. Marteíta y cristal marciano. */
+    public static final RegistryObject<Item> PG_BLUE_LASER_PISTOL = ITEMS.register("pg_blue_laser_pistol",
+            () -> new PGLaserItem(LaserTier.BLUE, new Item.Properties().rarity(Rarity.RARE)));
+    /** 🟣 Púrpura: perfora armaduras. Osmio y astralita (asteroides). */
+    public static final RegistryObject<Item> PG_PURPLE_LASER_PISTOL = ITEMS.register("pg_purple_laser_pistol",
+            () -> new PGLaserItem(LaserTier.PURPLE, new Item.Properties().rarity(Rarity.RARE)));
+    /** 🟡 Dorada: ráfaga rápida. Xenita, oro y tecnología alienígena. */
+    public static final RegistryObject<Item> PG_GOLD_LASER_PISTOL = ITEMS.register("pg_gold_laser_pistol",
+            () -> new PGLaserItem(LaserTier.GOLD, new Item.Properties().rarity(Rarity.EPIC)));
+    /** ⚪ Blanca: extremadamente poderosa. Cristal cósmico, necronita y tecnología alienígena. */
+    public static final RegistryObject<Item> PG_WHITE_LASER_PISTOL = ITEMS.register("pg_white_laser_pistol",
+            () -> new PGLaserItem(LaserTier.WHITE, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
     /** Rifle láser: potente y atraviesa enemigos. Marteíta y cristal marciano (Marte). */
     public static final RegistryObject<Item> PG_LASER_RIFLE = ITEMS.register("pg_laser_rifle",
             () -> new PGLaserItem(LaserTier.RIFLE, new Item.Properties().rarity(Rarity.RARE)));
@@ -264,9 +279,21 @@ public final class ModItems {
     /** Hoja roja (cristal marciano, Marte): quema. */
     public static final RegistryObject<Item> PG_RED_LASER_SWORD = ITEMS.register("pg_red_laser_sword",
             () -> new PGLaserSwordItem(LaserSwordTier.RED, new Item.Properties().rarity(Rarity.RARE)));
-    /** Hoja morada (cristal cósmico y xenita): la más fuerte. */
+    /** Hoja verde (selenita y esmeralda): gasta muy poca energía. */
+    public static final RegistryObject<Item> PG_GREEN_LASER_SWORD = ITEMS.register("pg_green_laser_sword",
+            () -> new PGLaserSwordItem(LaserSwordTier.GREEN, new Item.Properties().rarity(Rarity.UNCOMMON)));
+    /** Hoja púrpura (osmio y astralita): perfora armaduras. */
     public static final RegistryObject<Item> PG_PURPLE_LASER_SWORD = ITEMS.register("pg_purple_laser_sword",
-            () -> new PGLaserSwordItem(LaserSwordTier.PURPLE, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+            () -> new PGLaserSwordItem(LaserSwordTier.PURPLE, new Item.Properties().rarity(Rarity.RARE)));
+    /** Hoja dorada (xenita, oro y tecnología alienígena): muy rápida. */
+    public static final RegistryObject<Item> PG_GOLD_LASER_SWORD = ITEMS.register("pg_gold_laser_sword",
+            () -> new PGLaserSwordItem(LaserSwordTier.GOLD, new Item.Properties().rarity(Rarity.EPIC)));
+    /** Hoja blanca (cristal cósmico y tecnología alienígena): muy fuerte, hace brillar al enemigo. */
+    public static final RegistryObject<Item> PG_WHITE_LASER_SWORD = ITEMS.register("pg_white_laser_sword",
+            () -> new PGLaserSwordItem(LaserSwordTier.WHITE, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    /** ⚫ Hoja NEGRA: extremadamente rara. Necronita (de la Reina alienígena) y tecnología alienígena. */
+    public static final RegistryObject<Item> PG_BLACK_LASER_SWORD = ITEMS.register("pg_black_laser_sword",
+            () -> new PGLaserSwordItem(LaserSwordTier.BLACK, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
 
     // ===== CRIATURAS (Fase 17) =====
 

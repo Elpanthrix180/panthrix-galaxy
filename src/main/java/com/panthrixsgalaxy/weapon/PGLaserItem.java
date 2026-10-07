@@ -71,9 +71,9 @@ public class PGLaserItem extends Item {
             bolt.shoot(player.getLookAngle().x, player.getLookAngle().y, player.getLookAngle().z, (float) tier.getSpeed(), 0.0f);
             level.addFreshEntity(bolt);
             level.playSound(null, player.blockPosition(), SoundEvents.FIREWORK_ROCKET_BLAST, SoundSource.PLAYERS,
-                    0.6f, tier == LaserTier.PISTOL ? 2.0f : 1.4f);
+                    0.6f, tier.getSoundPitch());
             level.playSound(null, player.blockPosition(), SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.PLAYERS,
-                    1.0f, tier == LaserTier.PISTOL ? 1.8f : 1.2f);
+                    1.0f, tier.getSoundPitch() * 0.9f);
             showShotsLeft(stack, player);
         }
         player.getCooldowns().addCooldown(this, tier.getCooldown());
@@ -142,6 +142,9 @@ public class PGLaserItem extends Item {
         if (tier.getPierce() > 0) {
             tooltip.add(Component.translatable("tooltip.panthrixsgalaxy.laser_pierce", tier.getPierce())
                     .withStyle(ChatFormatting.LIGHT_PURPLE));
+        }
+        if (tier.isArmorPiercing()) {
+            tooltip.add(Component.translatable("tooltip.panthrixsgalaxy.armor_piercing").withStyle(ChatFormatting.LIGHT_PURPLE));
         }
         tooltip.add(Component.translatable("tooltip.panthrixsgalaxy.laser_hint").withStyle(ChatFormatting.GRAY));
         super.appendHoverText(stack, level, tooltip, flag);

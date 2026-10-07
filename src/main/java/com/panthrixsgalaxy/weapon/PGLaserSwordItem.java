@@ -2,6 +2,7 @@ package com.panthrixsgalaxy.weapon;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import com.panthrixsgalaxy.init.ModDamageTypes;
 import com.panthrixsgalaxy.system.energy.ItemEnergyStorage;
 import com.panthrixsgalaxy.system.energy.PortableEnergy;
 import net.minecraft.ChatFormatting;
@@ -15,6 +16,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -44,6 +47,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Espada láser.
@@ -56,7 +60,8 @@ import java.util.List;
  * Apagada es solo una empuñadura (pega como el puño). Encendida:
  *   - hace el daño de su cristal y gasta energía en cada golpe y mientras está encendida;
  *   - nunca se desgasta (no tiene durabilidad): lo que se gasta es la energía;
- *   - si se queda sin energía (ni en la espada ni en la mochila), se apaga sola.
+ *   - si se queda sin energía (ni en la espada ni en la mochila), se apaga sola;
+ *   - cada color tiene su habilidad especial (fuego, perforar, brillo, robo de vida...).
  */
 public class PGLaserSwordItem extends SwordItem {
 
@@ -143,7 +148,7 @@ public class PGLaserSwordItem extends SwordItem {
             setActive(stack, false); // al guardarla se apaga sola
             return;
         }
-        if (player.tickCount % 20 == 0 && !PortableEnergy.consume(stack, player, LaserSwordTier.IDLE_COST_PER_SECOND)) {
+        if (player.tickCount % 20 == 0 && !PortableEnergy.consume(stack, player, tier.getIdleCost())) {
             shutDown(level, player, stack);
             return;
         }
@@ -172,13 +177,33 @@ public class PGLaserSwordItem extends SwordItem {
             shutDown(attacker.level(), player, stack);
             return true;
         }
-        if (tier.getFireSeconds() > 0) {
-            target.setSecondsOnFire(tier.getFireSeconds());
-        }
+        applySpecial(target, attacker);
         sparks(attacker.level(), target.position().add(0.0, target.getBbHeight() * 0.6, 0.0), tier.getColor(), 8);
         attacker.level().playSound(null, target.blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS,
                 0.7f, 1.6f);
         return true;
+    }
+
+    /** Habilidad especial de la hoja (ver LaserSwordTier.Special). */
+    private void applySpecial(LivingEntity target, LivingEntity attacker) {
+        switch (tier.getSpecial()) {
+            case FIRE -> target.setSecondsOnFire(3);
+            case PIERCE -> {
+                target.invulnerableTime = 0;
+                target.hurt(ModDamageTypes.piercingLaser(attacker.level(), attacker, attacker), 3.0f);
+            }
+            case GLOW -> {
+                target.addEffect(new MobEffectInstance(MobEffects.GLOWING, 100, 0), attacker);
+                Vec3 push = target.position().subtract(attacker.position()).normalize();
+                target.knockback(0.8, -push.x, -push.z);
+            }
+            case VOID -> {
+                target.addEffect(new MobEffectInstance(MobEffects.WITHER, 60, 1), attacker);
+                attacker.heal(getDamage() * 0.25f);
+            }
+            case NONE -> {
+            }
+        }
     }
 
     /** Romper bloques tampoco la desgasta. */
@@ -294,8 +319,12 @@ public class PGLaserSwordItem extends SwordItem {
                 : "tooltip.panthrixsgalaxy.laser_sword_off").withStyle(isActive(stack) ? ChatFormatting.GREEN : ChatFormatting.DARK_GRAY));
         tooltip.add(Component.translatable("tooltip.panthrixsgalaxy.energy_amount",
                 ItemEnergyStorage.getEnergy(stack), tier.getCapacity()).withStyle(ChatFormatting.YELLOW));
-        if (tier.getFireSeconds() > 0) {
-            tooltip.add(Component.translatable("tooltip.panthrixsgalaxy.laser_sword_fire").withStyle(ChatFormatting.GOLD));
+        if (tier.getSpecial() != LaserSwordTier.Special.NONE) {
+            tooltip.add(Component.translatable("tooltip.panthrixsgalaxy.laser_sword_special."
+                    + tier.getSpecial().name().toLowerCase(Locale.ROOT)).withStyle(ChatFormatting.GOLD));
+        }
+        if (tier == LaserSwordTier.GREEN) {
+            tooltip.add(Component.translatable("tooltip.panthrixsgalaxy.laser_sword_efficient").withStyle(ChatFormatting.GREEN));
         }
         tooltip.add(Component.translatable("tooltip.panthrixsgalaxy.laser_sword_hint").withStyle(ChatFormatting.GRAY));
         super.appendHoverText(stack, level, tooltip, flag);
