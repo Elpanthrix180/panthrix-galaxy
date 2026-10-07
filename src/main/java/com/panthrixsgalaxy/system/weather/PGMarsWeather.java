@@ -12,8 +12,9 @@ import net.minecraftforge.fml.common.Mod;
  * Tormentas de polvo de Marte.
  *
  * Cada 15 minutos hay una tormenta de 3 minutos (empieza y acaba poco a poco).
- * Se calcula a partir del reloj del mundo, así el servidor y todos los jugadores
+ * Se calcula a partir de la hora del día del mundo, así el servidor y todos los jugadores
  * saben a la vez si hay tormenta sin tener que enviarse mensajes.
+ * Para probarla: /time add 18000 (o hasta que salga el aviso).
  *
  * Durante la tormenta:
  *   - El viento empuja a los jugadores que están al aire libre.
@@ -40,7 +41,7 @@ public final class PGMarsWeather {
         if (!level.dimension().equals(PGPlanets.MARS_LEVEL)) {
             return 0.0f;
         }
-        long time = level.getGameTime() % CYCLE_TICKS;
+        long time = Math.floorMod(level.getDayTime(), CYCLE_TICKS);
         if (time >= STORM_TICKS) {
             return 0.0f;
         }
@@ -57,7 +58,7 @@ public final class PGMarsWeather {
      * Dirección del viento (cambia lentamente con el tiempo), en radianes.
      */
     public static double getWindAngle(Level level) {
-        return (level.getGameTime() / CYCLE_TICKS) * 1.7;
+        return Math.floorDiv(level.getDayTime(), CYCLE_TICKS) * 1.7;
     }
 
     /**

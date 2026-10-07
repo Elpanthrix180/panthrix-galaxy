@@ -83,8 +83,8 @@ la gravedad, el oxígeno, la temperatura, la navegación, el aterrizaje y el des
    - [ ] Logro **"Planeta Rojo"**.
    - [ ] Saltas unos 2,5 bloques. Caer desde 200 no te mata... de golpe (¡prueba con cuidado!).
    - [ ] `/time set night` → cielo oscuro con estrellas.
-3. **Tormenta:** `/time add 0` no sirve; usa `/tick`… o simplemente espera: hay tormenta los **3 primeros minutos de cada 15**.
-   Truco: `/time set 0` no cambia el reloj de tormentas; para forzarla pon `/time add 18000` varias veces hasta que salga el aviso.
+3. **Tormenta:** hay tormenta los **3 primeros minutos de cada 15** (según la hora del mundo).
+   Para provocarla: `/time set 0` (empieza una tormenta) o `/time add 18000`. Para quitarla: `/time add 4000`.
    - [ ] Niebla rojiza, polvo volando, el viento te empuja; bajo techo no.
 4. **Minería:** pica en la piedra marciana: marteíta, cristal marciano, hierro oxidado, mineral marciano. Busca **hielo** cerca de la superficie, rómpelo y recoge el agua con un cubo.
 5. **El viaje de verdad:** cohete **avanzado** lleno → despega en la Tierra → Espacio → ESPACIO hasta *"Destino: Marte"* → navega → aterriza.
@@ -97,7 +97,7 @@ la gravedad, el oxígeno, la temperatura, la navegación, el aterrizaje y el des
 | El cielo no es naranja | Falta registrar `PGMarsEffects` o el campo `"effects": "panthrixsgalaxy:mars"`. |
 | No llego a Marte con el cohete | Necesitas el **cohete avanzado** (nivel 2). |
 | El hielo no da agua | Rómpelo sin "Toque de seda" y con un bloque debajo; se convierte en agua. |
-| La tormenta no llega nunca | Son 3 minutos de cada 15 según el reloj del mundo; ten paciencia o avanza el tiempo. |
+| La tormenta no llega nunca | Son 3 minutos de cada 15 según la hora del mundo. Prueba `/time set 0`. Si `doDaylightCycle` está desactivado, la hora no avanza. |
 
 ## ✅ Checklist final
 - [x] Dimensión Marte con suelo rojo, montañas y cráteres
