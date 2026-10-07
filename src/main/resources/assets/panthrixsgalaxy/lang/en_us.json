@@ -247,5 +247,9 @@
   "advancements.panthrixsgalaxy.root.title": "Panthrixs Galaxy",
   "advancements.panthrixsgalaxy.root.description": "Your space adventure starts on Earth",
   "advancements.panthrixsgalaxy.moon_first_step.title": "One Small Step",
-  "advancements.panthrixsgalaxy.moon_first_step.description": "Set foot on the Moon for the first time"
+  "advancements.panthrixsgalaxy.moon_first_step.description": "Set foot on the Moon for the first time",
+  "message.panthrixsgalaxy.dust_storm_start": "⚠ Dust storm! The wind pushes you and visibility is low",
+  "message.panthrixsgalaxy.dust_storm_end": "The dust storm has passed",
+  "advancements.panthrixsgalaxy.mars_red_planet.title": "Red Planet",
+  "advancements.panthrixsgalaxy.mars_red_planet.description": "Set foot on Mars for the first time"
 }

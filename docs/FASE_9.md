@@ -40,6 +40,7 @@ cohete, repostarlo y subirse. (El despegue llega en la **Fase 10**.)
 | Polvo de blaze | 250 mB |
 | Vara de blaze / helio-3 | 500 mB |
 | Bloque de carbón | 900 mB |
+| *(Fase 13)* Mineral marciano | 150 mB |
 
 ### 🟨 Plataforma de lanzamiento
 | Bloque | ID | Receta |

@@ -33,6 +33,7 @@ import org.jetbrains.annotations.Nullable;
  *
  *   Carbón / carbón vegetal = 100 mB     Polvo de blaze = 250 mB     Vara de blaze = 500 mB
  *   Bloque de carbón        = 900 mB     Helio-3        = 500 mB
+ *   Mineral marciano        = 150 mB  (metano atrapado en la roca: para repostar en Marte)
  *
  * Gasta 40 FE por tick mientras refina (2 mB por tick = 40 mB por segundo).
  * Se le echan materiales con clic derecho o con tolva.
@@ -81,6 +82,9 @@ public class PGFuelRefineryBlockEntity extends PGEnergyBlockEntity {
         }
         if (stack.is(Items.BLAZE_ROD) || stack.is(ModItems.PG_HELIUM_3.get())) {
             return 500;
+        }
+        if (stack.is(ModItems.PG_MARTIAN_MINERAL.get())) {
+            return 150;
         }
         return 0;
     }

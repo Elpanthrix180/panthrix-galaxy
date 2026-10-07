@@ -1,13 +1,18 @@
 package com.panthrixsgalaxy.client;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
-import com.panthrixsgalaxy.entity.rocket.PGRocketEntity;
 import com.panthrixsgalaxy.entity.rocket.LaunchState;
+import com.panthrixsgalaxy.entity.rocket.PGRocketEntity;
 import com.panthrixsgalaxy.network.BackpackActionPacket;
-import com.panthrixsgalaxy.network.RocketLaunchPacket;
 import com.panthrixsgalaxy.network.PGNetwork;
+import com.panthrixsgalaxy.network.RocketLaunchPacket;
+import com.panthrixsgalaxy.planet.PGPlanets;
+import com.panthrixsgalaxy.system.weather.PGMarsWeather;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
@@ -16,6 +21,7 @@ import net.minecraftforge.client.event.ViewportEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.joml.Vector3f;
 
 /** Eventos que ocurren en la pantalla del jugador durante la partida (teclas pulsadas...). */
 @Mod.EventBusSubscriber(modid = PanthrixsGalaxy.MOD_ID, value = Dist.CLIENT)
@@ -25,6 +31,10 @@ public final class PGClientEvents {
     private static boolean jumpWasDown;
     /** Dimensión del tick anterior (para detectar el cambio y hacer el fundido a negro). */
     private static ResourceKey<Level> lastDimension;
+    /** ¿Había tormenta de polvo en el tick anterior? (para avisar al empezar y acabar) */
+    private static boolean lastStorm;
+    /** Color del polvo marciano. */
+    private static final DustParticleOptions MARS_DUST = new DustParticleOptions(new Vector3f(0.8f, 0.42f, 0.22f), 1.6f);
 
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
@@ -41,6 +51,7 @@ public final class PGClientEvents {
             lastDimension = dimension;
         }
         RocketHudOverlay.tickFade();
+        tickMarsStorm(minecraft);
 
         // ESPACIO dentro del cohete: iniciar / cancelar la cuenta atrás
         boolean jumpDown = minecraft.options.keyJump.isDown();
@@ -66,6 +77,68 @@ public final class PGClientEvents {
         if (event.getEntity().getVehicle() instanceof PGRocketEntity) {
             event.setCanceled(true);
         }
+    }
+
+    /** Tormenta de polvo: polvo rojo volando con el viento y avisos al empezar y acabar. */
+    private static void tickMarsStorm(Minecraft minecraft) {
+        if (minecraft.level == null || minecraft.player == null || minecraft.isPaused()) {
+            return;
+        }
+        float intensity = PGMarsWeather.getStormIntensity(minecraft.level);
+        boolean storm = intensity > 0.0f;
+        if (storm != lastStorm && minecraft.level.dimension().equals(PGPlanets.MARS_LEVEL)) {
+            minecraft.player.displayClientMessage(Component.translatable(storm
+                    ? "message.panthrixsgalaxy.dust_storm_start"
+                    : "message.panthrixsgalaxy.dust_storm_end").withStyle(storm ? ChatFormatting.GOLD : ChatFormatting.GREEN), true);
+        }
+        lastStorm = storm;
+        if (!storm) {
+            return;
+        }
+        double angle = PGMarsWeather.getWindAngle(minecraft.level);
+        double windX = Math.cos(angle) * 0.6;
+        double windZ = Math.sin(angle) * 0.6;
+        int count = (int) (intensity * 14);
+        var random = minecraft.level.random;
+        for (int i = 0; i < count; i++) {
+            double x = minecraft.player.getX() + (random.nextDouble() - 0.5) * 24.0;
+            double y = minecraft.player.getY() + random.nextDouble() * 8.0 - 1.0;
+            double z = minecraft.player.getZ() + (random.nextDouble() - 0.5) * 24.0;
+            minecraft.level.addParticle(MARS_DUST, x, y, z, windX, 0.0, windZ);
+        }
+    }
+
+    /** Tormenta de polvo: la niebla se vuelve rojiza. */
+    @SubscribeEvent
+    public static void onMarsFogColor(ViewportEvent.ComputeFogColor event) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.level == null) {
+            return;
+        }
+        float intensity = PGMarsWeather.getStormIntensity(minecraft.level);
+        if (intensity <= 0.0f) {
+            return;
+        }
+        event.setRed(event.getRed() + (0.72f - event.getRed()) * intensity);
+        event.setGreen(event.getGreen() + (0.40f - event.getGreen()) * intensity);
+        event.setBlue(event.getBlue() + (0.24f - event.getBlue()) * intensity);
+    }
+
+    /** Tormenta de polvo: solo se ve a unos 30 bloques. */
+    @SubscribeEvent
+    public static void onMarsFog(ViewportEvent.RenderFog event) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.level == null) {
+            return;
+        }
+        float intensity = PGMarsWeather.getStormIntensity(minecraft.level);
+        if (intensity <= 0.0f) {
+            return;
+        }
+        float far = event.getFarPlaneDistance() + (28.0f - event.getFarPlaneDistance()) * intensity;
+        event.setFarPlaneDistance(far);
+        event.setNearPlaneDistance(far * 0.05f);
+        event.setCanceled(true); // necesario para que Minecraft use nuestros valores
     }
 
     /**

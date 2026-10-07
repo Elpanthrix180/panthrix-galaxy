@@ -20,7 +20,8 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
  *               ▀▀▄▄▄▄▄▀▀             <- fondo del cráter (regolito)
  *
  * 70 % pequeños (radio 3-6) y 30 % grandes (radio 8-12).
- * Se usa en la Luna y servirá también para Marte y los asteroides.
+ * El fondo y el borde se hacen con el mismo bloque que hay en la superficie
+ * (regolito en la Luna, suelo marciano en Marte...).
  */
 public class PGCraterFeature extends Feature<NoneFeatureConfiguration> {
 
@@ -33,12 +34,16 @@ public class PGCraterFeature extends Feature<NoneFeatureConfiguration> {
         WorldGenLevel level = context.level();
         RandomSource random = context.random();
         BlockPos origin = context.origin();
-        BlockState surface = ModBlocks.PG_LUNAR_REGOLITH.get().defaultBlockState();
         BlockState air = Blocks.AIR.defaultBlockState();
 
         int radius = random.nextFloat() < 0.7f ? 3 + random.nextInt(4) : 8 + random.nextInt(5);
         int rim = 2;
         int centerY = level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, origin.getX(), origin.getZ());
+        // Material de la superficie donde cae el cráter
+        BlockState surface = level.getBlockState(new BlockPos(origin.getX(), centerY - 1, origin.getZ()));
+        if (surface.isAir()) {
+            surface = ModBlocks.PG_LUNAR_REGOLITH.get().defaultBlockState();
+        }
         double depth = radius * 0.45;
 
         for (int dx = -radius - rim; dx <= radius + rim; dx++) {

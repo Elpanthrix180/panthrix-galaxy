@@ -4,6 +4,7 @@ import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.client.model.PGRocketModel;
 import com.panthrixsgalaxy.client.renderer.PGRocketRenderer;
 import com.panthrixsgalaxy.client.screen.PGBackpackScreen;
+import com.panthrixsgalaxy.client.sky.PGMarsEffects;
 import com.panthrixsgalaxy.client.sky.PGMoonEffects;
 import com.panthrixsgalaxy.client.sky.PGSpaceEffects;
 import com.panthrixsgalaxy.client.screen.PGEngineeringBenchScreen;
@@ -67,11 +68,12 @@ public final class PGClientModEvents {
         });
     }
 
-    /** Aspecto especial del Espacio y de la Luna (cielo negro, estrellas, planetas). */
+    /** Aspecto especial del Espacio, la Luna y Marte. */
     @SubscribeEvent
     public static void onRegisterDimensionEffects(RegisterDimensionSpecialEffectsEvent event) {
         event.register(new ResourceLocation(PanthrixsGalaxy.MOD_ID, "space"), new PGSpaceEffects());
         event.register(new ResourceLocation(PanthrixsGalaxy.MOD_ID, "moon"), new PGMoonEffects());
+        event.register(new ResourceLocation(PanthrixsGalaxy.MOD_ID, "mars"), new PGMarsEffects());
     }
 
     /** Une cada entidad con la clase que la dibuja. */

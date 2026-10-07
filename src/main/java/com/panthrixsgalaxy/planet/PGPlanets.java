@@ -34,6 +34,10 @@ public final class PGPlanets {
     public static final ResourceKey<Level> MOON_LEVEL = ResourceKey.create(Registries.DIMENSION,
             new ResourceLocation(PanthrixsGalaxy.MOD_ID, "moon"));
 
+    /** La dimensión Marte (data/panthrixsgalaxy/dimension/mars.json). */
+    public static final ResourceKey<Level> MARS_LEVEL = ResourceKey.create(Registries.DIMENSION,
+            new ResourceLocation(PanthrixsGalaxy.MOD_ID, "mars"));
+
     /** Altura a la que se aparece en el Espacio. */
     public static final int SPACE_ARRIVAL_Y = 100;
     /** Si el cohete baja de esta altura en el Espacio, vuelve a entrar en la atmósfera de la Tierra. */
@@ -46,8 +50,8 @@ public final class PGPlanets {
     /** La Luna (Fase 12): gravedad 0,17, sin aire. Sale al Espacio a Y 250. */
     public static final PGPlanet MOON = new PGPlanet("moon", MOON_LEVEL, 1,
             new Vec3(0, 0, -600), 60.0f, 90.0f, 0.17, false, 250, texture("moon"));
-    /** Marte: su dimensión llegará en la Fase 13. */
-    public static final PGPlanet MARS = new PGPlanet("mars", null, 2,
+    /** Marte (Fase 13): gravedad 0,38, sin aire, tormentas de polvo. Necesita el cohete avanzado. */
+    public static final PGPlanet MARS = new PGPlanet("mars", MARS_LEVEL, 2,
             new Vec3(1400, 0, -900), 110.0f, 150.0f, 0.38, false, 350, texture("mars"));
 
     /** Todos los cuerpos celestes, en el orden en que se eligen como destino. */

@@ -28,7 +28,7 @@ drops y recetas de horno.
 |---|---|---|---|
 | Suelo marciano | `pg_martian_soil` | Superficie (pala) | Construcción de colonias |
 | Piedra marciana | `pg_martian_stone` | Subsuelo (pico) | Construcción; roca de las menas |
-| Mena mineral marciana → Mineral marciano | `pg_martian_ore` → `pg_martian_mineral` | Pico de piedra+ | **Cerámica térmica** para motores |
+| Mena mineral marciana → Mineral marciano | `pg_martian_ore` → `pg_martian_mineral` | Pico de piedra+ | **Cerámica térmica** para motores; *(Fase 13)* **combustible** en la refinería |
 | Mena de marteíta → Marteíta en bruto | `pg_martianite_ore` → `pg_raw_martianite` | Pico de lunarita+ | Fundir en lingote |
 | Lingote de marteíta | `pg_martianite_ingot` | Horno | **Nave espacial**, herramientas de marteíta |
 | Mena de cristal marciano → Cristal marciano | `pg_martian_crystal_ore` → `pg_martian_crystal` | Pico de lunarita+ | **Lentes de los láseres**, baterías avanzadas |

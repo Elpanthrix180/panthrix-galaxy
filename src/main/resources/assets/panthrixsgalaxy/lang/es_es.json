@@ -247,5 +247,9 @@
   "advancements.panthrixsgalaxy.root.title": "Panthrixs Galaxy",
   "advancements.panthrixsgalaxy.root.description": "Tu aventura espacial empieza en la Tierra",
   "advancements.panthrixsgalaxy.moon_first_step.title": "Un pequeño paso",
-  "advancements.panthrixsgalaxy.moon_first_step.description": "Pisa la Luna por primera vez"
+  "advancements.panthrixsgalaxy.moon_first_step.description": "Pisa la Luna por primera vez",
+  "message.panthrixsgalaxy.dust_storm_start": "⚠ ¡Tormenta de polvo! El viento te empuja y apenas se ve",
+  "message.panthrixsgalaxy.dust_storm_end": "La tormenta de polvo ha pasado",
+  "advancements.panthrixsgalaxy.mars_red_planet.title": "Planeta Rojo",
+  "advancements.panthrixsgalaxy.mars_red_planet.description": "Pisa Marte por primera vez"
 }

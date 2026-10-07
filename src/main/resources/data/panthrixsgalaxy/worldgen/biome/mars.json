@@ -1,0 +1,31 @@
+{
+  "has_precipitation": false,
+  "temperature": 0.5,
+  "downfall": 0.0,
+  "effects": {
+    "sky_color": 14721136,
+    "fog_color": 13140058,
+    "water_color": 4159204,
+    "water_fog_color": 329011
+  },
+  "spawners": {},
+  "spawn_costs": {},
+  "carvers": {},
+  "features": [
+    [],
+    [],
+    [
+      "panthrixsgalaxy:mars_crater"
+    ],
+    [],
+    [],
+    [],
+    [
+      "panthrixsgalaxy:mars_ore_mineral",
+      "panthrixsgalaxy:mars_ore_martianite",
+      "panthrixsgalaxy:mars_ore_crystal",
+      "panthrixsgalaxy:mars_ore_rusted_iron",
+      "panthrixsgalaxy:mars_ice"
+    ]
+  ]
+}

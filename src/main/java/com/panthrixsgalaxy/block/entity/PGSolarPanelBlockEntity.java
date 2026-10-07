@@ -2,6 +2,7 @@ package com.panthrixsgalaxy.block.entity;
 
 import com.panthrixsgalaxy.init.ModBlockEntities;
 import com.panthrixsgalaxy.system.oxygen.PGAtmosphere;
+import com.panthrixsgalaxy.system.weather.PGMarsWeather;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.LightLayer;
@@ -58,6 +59,8 @@ public class PGSolarPanelBlockEntity extends PGEnergyBlockEntity {
         if (PGAtmosphere.isAirlessDimension(level)) {
             generation *= 2.0f;
         }
+        // Tormenta de polvo en Marte: el polvo tapa el sol
+        generation *= 1.0f - 0.7f * PGMarsWeather.getStormIntensity(level);
         return Math.max(1, Math.round(generation));
     }
 
