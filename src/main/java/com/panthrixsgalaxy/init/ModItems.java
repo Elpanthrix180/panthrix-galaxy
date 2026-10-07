@@ -12,6 +12,8 @@ import com.panthrixsgalaxy.item.PGRocketItem;
 import com.panthrixsgalaxy.item.PGShipItem;
 import com.panthrixsgalaxy.item.PGOxygenTankItem;
 import com.panthrixsgalaxy.item.PGTestItem;
+import com.panthrixsgalaxy.weapon.LaserTier;
+import com.panthrixsgalaxy.weapon.PGLaserItem;
 import com.panthrixsgalaxy.tool.PGToolTiers;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.AxeItem;
@@ -230,6 +232,19 @@ public final class ModItems {
     /** Nave avanzada: planetas exteriores y alienígenas. Lleva metal de asteroide y osmio. */
     public static final RegistryObject<Item> PG_ADVANCED_SPACE_SHIP = ITEMS.register("pg_advanced_space_ship",
             () -> new PGShipItem(ShipTier.ADVANCED, new Item.Properties().rarity(Rarity.EPIC)));
+
+    // ===== ARMAS LÁSER (Fase 15) =====
+
+    /** Componentes del láser (Banco de Ingeniería, categoría Láseres). */
+    public static final RegistryObject<Item> PG_FOCUSING_LENS = material("pg_focusing_lens");
+    public static final RegistryObject<Item> PG_LASER_EMITTER = material("pg_laser_emitter", Rarity.UNCOMMON);
+
+    /** Pistola láser: rápida. Lunarita y selenita (Luna). */
+    public static final RegistryObject<Item> PG_LASER_PISTOL = ITEMS.register("pg_laser_pistol",
+            () -> new PGLaserItem(LaserTier.PISTOL, new Item.Properties().rarity(Rarity.UNCOMMON)));
+    /** Rifle láser: potente y atraviesa enemigos. Marteíta y cristal marciano (Marte). */
+    public static final RegistryObject<Item> PG_LASER_RIFLE = ITEMS.register("pg_laser_rifle",
+            () -> new PGLaserItem(LaserTier.RIFLE, new Item.Properties().rarity(Rarity.RARE)));
 
     // ===== AYUDANTES =====
 

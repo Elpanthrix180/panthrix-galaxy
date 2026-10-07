@@ -295,5 +295,19 @@
   "hud.panthrixsgalaxy.ship_controls": "ESPACIO motores · W avanzar · S frenar · Mayús bajar (en tierra)",
   "hud.panthrixsgalaxy.ship_no_fuel": "¡SIN COMBUSTIBLE!",
   "hud.panthrixsgalaxy.ship_no_life_support": "¡SIN ENERGÍA! Soporte vital apagado: usa el casco",
-  "hud.panthrixsgalaxy.ship_hull_critical": "¡CASCO CRÍTICO!"
+  "hud.panthrixsgalaxy.ship_hull_critical": "¡CASCO CRÍTICO!",
+  "item.panthrixsgalaxy.pg_focusing_lens": "Lente de enfoque",
+  "item.panthrixsgalaxy.pg_laser_emitter": "Emisor láser",
+  "item.panthrixsgalaxy.pg_laser_pistol": "Pistola láser",
+  "item.panthrixsgalaxy.pg_laser_rifle": "Rifle láser",
+  "entity.panthrixsgalaxy.laser_bolt": "Rayo láser",
+  "death.attack.panthrixsgalaxy.laser": "%1$s fue alcanzado por un rayo láser",
+  "death.attack.panthrixsgalaxy.laser.player": "%1$s fue alcanzado por el láser de %2$s",
+  "death.attack.panthrixsgalaxy.laser.item": "%1$s fue alcanzado por el láser de %2$s con %3$s",
+  "tooltip.panthrixsgalaxy.laser_stats": "Daño %s ❤ · Alcance %s bloques · %s disparos",
+  "tooltip.panthrixsgalaxy.laser_pierce": "Atraviesa %s enemigos",
+  "tooltip.panthrixsgalaxy.laser_hint": "Clic derecho: disparar · Cárgala en un generador o celda; si se vacía, usa la energía de la mochila",
+  "message.panthrixsgalaxy.laser_no_energy": "Sin energía: carga el arma o la mochila",
+  "message.panthrixsgalaxy.laser_shots": "Láser: %s disparos",
+  "message.panthrixsgalaxy.laser_shots_backpack": "Láser: %s disparos (+%s con la mochila)"
 }

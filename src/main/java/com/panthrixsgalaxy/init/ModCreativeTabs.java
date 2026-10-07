@@ -6,6 +6,7 @@ import com.panthrixsgalaxy.item.PGBatteryItem;
 import com.panthrixsgalaxy.item.PGFuelCanisterItem;
 import com.panthrixsgalaxy.item.PGRocketItem;
 import com.panthrixsgalaxy.item.PGShipItem;
+import com.panthrixsgalaxy.weapon.PGLaserItem;
 import com.panthrixsgalaxy.item.PGOxygenTankItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -70,7 +71,10 @@ public final class ModCreativeTabs {
                     .withTabsBefore(PG_BLOCKS_TAB.getKey())
                     .displayItems((parameters, output) -> ModItems.ITEMS.getEntries().forEach(entry -> {
                         Item item = entry.get();
-                        if (isEquipment(item)) {
+                        if (item instanceof PGLaserItem laser) {
+                            output.accept(new ItemStack(laser)); // descargada
+                            output.accept(laser.createFull());    // y cargada
+                        } else if (isEquipment(item)) {
                             output.accept(item);
                         }
                     }))
@@ -79,7 +83,7 @@ public final class ModCreativeTabs {
     /** Equipo = herramientas y armas (tienen "nivel"), piezas de armadura y mochilas. */
     private static boolean isEquipment(Item item) {
         return item instanceof TieredItem || item instanceof ArmorItem || item instanceof PGBackpackItem
-                || item instanceof PGRocketItem || item instanceof PGShipItem;
+                || item instanceof PGRocketItem || item instanceof PGShipItem || item instanceof PGLaserItem;
     }
 
     private ModCreativeTabs() {

@@ -3,6 +3,7 @@ package com.panthrixsgalaxy.client;
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.client.model.PGRocketModel;
 import com.panthrixsgalaxy.client.model.PGShipModel;
+import com.panthrixsgalaxy.client.renderer.PGLaserBoltRenderer;
 import com.panthrixsgalaxy.client.renderer.PGRocketRenderer;
 import com.panthrixsgalaxy.client.renderer.PGShipRenderer;
 import com.panthrixsgalaxy.client.screen.PGBackpackScreen;
@@ -85,6 +86,7 @@ public final class PGClientModEvents {
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.ROCKET.get(), PGRocketRenderer::new);
         event.registerEntityRenderer(ModEntities.SHIP.get(), PGShipRenderer::new);
+        event.registerEntityRenderer(ModEntities.LASER_BOLT.get(), PGLaserBoltRenderer::new);
     }
 
     /** Registra los modelos 3D de las entidades. */

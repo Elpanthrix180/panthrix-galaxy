@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy.init;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.entity.laser.PGLaserBoltEntity;
 import com.panthrixsgalaxy.entity.rocket.PGRocketEntity;
 import com.panthrixsgalaxy.entity.ship.PGShipEntity;
 import net.minecraft.world.entity.EntityType;
@@ -30,6 +31,14 @@ public final class ModEntities {
                     .clientTrackingRange(10)
                     .updateInterval(1)
                     .build("ship"));
+
+    /** Rayo de un arma láser (Fase 15): pequeñito y muy rápido. */
+    public static final RegistryObject<EntityType<PGLaserBoltEntity>> LASER_BOLT = ENTITIES.register("laser_bolt",
+            () -> EntityType.Builder.<PGLaserBoltEntity>of(PGLaserBoltEntity::new, MobCategory.MISC)
+                    .sized(0.25f, 0.25f)
+                    .clientTrackingRange(8)
+                    .updateInterval(1)
+                    .build("laser_bolt"));
 
     private ModEntities() {
     }

@@ -295,5 +295,19 @@
   "hud.panthrixsgalaxy.ship_controls": "SPACE engines · W forward · S brake · Shift get off (landed)",
   "hud.panthrixsgalaxy.ship_no_fuel": "NO FUEL!",
   "hud.panthrixsgalaxy.ship_no_life_support": "NO ENERGY! Life support off: wear your helmet",
-  "hud.panthrixsgalaxy.ship_hull_critical": "HULL CRITICAL!"
+  "hud.panthrixsgalaxy.ship_hull_critical": "HULL CRITICAL!",
+  "item.panthrixsgalaxy.pg_focusing_lens": "Focusing Lens",
+  "item.panthrixsgalaxy.pg_laser_emitter": "Laser Emitter",
+  "item.panthrixsgalaxy.pg_laser_pistol": "Laser Pistol",
+  "item.panthrixsgalaxy.pg_laser_rifle": "Laser Rifle",
+  "entity.panthrixsgalaxy.laser_bolt": "Laser Bolt",
+  "death.attack.panthrixsgalaxy.laser": "%1$s was hit by a laser bolt",
+  "death.attack.panthrixsgalaxy.laser.player": "%1$s was shot by %2$s's laser",
+  "death.attack.panthrixsgalaxy.laser.item": "%1$s was shot by %2$s using %3$s",
+  "tooltip.panthrixsgalaxy.laser_stats": "Damage %s ❤ · Range %s blocks · %s shots",
+  "tooltip.panthrixsgalaxy.laser_pierce": "Pierces %s enemies",
+  "tooltip.panthrixsgalaxy.laser_hint": "Right click: fire · Charge it on a generator or cell; when empty it uses your backpack's energy",
+  "message.panthrixsgalaxy.laser_no_energy": "No energy: charge the weapon or your backpack",
+  "message.panthrixsgalaxy.laser_shots": "Laser: %s shots",
+  "message.panthrixsgalaxy.laser_shots_backpack": "Laser: %s shots (+%s from backpack)"
 }

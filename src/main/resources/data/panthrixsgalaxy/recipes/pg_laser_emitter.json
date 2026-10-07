@@ -1,0 +1,27 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "lasers",
+  "category": "equipment",
+  "pattern": [
+    "PRP",
+    "CLC",
+    "PRP"
+  ],
+  "key": {
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "C": {
+      "item": "minecraft:copper_ingot"
+    },
+    "L": {
+      "item": "panthrixsgalaxy:pg_focusing_lens"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_laser_emitter"
+  }
+}
