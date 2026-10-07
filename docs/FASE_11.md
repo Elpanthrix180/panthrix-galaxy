@@ -52,7 +52,7 @@ derecha ►), si mirar más arriba o abajo, el combustible y la velocidad.
 | Situación | Qué pasa |
 |---|---|
 | Cohete **básico** intenta llegar a **Marte** | Rebota: *"no tiene potencia… necesitas un cohete de nivel superior"* |
-| Llegar a la Luna o Marte | El cohete se detiene en **órbita** (aterrizar llega en las Fases 12 y 13) |
+| Llegar a la Luna o Marte | *(Fase 12)* En la Luna: **alunizaje**. En Marte: se detiene en **órbita** (aterrizar llega en la Fase 13) |
 | **Sin combustible** en el Espacio | La gravedad de la Tierra te atrae despacio hacia abajo → reentrada automática. Nunca te quedas atrapado |
 | Bajar de **Y 40** en el Espacio | Reentrada: vuelves a la Tierra a Y 400 sobre tu **plataforma de despegue** y aterrizas solo |
 | Guardar y salir en el Espacio | Al volver sigues en el Espacio, navegando |

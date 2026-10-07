@@ -65,17 +65,36 @@ public final class SpaceSkyRenderer {
 
     public static void render(PoseStack poseStack, Camera camera) {
         Matrix4f matrix = poseStack.last().pose();
+        begin();
+        renderStars(matrix);
+        drawTexturedQuad(matrix, SUN_DIRECTION, 12.0f, SUN);
+        renderPlanets(matrix, camera.getPosition());
+        end();
+    }
+
+    /**
+     * Cielo visto desde la superficie de un planeta sin atmósfera (la Luna):
+     * estrellas, Sol y un planeta grande fijo en el cielo (la Tierra).
+     */
+    public static void renderFromSurface(PoseStack poseStack, ResourceLocation bigPlanet, Vector3f direction, float size) {
+        Matrix4f matrix = poseStack.last().pose();
+        begin();
+        renderStars(matrix);
+        drawTexturedQuad(matrix, SUN_DIRECTION, 12.0f, SUN);
+        drawTexturedQuad(matrix, new Vector3f(direction).normalize(), size, bigPlanet);
+        end();
+    }
+
+    private static void begin() {
         FogRenderer.setupNoFog();
         RenderSystem.depthMask(false);
         RenderSystem.disableCull();
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+    }
 
-        renderStars(matrix);
-        drawTexturedQuad(matrix, SUN_DIRECTION, 12.0f, SUN);
-        renderPlanets(matrix, camera.getPosition());
-
+    private static void end() {
         RenderSystem.enableCull();
         RenderSystem.disableBlend();
         RenderSystem.depthMask(true);

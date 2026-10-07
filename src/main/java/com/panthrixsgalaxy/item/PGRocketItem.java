@@ -4,6 +4,8 @@ import com.panthrixsgalaxy.entity.rocket.PGRocketEntity;
 import com.panthrixsgalaxy.entity.rocket.RocketTier;
 import com.panthrixsgalaxy.init.ModBlocks;
 import com.panthrixsgalaxy.init.ModEntities;
+import com.panthrixsgalaxy.planet.PGPlanet;
+import com.panthrixsgalaxy.planet.PGPlanets;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -23,6 +25,7 @@ import java.util.List;
 /**
  * El cohete en forma de objeto. Clic derecho en el CENTRO de una plataforma de
  * lanzamiento de 3x3 para colocarlo. Guarda el combustible que tenía al recogerlo.
+ * En planetas de gravedad baja (la Luna) se puede colocar sobre cualquier bloque.
  */
 public class PGRocketItem extends Item {
 
@@ -55,7 +58,9 @@ public class PGRocketItem extends Item {
         BlockPos center = context.getClickedPos();
         Player player = context.getPlayer();
 
-        if (!isLaunchPad3x3(level, center)) {
+        PGPlanet planet = PGPlanets.fromDimension(level.dimension());
+        boolean padRequired = planet == null || planet.needsLaunchPad();
+        if (padRequired && !isLaunchPad3x3(level, center)) {
             if (player != null && !level.isClientSide) {
                 player.displayClientMessage(Component.translatable("message.panthrixsgalaxy.rocket_needs_pad")
                         .withStyle(ChatFormatting.RED), true);

@@ -1,0 +1,23 @@
+{
+  "parent": "panthrixsgalaxy:root",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_lunar_regolith"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.moon_first_step.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.moon_first_step.description"
+    },
+    "frame": "goal"
+  },
+  "criteria": {
+    "moon": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "panthrixsgalaxy:moon"
+      }
+    }
+  }
+}

@@ -160,7 +160,7 @@ public final class RocketHudOverlay {
     private static Component statusLine(PGRocketEntity rocket, LaunchState state) {
         return switch (state) {
             case IDLE -> {
-                if (!rocket.isOnLaunchPad()) {
+                if (rocket.needsLaunchPad() && !rocket.isOnLaunchPad()) {
                     yield Component.translatable("hud.panthrixsgalaxy.rocket_not_on_pad");
                 }
                 if (rocket.getFuel() < rocket.getTier().getMinLaunchFuel()) {

@@ -12,12 +12,18 @@ public final class ClientOxygenData {
     private static int oxygen;
     private static int capacity;
     private static int graceSecondsLeft;
+    private static boolean temperatureDanger;
 
-    public static void update(OxygenState newState, int newOxygen, int newCapacity, int newGrace) {
+    public static void update(OxygenState newState, int newOxygen, int newCapacity, int newGrace, boolean newTemperatureDanger) {
         state = newState;
         oxygen = newOxygen;
         capacity = newCapacity;
         graceSecondsLeft = newGrace;
+        temperatureDanger = newTemperatureDanger;
+    }
+
+    public static boolean isTemperatureDanger() {
+        return temperatureDanger;
     }
 
     public static OxygenState getState() {

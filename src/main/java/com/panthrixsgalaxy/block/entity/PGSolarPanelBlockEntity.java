@@ -44,7 +44,9 @@ public class PGSolarPanelBlockEntity extends PGEnergyBlockEntity {
     /** Cuánta energía produce ahora según la luz del sol que recibe. */
     private int calculateGeneration() {
         BlockPos above = worldPosition.above();
-        if (!level.dimensionType().hasSkyLight() || !level.isDay() || !level.canSeeSky(above)) {
+        // En dimensiones con hora fija (la Luna) Minecraft nunca dice "es de día": lo comprobamos a mano
+        boolean day = level.dimensionType().hasFixedTime() ? level.getSkyDarken() < 4 : level.isDay();
+        if (!level.dimensionType().hasSkyLight() || !day || !level.canSeeSky(above)) {
             return 0;
         }
         // Luz del cielo (0-15) menos lo que oscurece la hora del día y la lluvia

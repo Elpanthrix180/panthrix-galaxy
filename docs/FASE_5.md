@@ -50,6 +50,7 @@ P P P                               P R P      B = barrotes de hierro  R = redst
 - *(Desde la Fase 6)* El depósito de oxígeno de la **mochila equipada** se gasta antes que las bombonas.
 - El daño por falta de oxígeno **atraviesa la armadura**. Mensaje de muerte: *"Jugador se quedó sin oxígeno"*.
 - En **creativo** no se gasta oxígeno ni se recibe daño.
+- *(Desde la Fase 12)* Sin aire, si no llevas las **4 piezas del traje**, la **temperatura extrema** hace ½ corazón cada 2 s (también con `/pgvacuum true`).
 - Las bombonas fabricadas salen **vacías**; las de la pestaña creativa salen **llenas**.
 - El recargador **no funciona donde no hay aire** (Luna, Marte). *(Fase 7B)* Para eso está el **recargador de oxígeno eléctrico**.
 

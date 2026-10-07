@@ -20,6 +20,9 @@ import net.minecraftforge.fml.common.Mod;
  *               no -> ¿casco + oxígeno?  sí -> gasta 1 de oxígeno.
  *                     ¿casco + agua y energía en la mochila? sí -> oxígeno de emergencia (Fase 7B).
  *                                        no -> advertencia, 5 s de margen y después daño.
+ *
+ * Además (Fase 12): sin aire tampoco hay protección térmica. Sin las 4 piezas del traje
+ * espacial, la temperatura extrema hace ½ corazón de daño cada 2 segundos.
  */
 @Mod.EventBusSubscriber(modid = PanthrixsGalaxy.MOD_ID)
 public final class PGOxygenEvents {
@@ -85,9 +88,16 @@ public final class PGOxygenEvents {
 
         data.putInt(NO_AIR_SECONDS_TAG, noAirSeconds);
 
+        // Temperatura extrema: hace falta el traje completo
+        boolean temperatureDanger = airless && !player.isCreative() && !player.isSpectator()
+                && !PGSpaceSuitItem.hasFullSpaceSuit(player);
+        if (temperatureDanger && player.tickCount % 40 == 0) {
+            player.hurt(ModDamageTypes.extremeTemperature(player.level()), 1.0f);
+        }
+
         int graceLeft = Math.max(0, GRACE_SECONDS - noAirSeconds);
         PGNetwork.sendToPlayer(player, new OxygenSyncPacket(state,
-                OxygenHelper.getTotalOxygen(player), OxygenHelper.getTotalCapacity(player), graceLeft));
+                OxygenHelper.getTotalOxygen(player), OxygenHelper.getTotalCapacity(player), graceLeft, temperatureDanger));
     }
 
     private PGOxygenEvents() {

@@ -18,6 +18,7 @@ import org.jetbrains.annotations.Nullable;
  * @param entryDistance a qué distancia del centro empieza el descenso al planeta
  * @param gravity       gravedad (1.0 = la de la Tierra)
  * @param breathable    ¿tiene aire respirable?
+ * @param exitHeight    altura a la que un cohete que despega del planeta sale al Espacio
  * @param texture       imagen que se dibuja en el cielo del Espacio
  */
 public record PGPlanet(String id,
@@ -28,10 +29,16 @@ public record PGPlanet(String id,
                        float entryDistance,
                        double gravity,
                        boolean breathable,
+                       int exitHeight,
                        ResourceLocation texture) {
 
     public String getTranslationKey() {
         return "planet.panthrixsgalaxy." + id;
+    }
+
+    /** ¿Hace falta plataforma de lanzamiento para despegar? Solo con gravedad fuerte. */
+    public boolean needsLaunchPad() {
+        return gravity >= 0.5;
     }
 
     /** ¿Ya se puede aterrizar en él? */

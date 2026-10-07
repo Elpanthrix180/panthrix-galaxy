@@ -67,6 +67,11 @@ public final class OxygenHudOverlay {
         if (warning != null && (blink || state == OxygenState.LOW || state == OxygenState.EMERGENCY)) {
             graphics.drawCenteredString(font, warning, screenWidth / 2, screenHeight / 2 + 20, color);
         }
+        // Temperatura extrema (Fase 12): falta alguna pieza del traje
+        if (ClientOxygenData.isTemperatureDanger()) {
+            graphics.drawCenteredString(font, Component.translatable("hud.panthrixsgalaxy.extreme_temperature"),
+                    screenWidth / 2, screenHeight / 2 + 44, blink ? COLOR_LOW : COLOR_EMPTY);
+        }
         if (state == OxygenState.NO_HELMET || state == OxygenState.NO_OXYGEN) {
             int grace = ClientOxygenData.getGraceSecondsLeft();
             Component detail = grace > 0

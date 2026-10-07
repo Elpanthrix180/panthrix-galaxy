@@ -56,7 +56,8 @@ src/main/java/com/panthrixsgalaxy/
 ├── entity/rocket/           Cohete: entidad y niveles (Fase 9)
 ├── entity/                  (Fase 14, 17-18) Naves, mobs, jefes
 ├── client/model/, renderer/ Modelos 3D y dibujo de entidades
-├── dimension/               (Fase 12-13) Luna, Marte (el Espacio es solo JSON)
+├── world/feature/           Generación propia (cráteres)
+├── system/gravity/          Gravedad por planeta
 ├── system/oxygen/           Oxígeno: atmósfera, consumo, avisos, daño
 ├── block/                   Bloques con comportamiento propio (recargador, máquinas)
 ├── block/entity/            "Cerebros" de las máquinas (block entities)
@@ -115,7 +116,7 @@ pleno vuelo, sin portal ni pantalla de "pulsa botón", para que se sienta contin
 | 9 | Cohete | No (entidad montable con física) | ✅ Hecho: componentes, 2 cohetes (entidad + modelo), plataforma 3×3, refinería y combustible |
 | 10 | Lanzamiento | No | ✅ Hecho: máquina de estados, cuenta atrás, ascenso físico, explosión, descenso controlado |
 | 11 | Tierra → Espacio | No | ✅ Hecho: dimensión Espacio, cielo con planetas, transición en vuelo, navegación, registro de planetas |
-| 12 | Luna | Parcial (dimensión) | JSON worldgen + Java gravedad/cielo |
+| 12 | Luna | Parcial (dimensión) | ✅ Hecho: dimensión JSON, cráteres (Java), menas, gravedad, temperatura, cielo con la Tierra, logro |
 | 13 | Marte | Parcial | JSON worldgen + Java tormentas |
 | 14 | Naves | No | Java: entidad pilotable |
 | 15 | Armas láser | Parcial | Java: proyectil + energía |

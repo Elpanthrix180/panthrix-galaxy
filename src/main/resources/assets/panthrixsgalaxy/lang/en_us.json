@@ -240,5 +240,12 @@
   "hud.panthrixsgalaxy.space_fuel_speed": "Fuel %s / %s mB · %s m/s",
   "hud.panthrixsgalaxy.space_controls": "W accelerate · S brake · look where you want to go",
   "hud.panthrixsgalaxy.space_no_fuel": "Out of fuel: Earth's gravity is pulling you back",
-  "hud.panthrixsgalaxy.layer.space": "Space"
+  "hud.panthrixsgalaxy.layer.space": "Space",
+  "death.attack.panthrixsgalaxy.extreme_temperature": "%1$s couldn't withstand the extreme temperature",
+  "death.attack.panthrixsgalaxy.extreme_temperature.player": "%1$s couldn't withstand the extreme temperature while fleeing %2$s",
+  "hud.panthrixsgalaxy.extreme_temperature": "⚠ Extreme temperature: wear the full space suit",
+  "advancements.panthrixsgalaxy.root.title": "Panthrixs Galaxy",
+  "advancements.panthrixsgalaxy.root.description": "Your space adventure starts on Earth",
+  "advancements.panthrixsgalaxy.moon_first_step.title": "One Small Step",
+  "advancements.panthrixsgalaxy.moon_first_step.description": "Set foot on the Moon for the first time"
 }

@@ -8,6 +8,7 @@ import com.panthrixsgalaxy.item.PGRocketItem;
 import com.panthrixsgalaxy.planet.PGPlanet;
 import com.panthrixsgalaxy.planet.PGPlanets;
 import com.panthrixsgalaxy.system.backpack.PGBackpackSlot;
+import com.panthrixsgalaxy.system.gravity.PGGravity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
@@ -49,8 +50,11 @@ import java.util.UUID;
  *                         ▼                            ▼                       ▼
  *                       IDLE                        FALLING ──golpe──► 💥    (Tierra) DESCENDING ──suelo──► IDLE
  *
- * Si se despega desde una dimensión que no es la Tierra (aún no hay otras), se hace el
- * vuelo de prueba de la Fase 10: al llegar arriba, desciende y aterriza.
+ * Fase 12: alunizaje (desde la órbita lunar) y despegue desde la Luna de vuelta al Espacio.
+ * En planetas de gravedad baja (la Luna) no hace falta plataforma para despegar.
+ *
+ * Si se despega desde una dimensión que no es un planeta del mod, se hace el vuelo de
+ * prueba de la Fase 10: al llegar arriba, desciende y aterriza.
  */
 public class PGRocketEntity extends Entity {
 
@@ -163,6 +167,12 @@ public class PGRocketEntity extends Entity {
         return Vec3.atCenterOf(getSpaceOrigin()).add(planet.spaceOffset());
     }
 
+    /** ¿Hace falta plataforma para despegar aquí? (en la Luna no: gravedad baja) */
+    public boolean needsLaunchPad() {
+        PGPlanet planet = PGPlanets.fromDimension(level().dimension());
+        return planet == null || planet.needsLaunchPad();
+    }
+
     /** ¿Está apoyado en una plataforma de lanzamiento? */
     public boolean isOnLaunchPad() {
         return level().getBlockState(blockPosition().below()).is(ModBlocks.PG_LAUNCH_PAD.get());
@@ -188,7 +198,7 @@ public class PGRocketEntity extends Entity {
         if (state != LaunchState.IDLE) {
             return;
         }
-        if (!isOnLaunchPad()) {
+        if (needsLaunchPad() && !isOnLaunchPad()) {
             tell(pilot, "message.panthrixsgalaxy.launch_needs_pad", ChatFormatting.RED);
             return;
         }
@@ -235,7 +245,7 @@ public class PGRocketEntity extends Entity {
     /** En reposo: gravedad sencilla. */
     private void tickIdle() {
         if (!isNoGravity()) {
-            setDeltaMovement(getDeltaMovement().add(0.0, -0.04, 0.0));
+            setDeltaMovement(getDeltaMovement().add(0.0, -0.04 * PGGravity.getGravity(level()), 0.0));
         }
         move(MoverType.SELF, getDeltaMovement());
         setDeltaMovement(onGround() ? Vec3.ZERO : getDeltaMovement().multiply(0.5, 0.98, 0.5));
@@ -297,20 +307,29 @@ public class PGRocketEntity extends Entity {
             });
             return;
         }
-        // Límite de la atmósfera
-        if (getY() >= ATMOSPHERE_TOP && level().dimension().equals(Level.OVERWORLD)
-                && level() instanceof ServerLevel serverLevel) {
+        // Salida al Espacio: cada planeta tiene su altura de salida (Tierra 450, Luna 250...)
+        PGPlanet planet = PGPlanets.fromDimension(level().dimension());
+        if (planet != null && getY() >= planet.exitHeight() && level() instanceof ServerLevel serverLevel) {
             ServerLevel space = serverLevel.getServer().getLevel(PGPlanets.SPACE);
             if (space != null) {
-                BlockPos arrival = new BlockPos(getBlockX(), PGPlanets.SPACE_ARRIVAL_Y, getBlockZ());
-                PGRocketEntity inSpace = travelTo(space, Vec3.atBottomCenterOf(arrival), LaunchState.IN_SPACE);
-                inSpace.entityData.set(SPACE_ORIGIN, arrival);
-                inSpace.setDeltaMovement(0.0, 0.3, 0.0);
+                if (planet == PGPlanets.EARTH) {
+                    // Desde la Tierra: este punto pasa a ser el "punto de llegada" del mapa del Espacio
+                    BlockPos arrival = new BlockPos(getBlockX(), PGPlanets.SPACE_ARRIVAL_Y, getBlockZ());
+                    PGRocketEntity inSpace = travelTo(space, Vec3.atBottomCenterOf(arrival), LaunchState.IN_SPACE);
+                    inSpace.entityData.set(SPACE_ORIGIN, arrival);
+                    inSpace.setDeltaMovement(0.0, 0.3, 0.0);
+                } else {
+                    // Desde otro planeta: se aparece en su órbita, del lado que mira a la Tierra
+                    Vec3 orbit = getPlanetPosition(planet).add(0.0, 0.0, planet.entryDistance() + 40.0);
+                    PGRocketEntity inSpace = travelTo(space, orbit, LaunchState.IN_SPACE);
+                    inSpace.entityData.set(DESTINATION, PGPlanets.ALL.indexOf(PGPlanets.EARTH));
+                    inSpace.setDeltaMovement(0.0, 0.0, 0.3);
+                }
                 return;
             }
         }
-        // Vuelo de prueba (si no se despega desde la Tierra): bajar y aterrizar
-        if (getY() >= ATMOSPHERE_TOP) {
+        // Vuelo de prueba (si no se despega desde un planeta del mod): bajar y aterrizar
+        if (planet == null && getY() >= ATMOSPHERE_TOP) {
             setLaunchState(LaunchState.DESCENDING);
             getPassengers().forEach(p -> {
                 if (p instanceof Player player) {
@@ -453,7 +472,8 @@ public class PGRocketEntity extends Entity {
         }
         ServerLevel planetLevel = serverLevel.getServer().getLevel(planet.dimension());
         if (planetLevel != null) {
-            PGRocketEntity landed = travelTo(planetLevel, new Vec3(getX(), EARTH_REENTRY_ARRIVAL_Y, getZ()),
+            // Se aparece un poco por debajo de la altura de salida del planeta y se desciende
+            PGRocketEntity landed = travelTo(planetLevel, new Vec3(getX(), planet.exitHeight() - 20.0, getZ()),
                     LaunchState.DESCENDING);
             landed.notifyPilot("message.panthrixsgalaxy.planet_descent", ChatFormatting.AQUA);
         }
