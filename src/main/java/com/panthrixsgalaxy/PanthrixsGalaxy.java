@@ -9,6 +9,8 @@ import com.panthrixsgalaxy.init.ModItems;
 import com.panthrixsgalaxy.init.ModMenuTypes;
 import com.panthrixsgalaxy.init.ModRecipes;
 import com.panthrixsgalaxy.network.PGNetwork;
+import com.panthrixsgalaxy.planet.PGPlanets;
+import com.panthrixsgalaxy.system.oxygen.PGAtmosphere;
 import com.panthrixsgalaxy.system.backpack.PGBackpackSlot;
 import com.panthrixsgalaxy.tool.PGToolTiers;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -57,6 +59,8 @@ public class PanthrixsGalaxy {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
+        // El Espacio no tiene aire respirable (Fase 11)
+        event.enqueueWork(() -> PGAtmosphere.addAirlessDimension(PGPlanets.SPACE));
         LOGGER.info("[Panthrixs Galaxy] Mod cargado correctamente. ¡Preparados para el despegue!");
     }
 }

@@ -3,10 +3,14 @@ package com.panthrixsgalaxy.client;
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.entity.rocket.LaunchState;
 import com.panthrixsgalaxy.entity.rocket.PGRocketEntity;
+import com.panthrixsgalaxy.planet.PGPlanet;
+import com.panthrixsgalaxy.planet.PGPlanets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
@@ -30,9 +34,28 @@ public final class RocketHudOverlay {
     private static final int COLOR_INFO = 0xFF55CCFF;
     private static final int COLOR_HINT = 0xFFAAAAAA;
     private static final int COLOR_ALERT = 0xFFFF4444;
+    private static final int FADE_TICKS = 30;
+
+    /** Ticks que quedan del fundido a negro tras cambiar de dimensión. */
+    private static int fadeTicks;
+
+    public static void startFade() {
+        fadeTicks = FADE_TICKS;
+    }
+
+    public static void tickFade() {
+        if (fadeTicks > 0) {
+            fadeTicks--;
+        }
+    }
 
     public static final IGuiOverlay ROCKET_HUD = (gui, graphics, partialTick, screenWidth, screenHeight) -> {
         Minecraft minecraft = Minecraft.getInstance();
+        // Fundido a negro (también mientras el piloto vuelve a sentarse)
+        if (fadeTicks > 0) {
+            int alpha = (int) (255.0f * fadeTicks / FADE_TICKS);
+            graphics.fill(0, 0, screenWidth, screenHeight, alpha << 24);
+        }
         if (minecraft.player == null || minecraft.options.hideGui
                 || !(minecraft.player.getVehicle() instanceof PGRocketEntity rocket)) {
             return;
@@ -43,6 +66,10 @@ public final class RocketHudOverlay {
         LaunchState state = rocket.getLaunchState();
 
         // ----- Panel superior -----
+        if (state == LaunchState.IN_SPACE) {
+            renderSpacePanel(graphics, font, rocket, centerX, y, minecraft.player.getYRot(), minecraft.player.getXRot());
+            return;
+        }
         graphics.fill(centerX - 100, y - 4, centerX + 100, y + 44, 0xA0000000);
         graphics.drawCenteredString(font, Component.translatable("hud.panthrixsgalaxy.rocket_title."
                 + rocket.getTier().getSerializedName()), centerX, y, COLOR_INFO);
@@ -76,6 +103,58 @@ public final class RocketHudOverlay {
                     screenHeight / 2 - 40, COLOR_ALERT);
         }
     };
+
+    /**
+     * Panel de navegación en el Espacio:
+     *   ESPACIO · Destino: Luna (ESPACIO para cambiar)
+     *   Distancia 412 bloques · ◄ gira a la izquierda · ▲ sube
+     *   Combustible [████░░] · 34 m/s
+     *   W acelerar · S frenar · Mira hacia donde quieres ir
+     */
+    private static void renderSpacePanel(GuiGraphics graphics, Font font, PGRocketEntity rocket, int centerX, int y,
+                                         float playerYaw, float playerPitch) {
+        graphics.fill(centerX - 125, y - 4, centerX + 125, y + 56, 0xA0000000);
+        PGPlanet destination = rocket.getDestination();
+        graphics.drawCenteredString(font, Component.translatable("hud.panthrixsgalaxy.space_destination",
+                Component.translatable(destination.getTranslationKey())), centerX, y, COLOR_INFO);
+
+        // Distancia y dirección hacia el destino
+        Component guidance;
+        if (destination == PGPlanets.EARTH) {
+            int height = (int) (rocket.getY() - PGPlanets.EARTH_REENTRY_Y);
+            guidance = Component.translatable("hud.panthrixsgalaxy.space_to_earth", Math.max(0, height));
+        } else {
+            Vec3 toTarget = rocket.getPlanetPosition(destination).subtract(rocket.position());
+            int distance = (int) Math.max(0, toTarget.length() - destination.entryDistance());
+            double targetYaw = Math.toDegrees(Math.atan2(-toTarget.x, toTarget.z));
+            float turn = Mth.wrapDegrees((float) targetYaw - playerYaw);
+            double horizontal = Math.sqrt(toTarget.x * toTarget.x + toTarget.z * toTarget.z);
+            float targetPitch = (float) -Math.toDegrees(Math.atan2(toTarget.y, horizontal));
+            float tilt = targetPitch - playerPitch;
+            String turnKey = Math.abs(turn) < 12.0f ? "ahead" : turn < 0 ? "left" : "right";
+            String tiltKey = Math.abs(tilt) < 12.0f ? "level" : tilt < 0 ? "up" : "down";
+            guidance = Component.translatable("hud.panthrixsgalaxy.space_guidance", distance,
+                    Component.translatable("hud.panthrixsgalaxy.turn." + turnKey),
+                    Component.translatable("hud.panthrixsgalaxy.tilt." + tiltKey));
+        }
+        graphics.drawCenteredString(font, guidance, centerX, y + 12, 0xFFFFFFFF);
+
+        // Combustible y velocidad
+        int barX = centerX - BAR_WIDTH / 2;
+        int barY = y + 25;
+        int capacity = rocket.getFuelCapacity();
+        graphics.fill(barX, barY, barX + BAR_WIDTH, barY + 5, 0xFF2A3040);
+        if (capacity > 0) {
+            graphics.fill(barX, barY, barX + (int) ((long) BAR_WIDTH * rocket.getFuel() / capacity), barY + 5, COLOR_FUEL);
+        }
+        int speed = (int) Math.round(rocket.getDeltaMovement().length() * 20.0);
+        graphics.drawCenteredString(font, Component.translatable("hud.panthrixsgalaxy.space_fuel_speed",
+                rocket.getFuel(), capacity, speed), centerX, barY + 8,
+                rocket.getFuel() > 0 ? COLOR_FUEL : COLOR_ALERT);
+        graphics.drawCenteredString(font, Component.translatable(rocket.getFuel() > 0
+                ? "hud.panthrixsgalaxy.space_controls" : "hud.panthrixsgalaxy.space_no_fuel"),
+                centerX, barY + 20, COLOR_HINT);
+    }
 
     /** Tercera línea del panel según la etapa del vuelo. */
     private static Component statusLine(PGRocketEntity rocket, LaunchState state) {

@@ -1,0 +1,13 @@
+{
+  "type": "panthrixsgalaxy:space",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "biome": "panthrixsgalaxy:space",
+      "layers": [],
+      "lakes": false,
+      "features": false,
+      "structure_overrides": []
+    }
+  }
+}

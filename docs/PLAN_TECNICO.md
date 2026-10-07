@@ -56,7 +56,7 @@ src/main/java/com/panthrixsgalaxy/
 ├── entity/rocket/           Cohete: entidad y niveles (Fase 9)
 ├── entity/                  (Fase 14, 17-18) Naves, mobs, jefes
 ├── client/model/, renderer/ Modelos 3D y dibujo de entidades
-├── dimension/               (Fase 11-13) Espacio, Luna, Marte
+├── dimension/               (Fase 12-13) Luna, Marte (el Espacio es solo JSON)
 ├── system/oxygen/           Oxígeno: atmósfera, consumo, avisos, daño
 ├── block/                   Bloques con comportamiento propio (recargador, máquinas)
 ├── block/entity/            "Cerebros" de las máquinas (block entities)
@@ -67,7 +67,8 @@ src/main/java/com/panthrixsgalaxy/
 ├── system/backpack/         Hueco de mochila del jugador (capability)
 ├── menu/ + client/screen/   Ventanas: mochila (Fase 6), Banco de Ingeniería (Fase 8)
 ├── recipe/                  Recetas del Banco de Ingeniería (tipo propio + categorías)
-└── planet/                  (Fase 11) Registro de cuerpos celestes
+├── client/sky/              Cielo de la dimensión Espacio
+└── planet/                  Registro de cuerpos celestes (PGPlanets)
 src/main/resources/
 ├── assets/panthrixsgalaxy/  blockstates, models, textures, lang, sounds
 └── data/panthrixsgalaxy/    recipes, loot_tables, advancements, dimension, worldgen, tags
@@ -113,7 +114,7 @@ pleno vuelo, sin portal ni pantalla de "pulsa botón", para que se sienta contin
 | 8 | Banco de Ingeniería | Parcial (GUI básica) | ✅ Hecho: tipo de receta propio con categorías, guía integrada, 16 recetas movidas |
 | 9 | Cohete | No (entidad montable con física) | ✅ Hecho: componentes, 2 cohetes (entidad + modelo), plataforma 3×3, refinería y combustible |
 | 10 | Lanzamiento | No | ✅ Hecho: máquina de estados, cuenta atrás, ascenso físico, explosión, descenso controlado |
-| 11 | Tierra → Espacio | No | Java: cambio de dimensión en vuelo + cielo |
+| 11 | Tierra → Espacio | No | ✅ Hecho: dimensión Espacio, cielo con planetas, transición en vuelo, navegación, registro de planetas |
 | 12 | Luna | Parcial (dimensión) | JSON worldgen + Java gravedad/cielo |
 | 13 | Marte | Parcial | JSON worldgen + Java tormentas |
 | 14 | Naves | No | Java: entidad pilotable |

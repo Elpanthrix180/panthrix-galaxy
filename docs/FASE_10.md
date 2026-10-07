@@ -34,7 +34,8 @@ las nubes hasta el límite de la atmósfera, y aterrizaje.
 Con el mínimo, el cohete básico llega con margen al límite de la atmósfera (~860 mB desde el nivel del mar).
 Todos estos números se cambian en `entity/rocket/RocketTier.java`.
 
-> ℹ️ **Vuelo de prueba:** en esta fase el cohete aún no sale al espacio. Al llegar a Y=450 aparece
+> ℹ️ *(Actualizado en la Fase 11: desde la Tierra, al llegar a Y=450 se pasa al Espacio.)*
+> **Vuelo de prueba:** en esta fase el cohete aún no sale al espacio. Al llegar a Y=450 aparece
 > *"Límite de la atmósfera alcanzado… iniciando descenso controlado"* y aterriza. En la **Fase 11**,
 > en ese punto pasará al espacio.
 

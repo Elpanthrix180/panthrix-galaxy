@@ -11,7 +11,9 @@ public enum LaunchState {
     /** Bajando con los retropropulsores (aterrizaje controlado). */
     DESCENDING,
     /** Sin combustible: cayendo sin control. */
-    FALLING;
+    FALLING,
+    /** En el Espacio, navegando (Fase 11). */
+    IN_SPACE;
 
     public static LaunchState byId(int id) {
         LaunchState[] values = values();
@@ -20,6 +22,6 @@ public enum LaunchState {
 
     /** ¿Está en el aire? (no se puede bajar del cohete) */
     public boolean isFlying() {
-        return this == ASCENDING || this == DESCENDING || this == FALLING;
+        return this == ASCENDING || this == DESCENDING || this == FALLING || this == IN_SPACE;
     }
 }

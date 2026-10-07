@@ -21,7 +21,8 @@ public final class PGRocketEvents {
         boolean pilotAlive = event.getEntityMounting().isAlive();
         if (rocket.getLaunchState().isFlying() && !rocket.isRemoved() && pilotAlive) {
             event.setCanceled(true);
-            if (event.getEntityMounting() instanceof Player player && !player.level().isClientSide) {
+            if (event.getEntityMounting() instanceof Player player && !player.level().isClientSide
+                    && player.tickCount % 20 == 0) {
                 player.displayClientMessage(Component.translatable("message.panthrixsgalaxy.cannot_exit_in_flight")
                         .withStyle(ChatFormatting.RED), true);
             }

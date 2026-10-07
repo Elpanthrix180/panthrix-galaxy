@@ -1,5 +1,6 @@
 package com.panthrixsgalaxy.system.oxygen;
 
+import com.panthrixsgalaxy.entity.rocket.PGRocketEntity;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -32,8 +33,14 @@ public final class PGAtmosphere {
         return AIRLESS_DIMENSIONS.contains(level.dimension());
     }
 
-    /** ¿Este jugador está ahora mismo en un lugar sin aire respirable? */
+    /**
+     * ¿Este jugador está ahora mismo en un lugar sin aire respirable?
+     * Dentro del cohete siempre hay aire: la cabina está presurizada (Fase 11).
+     */
     public static boolean isAirlessFor(Player player) {
+        if (player.getVehicle() instanceof PGRocketEntity) {
+            return false;
+        }
         return isAirlessDimension(player.level()) || player.getPersistentData().getBoolean(VACUUM_TEST_TAG);
     }
 

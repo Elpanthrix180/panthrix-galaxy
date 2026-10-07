@@ -4,6 +4,7 @@ import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.client.model.PGRocketModel;
 import com.panthrixsgalaxy.client.renderer.PGRocketRenderer;
 import com.panthrixsgalaxy.client.screen.PGBackpackScreen;
+import com.panthrixsgalaxy.client.sky.PGSpaceEffects;
 import com.panthrixsgalaxy.client.screen.PGEngineeringBenchScreen;
 import com.panthrixsgalaxy.init.ModEntities;
 import com.panthrixsgalaxy.init.ModItems;
@@ -13,10 +14,12 @@ import com.panthrixsgalaxy.item.PGBackpackItem;
 import net.minecraft.client.RecipeBookCategories;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.client.event.RegisterDimensionSpecialEffectsEvent;
 import net.minecraftforge.client.event.RegisterRecipeBookCategoriesEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -61,6 +64,12 @@ public final class PGClientModEvents {
                 event.register(BackpackRenderLayer.wornModelLocation(backpack));
             }
         });
+    }
+
+    /** Aspecto especial de la dimensión Espacio (cielo negro, estrellas, planetas). */
+    @SubscribeEvent
+    public static void onRegisterDimensionEffects(RegisterDimensionSpecialEffectsEvent event) {
+        event.register(new ResourceLocation(PanthrixsGalaxy.MOD_ID, "space"), new PGSpaceEffects());
     }
 
     /** Une cada entidad con la clase que la dibuja. */
