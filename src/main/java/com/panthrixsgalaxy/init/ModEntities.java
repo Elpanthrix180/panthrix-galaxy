@@ -19,6 +19,7 @@ public final class ModEntities {
             () -> EntityType.Builder.<PGRocketEntity>of(PGRocketEntity::new, MobCategory.MISC)
                     .sized(1.0f, 3.0f)
                     .clientTrackingRange(10)
+                    .updateInterval(1) // posición enviada cada tick: vuelo suave
                     .build("rocket"));
 
     private ModEntities() {

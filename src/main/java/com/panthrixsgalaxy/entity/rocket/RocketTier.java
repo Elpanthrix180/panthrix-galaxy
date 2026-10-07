@@ -10,21 +10,35 @@ import java.util.function.Supplier;
  * Niveles de cohete. Para añadir uno nuevo (por ejemplo para Júpiter) basta con
  * añadir una línea aquí, su objeto en ModItems y su textura.
  *
- * reach = hasta qué "distancia" puede viajar (1 = Luna, 2 = Marte...). Se usará en la Fase 11.
+ *   reach         = hasta qué "distancia" puede viajar (1 = Luna, 2 = Marte...). Se usará en la Fase 11.
+ *   fuelCapacity  = combustible máximo (mB).
+ *   minLaunchFuel = combustible mínimo para poder despegar (mB).
+ *   fuelPerTick   = combustible que gastan los motores en cada tick de ascenso.
+ *   maxSpeed      = velocidad máxima de subida (bloques por tick; 1 = 20 bloques/segundo).
+ *   acceleration  = cuánto aumenta la velocidad en cada tick.
  */
 public enum RocketTier {
     /** Cohete básico: Tierra -> Luna. */
-    BASIC(1, 2_000, () -> ModItems.PG_BASIC_ROCKET.get()),
+    BASIC(1, 2_000, 1_000, 2, 1.0, 0.010, () -> ModItems.PG_BASIC_ROCKET.get()),
     /** Cohete avanzado: Tierra -> Marte. */
-    ADVANCED(2, 5_000, () -> ModItems.PG_ADVANCED_ROCKET.get());
+    ADVANCED(2, 5_000, 2_500, 3, 1.4, 0.015, () -> ModItems.PG_ADVANCED_ROCKET.get());
 
     private final int reach;
     private final int fuelCapacity;
+    private final int minLaunchFuel;
+    private final int fuelPerTick;
+    private final double maxSpeed;
+    private final double acceleration;
     private final Supplier<Item> item;
 
-    RocketTier(int reach, int fuelCapacity, Supplier<Item> item) {
+    RocketTier(int reach, int fuelCapacity, int minLaunchFuel, int fuelPerTick, double maxSpeed, double acceleration,
+               Supplier<Item> item) {
         this.reach = reach;
         this.fuelCapacity = fuelCapacity;
+        this.minLaunchFuel = minLaunchFuel;
+        this.fuelPerTick = fuelPerTick;
+        this.maxSpeed = maxSpeed;
+        this.acceleration = acceleration;
         this.item = item;
     }
 
@@ -32,9 +46,24 @@ public enum RocketTier {
         return reach;
     }
 
-    /** Combustible máximo en mB. */
     public int getFuelCapacity() {
         return fuelCapacity;
+    }
+
+    public int getMinLaunchFuel() {
+        return minLaunchFuel;
+    }
+
+    public int getFuelPerTick() {
+        return fuelPerTick;
+    }
+
+    public double getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public double getAcceleration() {
+        return acceleration;
     }
 
     /** El objeto que se recupera al recoger el cohete. */

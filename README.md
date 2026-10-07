@@ -4,7 +4,7 @@ Mod de exploración espacial y supervivencia para **Minecraft Java 1.20.1 + Forg
 Construye cohetes, despega desde la Tierra, atraviesa la atmósfera y viaja a la Luna, Marte y más allá.
 
 - Mod ID: `panthrixsgalaxy`
-- Estado: **Fase 9 — El cohete** ✅
+- Estado: **Fase 10 — Sistema de lanzamiento** ✅
 
 ## Probar el mod
 ```bash
@@ -24,3 +24,4 @@ Necesitas Java 17. La primera ejecución descarga Minecraft y Forge (tarda un ra
 - [Fase 7](docs/FASE_7.md) — energía (7A generar y almacenar · 7B transportar y usar)
 - [Fase 8](docs/FASE_8.md) — Banco de Ingeniería Espacial
 - [Fase 9](docs/FASE_9.md) — el cohete
+- [Fase 10](docs/FASE_10.md) — sistema de lanzamiento

@@ -112,7 +112,7 @@ pleno vuelo, sin portal ni pantalla de "pulsa botón", para que se sienta contin
 | 7 | Energía | Parcial | ✅ 7A generar y almacenar · 7B cables, recargador eléctrico, oxígeno de emergencia |
 | 8 | Banco de Ingeniería | Parcial (GUI básica) | ✅ Hecho: tipo de receta propio con categorías, guía integrada, 16 recetas movidas |
 | 9 | Cohete | No (entidad montable con física) | ✅ Hecho: componentes, 2 cohetes (entidad + modelo), plataforma 3×3, refinería y combustible |
-| 10 | Lanzamiento | No | Java: cuenta atrás, partículas, sonido |
+| 10 | Lanzamiento | No | ✅ Hecho: máquina de estados, cuenta atrás, ascenso físico, explosión, descenso controlado |
 | 11 | Tierra → Espacio | No | Java: cambio de dimensión en vuelo + cielo |
 | 12 | Luna | Parcial (dimensión) | JSON worldgen + Java gravedad/cielo |
 | 13 | Marte | Parcial | JSON worldgen + Java tormentas |

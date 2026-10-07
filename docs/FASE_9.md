@@ -60,7 +60,7 @@ Hacen falta **9** (un cuadrado de **3×3**). El cohete se coloca en el **bloque 
 | **Mayús** (dentro) | Te bajas |
 | **Mayús + clic derecho** con la mano vacía | Recoges el cohete (conserva el combustible) |
 
-Dentro del cohete:
+Dentro del cohete *(desde la Fase 10: **ESPACIO** inicia la cuenta atrás, ver `FASE_10.md`)*:
 - Arriba aparece un **panel**: tipo de cohete, destino y barra de combustible.
 - En **primera persona** ves el exterior, como desde la cabina. En tercera persona (F5) se ve el cohete y no el astronauta (va dentro).
 

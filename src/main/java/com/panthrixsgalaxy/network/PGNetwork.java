@@ -37,6 +37,11 @@ public final class PGNetwork {
                 .decoder(BackpackSyncPacket::new)
                 .consumerMainThread(BackpackSyncPacket::handle)
                 .add();
+        CHANNEL.messageBuilder(RocketLaunchPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(RocketLaunchPacket::encode)
+                .decoder(RocketLaunchPacket::new)
+                .consumerMainThread(RocketLaunchPacket::handle)
+                .add();
         CHANNEL.messageBuilder(BackpackActionPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
                 .encoder(BackpackActionPacket::encode)
                 .decoder(BackpackActionPacket::new)
