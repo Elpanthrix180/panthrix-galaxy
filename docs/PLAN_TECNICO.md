@@ -125,7 +125,7 @@ pleno vuelo, sin portal ni pantalla de "pulsa botón", para que se sienta contin
 | 17 | Mobs | Sí (básicos) | ✅ Hecho: 9 criaturas (Luna, Marte, aliens) con IA propia, aparición por planeta, botín |
 | 18 | Jefes | Parcial | ✅ Hecho: Reina alienígena (3 fases, barra de jefe, baliza de invocación, necronita, logro) |
 | 19 | Estaciones espaciales | Parcial | ✅ Hecho: bloques de base, salas selladas con aire, distribuidor y tanque de oxígeno, módulo habitable |
-| 20 | Asteroides | Parcial | Worldgen JSON + Java |
+| 20 | Asteroides | Parcial | ✅ Hecho: cinturón de asteroides (dimensión), asteroides con minerales, restos de naves, puestos alienígenas |
 | 21 | Planetas extra | Sí con la arquitectura 5.1 | Datos + dimensiones |
 | 22 | Logros | Sí | JSON advancements + triggers Java para los especiales |
 | 23-25 | Optimización, pruebas, lanzamiento | — | Perfilado, pruebas, `.jar` final |

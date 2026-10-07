@@ -392,5 +392,8 @@
   "status.panthrixsgalaxy.distributor_no_power": "🟠 No energy or reserve oxygen: the room has no air",
   "status.panthrixsgalaxy.distributor_breathable": "There is already air here: not needed",
   "status.panthrixsgalaxy.distributor_starting": "Measuring the room...",
-  "engineering.panthrixsgalaxy.category.station": "Space Station"
+  "engineering.panthrixsgalaxy.category.station": "Space Station",
+  "planet.panthrixsgalaxy.asteroids": "the asteroid belt",
+  "advancements.panthrixsgalaxy.asteroid_belt.title": "Among the Rocks",
+  "advancements.panthrixsgalaxy.asteroid_belt.description": "Fly your ship to the asteroid belt"
 }

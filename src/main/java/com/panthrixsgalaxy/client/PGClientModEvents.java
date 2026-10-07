@@ -18,6 +18,7 @@ import com.panthrixsgalaxy.client.renderer.PGScorpionRenderer;
 import com.panthrixsgalaxy.client.renderer.PGRocketRenderer;
 import com.panthrixsgalaxy.client.renderer.PGShipRenderer;
 import com.panthrixsgalaxy.client.screen.PGBackpackScreen;
+import com.panthrixsgalaxy.client.sky.PGAsteroidEffects;
 import com.panthrixsgalaxy.client.sky.PGMarsEffects;
 import com.panthrixsgalaxy.client.sky.PGMoonEffects;
 import com.panthrixsgalaxy.client.sky.PGSpaceEffects;
@@ -93,12 +94,13 @@ public final class PGClientModEvents {
         });
     }
 
-    /** Aspecto especial del Espacio, la Luna y Marte. */
+    /** Aspecto especial del Espacio, la Luna, Marte y el cinturón de asteroides. */
     @SubscribeEvent
     public static void onRegisterDimensionEffects(RegisterDimensionSpecialEffectsEvent event) {
         event.register(new ResourceLocation(PanthrixsGalaxy.MOD_ID, "space"), new PGSpaceEffects());
         event.register(new ResourceLocation(PanthrixsGalaxy.MOD_ID, "moon"), new PGMoonEffects());
         event.register(new ResourceLocation(PanthrixsGalaxy.MOD_ID, "mars"), new PGMarsEffects());
+        event.register(new ResourceLocation(PanthrixsGalaxy.MOD_ID, "asteroids"), new PGAsteroidEffects());
     }
 
     /** Une cada entidad con la clase que la dibuja. */

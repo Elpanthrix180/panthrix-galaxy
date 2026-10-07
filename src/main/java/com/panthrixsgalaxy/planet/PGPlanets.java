@@ -15,14 +15,15 @@ import java.util.List;
  *
  * Mapa del Espacio (vista desde arriba, "llegada" = donde apareces al salir de la Tierra):
  *
- *            Marte (1400, 0, -900)
- *                    ●
- *     Luna (0, 0, -600)
- *          ●
- *          |
- *       llegada ← la Tierra está DEBAJO (baja para volver)
+ *   Asteroides (-1000, 0, -1300)
+ *        ∴∵∴                      Marte (1400, 0, -900)
+ *                                       ●
+ *                 Luna (0, 0, -600)
+ *                      ●
+ *                      |
+ *                   llegada ← la Tierra está DEBAJO (baja para volver)
  *
- * Para añadir un planeta: crea su línea aquí y añádelo a ALL (Fases 12, 13 y 21).
+ * Para añadir un planeta: crea su línea aquí y añádelo a ALL (Fases 12, 13, 20 y 21).
  */
 public final class PGPlanets {
 
@@ -37,6 +38,10 @@ public final class PGPlanets {
     /** La dimensión Marte (data/panthrixsgalaxy/dimension/mars.json). */
     public static final ResourceKey<Level> MARS_LEVEL = ResourceKey.create(Registries.DIMENSION,
             new ResourceLocation(PanthrixsGalaxy.MOD_ID, "mars"));
+
+    /** El cinturón de asteroides (Fase 20): data/panthrixsgalaxy/dimension/asteroids.json. */
+    public static final ResourceKey<Level> ASTEROIDS_LEVEL = ResourceKey.create(Registries.DIMENSION,
+            new ResourceLocation(PanthrixsGalaxy.MOD_ID, "asteroids"));
 
     /** Altura a la que se aparece en el Espacio. */
     public static final int SPACE_ARRIVAL_Y = 100;
@@ -54,8 +59,15 @@ public final class PGPlanets {
     public static final PGPlanet MARS = new PGPlanet("mars", MARS_LEVEL, 2,
             new Vec3(1400, 0, -900), 110.0f, 150.0f, 0.38, false, 350, texture("mars"));
 
+    /**
+     * Cinturón de asteroides (Fase 20): rocas flotando en el vacío, casi sin gravedad (0,08).
+     * No hay suelo: solo se llega con la NAVE (alcance 3). Se sale al Espacio subiendo por encima de Y 300.
+     */
+    public static final PGPlanet ASTEROIDS = new PGPlanet("asteroids", ASTEROIDS_LEVEL, 3,
+            new Vec3(-1000, 0, -1300), 90.0f, 130.0f, 0.08, false, 300, texture("asteroids"));
+
     /** Todos los cuerpos celestes, en el orden en que se eligen como destino. */
-    public static final List<PGPlanet> ALL = List.of(EARTH, MOON, MARS);
+    public static final List<PGPlanet> ALL = List.of(EARTH, MOON, MARS, ASTEROIDS);
 
     public static PGPlanet byIndex(int index) {
         return ALL.get(Math.floorMod(index, ALL.size()));

@@ -1,0 +1,23 @@
+{
+  "parent": "panthrixsgalaxy:mars_red_planet",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_osmium_ingot"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.asteroid_belt.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.asteroid_belt.description"
+    },
+    "frame": "goal"
+  },
+  "criteria": {
+    "belt": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "panthrixsgalaxy:asteroids"
+      }
+    }
+  }
+}

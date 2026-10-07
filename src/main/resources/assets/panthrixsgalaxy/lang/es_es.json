@@ -392,5 +392,8 @@
   "status.panthrixsgalaxy.distributor_no_power": "🟠 Sin energía ni oxígeno de reserva: la sala no tiene aire",
   "status.panthrixsgalaxy.distributor_breathable": "Aquí ya hay aire: no hace falta",
   "status.panthrixsgalaxy.distributor_starting": "Midiendo la sala...",
-  "engineering.panthrixsgalaxy.category.station": "Estación espacial"
+  "engineering.panthrixsgalaxy.category.station": "Estación espacial",
+  "planet.panthrixsgalaxy.asteroids": "el cinturón de asteroides",
+  "advancements.panthrixsgalaxy.asteroid_belt.title": "Entre rocas",
+  "advancements.panthrixsgalaxy.asteroid_belt.description": "Llega con tu nave al cinturón de asteroides"
 }

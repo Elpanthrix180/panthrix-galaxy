@@ -1,7 +1,10 @@
 package com.panthrixsgalaxy.init;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.world.feature.PGAlienOutpostFeature;
+import com.panthrixsgalaxy.world.feature.PGAsteroidFeature;
 import com.panthrixsgalaxy.world.feature.PGCraterFeature;
+import com.panthrixsgalaxy.world.feature.PGShipwreckFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraftforge.registries.DeferredRegister;
@@ -20,6 +23,18 @@ public final class ModFeatures {
     /** Cráter de impacto ("type": "panthrixsgalaxy:crater"). */
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> CRATER = FEATURES.register("crater",
             () -> new PGCraterFeature(NoneFeatureConfiguration.CODEC));
+
+    // ===== Cinturón de asteroides (Fase 20) =====
+
+    /** Asteroide con minerales ("type": "panthrixsgalaxy:asteroid"). */
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> ASTEROID = FEATURES.register("asteroid",
+            () -> new PGAsteroidFeature(NoneFeatureConfiguration.CODEC));
+    /** Restos de una nave con un cofre. */
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> SHIPWRECK = FEATURES.register("shipwreck",
+            () -> new PGShipwreckFeature(NoneFeatureConfiguration.CODEC));
+    /** Puesto alienígena: asteroide hueco con tecnología y guardianes. */
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> ALIEN_OUTPOST = FEATURES.register("alien_outpost",
+            () -> new PGAlienOutpostFeature(NoneFeatureConfiguration.CODEC));
 
     private ModFeatures() {
     }
