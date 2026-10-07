@@ -121,7 +121,7 @@ pleno vuelo, sin portal ni pantalla de "pulsa botón", para que se sienta contin
 | 13 | Marte | Parcial | ✅ Hecho: dimensión JSON con montañas, menas, hielo, tormentas de polvo (Java), logro |
 | 14 | Naves | No | ✅ Hecho: nave y nave avanzada pilotables (Java), bodega, HUD, viajes entre planetas |
 | 15 | Armas láser | Parcial | ✅ Hecho: pistola y rifle láser (Java: proyectil + energía FE del arma o la mochila), tipo de daño |
-| 16 | Espadas láser | Parcial | Java: activación, energía, partículas |
+| 16 | Espadas láser | Parcial | ✅ Hecho: azul, roja y morada; encender/apagar, energía, guardia que desvía láseres |
 | 17 | Mobs | Sí (básicos) | Java: IA y modelos |
 | 18 | Jefes | Parcial | Java: fases y barra de jefe |
 | 19 | Estaciones espaciales | Parcial | Java + estructuras |

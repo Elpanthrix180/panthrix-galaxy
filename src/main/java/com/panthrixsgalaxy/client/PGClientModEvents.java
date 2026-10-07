@@ -17,9 +17,11 @@ import com.panthrixsgalaxy.init.ModItems;
 import com.panthrixsgalaxy.init.ModMenuTypes;
 import com.panthrixsgalaxy.init.ModRecipes;
 import com.panthrixsgalaxy.item.PGBackpackItem;
+import com.panthrixsgalaxy.weapon.PGLaserSwordItem;
 import net.minecraft.client.RecipeBookCategories;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraftforge.api.distmarker.Dist;
@@ -46,6 +48,13 @@ public final class PGClientModEvents {
             MenuScreens.<ChestMenu, PGBackpackScreen>register(ModMenuTypes.BACKPACK.get(), PGBackpackScreen::new);
             MenuScreens.register(ModMenuTypes.ENGINEERING_BENCH.get(), PGEngineeringBenchScreen::new);
             MenuScreens.<ChestMenu, PGShipScreen>register(ModMenuTypes.SHIP.get(), PGShipScreen::new);
+            // Espadas láser: el modelo cambia a "con hoja" cuando están encendidas (Fase 16)
+            ModItems.ITEMS.getEntries().forEach(entry -> {
+                if (entry.get() instanceof PGLaserSwordItem) {
+                    ItemProperties.register(entry.get(), new ResourceLocation(PanthrixsGalaxy.MOD_ID, "active"),
+                            (stack, level, entity, seed) -> PGLaserSwordItem.isActive(stack) ? 1.0f : 0.0f);
+                }
+            });
         });
     }
 

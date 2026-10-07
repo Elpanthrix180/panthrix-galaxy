@@ -12,8 +12,10 @@ import com.panthrixsgalaxy.item.PGRocketItem;
 import com.panthrixsgalaxy.item.PGShipItem;
 import com.panthrixsgalaxy.item.PGOxygenTankItem;
 import com.panthrixsgalaxy.item.PGTestItem;
+import com.panthrixsgalaxy.weapon.LaserSwordTier;
 import com.panthrixsgalaxy.weapon.LaserTier;
 import com.panthrixsgalaxy.weapon.PGLaserItem;
+import com.panthrixsgalaxy.weapon.PGLaserSwordItem;
 import com.panthrixsgalaxy.tool.PGToolTiers;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.AxeItem;
@@ -245,6 +247,21 @@ public final class ModItems {
     /** Rifle láser: potente y atraviesa enemigos. Marteíta y cristal marciano (Marte). */
     public static final RegistryObject<Item> PG_LASER_RIFLE = ITEMS.register("pg_laser_rifle",
             () -> new PGLaserItem(LaserTier.RIFLE, new Item.Properties().rarity(Rarity.RARE)));
+
+    // ===== ESPADAS LÁSER (Fase 16) =====
+
+    /** Empuñadura: la base de todas las espadas láser. */
+    public static final RegistryObject<Item> PG_LASER_SWORD_HILT = material("pg_laser_sword_hilt", Rarity.UNCOMMON);
+
+    /** Hoja azul (selenita, Luna). */
+    public static final RegistryObject<Item> PG_BLUE_LASER_SWORD = ITEMS.register("pg_blue_laser_sword",
+            () -> new PGLaserSwordItem(LaserSwordTier.BLUE, new Item.Properties().rarity(Rarity.UNCOMMON)));
+    /** Hoja roja (cristal marciano, Marte): quema. */
+    public static final RegistryObject<Item> PG_RED_LASER_SWORD = ITEMS.register("pg_red_laser_sword",
+            () -> new PGLaserSwordItem(LaserSwordTier.RED, new Item.Properties().rarity(Rarity.RARE)));
+    /** Hoja morada (cristal cósmico y xenita): la más fuerte. */
+    public static final RegistryObject<Item> PG_PURPLE_LASER_SWORD = ITEMS.register("pg_purple_laser_sword",
+            () -> new PGLaserSwordItem(LaserSwordTier.PURPLE, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
 
     // ===== AYUDANTES =====
 

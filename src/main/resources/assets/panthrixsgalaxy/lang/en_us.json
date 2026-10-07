@@ -309,5 +309,14 @@
   "tooltip.panthrixsgalaxy.laser_hint": "Right click: fire · Charge it on a generator or cell; when empty it uses your backpack's energy",
   "message.panthrixsgalaxy.laser_no_energy": "No energy: charge the weapon or your backpack",
   "message.panthrixsgalaxy.laser_shots": "Laser: %s shots",
-  "message.panthrixsgalaxy.laser_shots_backpack": "Laser: %s shots (+%s from backpack)"
+  "message.panthrixsgalaxy.laser_shots_backpack": "Laser: %s shots (+%s from backpack)",
+  "item.panthrixsgalaxy.pg_laser_sword_hilt": "Laser Sword Hilt",
+  "item.panthrixsgalaxy.pg_blue_laser_sword": "Blue Laser Sword",
+  "item.panthrixsgalaxy.pg_red_laser_sword": "Red Laser Sword",
+  "item.panthrixsgalaxy.pg_purple_laser_sword": "Purple Laser Sword",
+  "tooltip.panthrixsgalaxy.laser_sword_on": "● On",
+  "tooltip.panthrixsgalaxy.laser_sword_off": "○ Off",
+  "tooltip.panthrixsgalaxy.laser_sword_fire": "Sets enemies on fire",
+  "tooltip.panthrixsgalaxy.laser_sword_hint": "Shift + right click: on/off · Hold right click: guard (deflects lasers)",
+  "message.panthrixsgalaxy.laser_sword_empty": "Your laser sword ran out of energy"
 }

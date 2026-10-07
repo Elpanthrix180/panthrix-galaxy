@@ -7,6 +7,7 @@ import com.panthrixsgalaxy.item.PGFuelCanisterItem;
 import com.panthrixsgalaxy.item.PGRocketItem;
 import com.panthrixsgalaxy.item.PGShipItem;
 import com.panthrixsgalaxy.weapon.PGLaserItem;
+import com.panthrixsgalaxy.weapon.PGLaserSwordItem;
 import com.panthrixsgalaxy.item.PGOxygenTankItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -74,6 +75,9 @@ public final class ModCreativeTabs {
                         if (item instanceof PGLaserItem laser) {
                             output.accept(new ItemStack(laser)); // descargada
                             output.accept(laser.createFull());    // y cargada
+                        } else if (item instanceof PGLaserSwordItem sword) {
+                            output.accept(new ItemStack(sword));
+                            output.accept(sword.createFull());
                         } else if (isEquipment(item)) {
                             output.accept(item);
                         }

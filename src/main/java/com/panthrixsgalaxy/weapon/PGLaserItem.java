@@ -1,9 +1,8 @@
 package com.panthrixsgalaxy.weapon;
 
 import com.panthrixsgalaxy.entity.laser.PGLaserBoltEntity;
-import com.panthrixsgalaxy.item.PGBackpackItem;
-import com.panthrixsgalaxy.system.backpack.PGBackpackSlot;
 import com.panthrixsgalaxy.system.energy.ItemEnergyStorage;
+import com.panthrixsgalaxy.system.energy.PortableEnergy;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -30,7 +29,7 @@ import java.util.List;
 /**
  * Arma láser. Clic derecho = disparar un rayo de energía.
  *
- * Energía:
+ * Energía (ver PortableEnergy):
  *   1) Primero gasta la energía del arma (barra amarilla bajo el icono).
  *   2) Si está vacía, usa la energía de la MOCHILA equipada (Fase 7).
  *   3) Se recarga como una batería: clic derecho sobre un generador o una celda de energía.
@@ -56,8 +55,7 @@ public class PGLaserItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        boolean free = player.getAbilities().instabuild;
-        if (!free && !hasEnergyFor(stack, player)) {
+        if (!PortableEnergy.canAfford(stack, player, tier.getShotCost())) {
             if (!level.isClientSide) {
                 level.playSound(null, player.blockPosition(), SoundEvents.DISPENSER_FAIL, SoundSource.PLAYERS, 0.8f, 1.6f);
                 player.displayClientMessage(Component.translatable("message.panthrixsgalaxy.laser_no_energy")
@@ -68,9 +66,7 @@ public class PGLaserItem extends Item {
         }
 
         if (!level.isClientSide) {
-            if (!free) {
-                drainEnergy(stack, player);
-            }
+            PortableEnergy.consume(stack, player, tier.getShotCost());
             PGLaserBoltEntity bolt = new PGLaserBoltEntity(level, player, tier);
             bolt.shoot(player.getLookAngle().x, player.getLookAngle().y, player.getLookAngle().z, (float) tier.getSpeed(), 0.0f);
             level.addFreshEntity(bolt);
@@ -84,34 +80,10 @@ public class PGLaserItem extends Item {
         return InteractionResultHolder.consume(stack);
     }
 
-    // ===== Energía =====
-
-    private boolean hasEnergyFor(ItemStack stack, Player player) {
-        return ItemEnergyStorage.getEnergy(stack) >= tier.getShotCost() || backpackEnergy(player) >= tier.getShotCost();
-    }
-
-    /** Gasta la energía del disparo: primero del arma, si no, de la mochila. */
-    private void drainEnergy(ItemStack stack, Player player) {
-        int own = ItemEnergyStorage.getEnergy(stack);
-        if (own >= tier.getShotCost()) {
-            stack.getOrCreateTag().putInt(ItemEnergyStorage.ENERGY_TAG, own - tier.getShotCost());
-            return;
-        }
-        ItemStack backpack = PGBackpackSlot.getEquipped(player);
-        int inBackpack = backpackEnergy(player);
-        PGBackpackItem.setTank(backpack, PGBackpackItem.Tank.ENERGY, inBackpack - tier.getShotCost());
-    }
-
-    private static int backpackEnergy(Player player) {
-        ItemStack backpack = PGBackpackSlot.getEquipped(player);
-        return backpack.getItem() instanceof PGBackpackItem
-                ? PGBackpackItem.getTank(backpack, PGBackpackItem.Tank.ENERGY) : 0;
-    }
-
     /** "Láser: 42 disparos (+ 120 con la mochila)" en la barra de mensajes. */
     private void showShotsLeft(ItemStack stack, Player player) {
-        int own = ItemEnergyStorage.getEnergy(stack) / tier.getShotCost();
-        int backpack = backpackEnergy(player) / tier.getShotCost();
+        int own = PortableEnergy.ownEnergy(stack) / tier.getShotCost();
+        int backpack = PortableEnergy.backpackEnergy(player) / tier.getShotCost();
         Component text = backpack > 0
                 ? Component.translatable("message.panthrixsgalaxy.laser_shots_backpack", own, backpack)
                 : Component.translatable("message.panthrixsgalaxy.laser_shots", own);

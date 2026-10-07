@@ -3,6 +3,7 @@ package com.panthrixsgalaxy.entity.laser;
 import com.panthrixsgalaxy.init.ModDamageTypes;
 import com.panthrixsgalaxy.init.ModEntities;
 import com.panthrixsgalaxy.weapon.LaserTier;
+import com.panthrixsgalaxy.weapon.PGLaserSwordItem;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -105,6 +106,12 @@ public class PGLaserBoltEntity extends Projectile {
     @Override
     protected void onHitEntity(EntityHitResult result) {
         Entity target = result.getEntity();
+        // Espada láser en guardia mirando hacia el rayo: ¡lo devuelve! (Fase 16)
+        if (target instanceof LivingEntity guard && PGLaserSwordItem.isGuarding(guard)
+                && PGLaserSwordItem.isFacing(guard, position()) && PGLaserSwordItem.payGuard(guard)) {
+            deflect(guard);
+            return;
+        }
         hitEntities.add(target.getId());
         Entity owner = getOwner();
         if (target instanceof LivingEntity living) {
@@ -119,6 +126,16 @@ public class PGLaserBoltEntity extends Projectile {
         if (pierceLeft-- <= 0) {
             discard();
         }
+    }
+
+    /** Da la vuelta al rayo: ahora es de quien lo ha desviado y puede dar al que disparó. */
+    private void deflect(LivingEntity guard) {
+        setDeltaMovement(getDeltaMovement().scale(-1.0));
+        setOwner(guard);
+        hitEntities.clear();
+        hitEntities.add(guard.getId());
+        tickCount = 0;
+        sparks(position(), 8);
     }
 
     @Override

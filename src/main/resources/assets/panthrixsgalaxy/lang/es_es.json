@@ -309,5 +309,14 @@
   "tooltip.panthrixsgalaxy.laser_hint": "Clic derecho: disparar · Cárgala en un generador o celda; si se vacía, usa la energía de la mochila",
   "message.panthrixsgalaxy.laser_no_energy": "Sin energía: carga el arma o la mochila",
   "message.panthrixsgalaxy.laser_shots": "Láser: %s disparos",
-  "message.panthrixsgalaxy.laser_shots_backpack": "Láser: %s disparos (+%s con la mochila)"
+  "message.panthrixsgalaxy.laser_shots_backpack": "Láser: %s disparos (+%s con la mochila)",
+  "item.panthrixsgalaxy.pg_laser_sword_hilt": "Empuñadura de espada láser",
+  "item.panthrixsgalaxy.pg_blue_laser_sword": "Espada láser azul",
+  "item.panthrixsgalaxy.pg_red_laser_sword": "Espada láser roja",
+  "item.panthrixsgalaxy.pg_purple_laser_sword": "Espada láser morada",
+  "tooltip.panthrixsgalaxy.laser_sword_on": "● Encendida",
+  "tooltip.panthrixsgalaxy.laser_sword_off": "○ Apagada",
+  "tooltip.panthrixsgalaxy.laser_sword_fire": "Prende fuego a los enemigos",
+  "tooltip.panthrixsgalaxy.laser_sword_hint": "Mayús + clic derecho: encender/apagar · Clic derecho mantenido: guardia (desvía láseres)",
+  "message.panthrixsgalaxy.laser_sword_empty": "La espada láser se ha quedado sin energía"
 }

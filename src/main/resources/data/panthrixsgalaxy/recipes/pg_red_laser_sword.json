@@ -1,0 +1,27 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "laser_swords",
+  "category": "equipment",
+  "pattern": [
+    " C ",
+    "MEM",
+    " H "
+  ],
+  "key": {
+    "C": {
+      "item": "panthrixsgalaxy:pg_martian_crystal"
+    },
+    "M": {
+      "item": "panthrixsgalaxy:pg_martianite_ingot"
+    },
+    "E": {
+      "item": "panthrixsgalaxy:pg_laser_emitter"
+    },
+    "H": {
+      "item": "panthrixsgalaxy:pg_laser_sword_hilt"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_red_laser_sword"
+  }
+}
