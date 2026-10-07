@@ -17,6 +17,8 @@ import com.panthrixsgalaxy.weapon.LaserTier;
 import com.panthrixsgalaxy.weapon.PGLaserItem;
 import com.panthrixsgalaxy.weapon.PGLaserSwordItem;
 import com.panthrixsgalaxy.tool.PGToolTiers;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.HoeItem;
@@ -25,9 +27,12 @@ import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.SwordItem;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.function.Supplier;
 
 /**
  * Lista de TODOS los objetos del mod.
@@ -263,7 +268,30 @@ public final class ModItems {
     public static final RegistryObject<Item> PG_PURPLE_LASER_SWORD = ITEMS.register("pg_purple_laser_sword",
             () -> new PGLaserSwordItem(LaserSwordTier.PURPLE, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
 
+    // ===== CRIATURAS (Fase 17) =====
+
+    /** Quitina alienígena: caparazón de crawlers, escorpiones y gusanos. */
+    public static final RegistryObject<Item> PG_ALIEN_CHITIN = material("pg_alien_chitin");
+    /** Tecnología alienígena: la sueltan los aliens. Para la tecnología más avanzada. */
+    public static final RegistryObject<Item> PG_ALIEN_TECH = material("pg_alien_tech", Rarity.RARE);
+
+    // Huevos de aparición (color de fondo, color de las manchas)
+    public static final RegistryObject<Item> PG_LUNAR_CRAWLER_SPAWN_EGG = egg("lunar_crawler", ModEntities.LUNAR_CRAWLER, 0xB8BCC4, 0x5A6070);
+    public static final RegistryObject<Item> PG_LUNAR_SCORPION_SPAWN_EGG = egg("lunar_scorpion", ModEntities.LUNAR_SCORPION, 0xD8DCE4, 0x6A8CC8);
+    public static final RegistryObject<Item> PG_MARTIAN_WORM_SPAWN_EGG = egg("martian_worm", ModEntities.MARTIAN_WORM, 0xA0522D, 0xF0C080);
+    public static final RegistryObject<Item> PG_MARTIAN_SCORPION_SPAWN_EGG = egg("martian_scorpion", ModEntities.MARTIAN_SCORPION, 0xB03A20, 0x401810);
+    public static final RegistryObject<Item> PG_MARTIAN_CRAWLER_SPAWN_EGG = egg("martian_crawler", ModEntities.MARTIAN_CRAWLER, 0x8A3A22, 0xE0703A);
+    public static final RegistryObject<Item> PG_ALIEN_EXPLORER_SPAWN_EGG = egg("alien_explorer", ModEntities.ALIEN_EXPLORER, 0x7ACC6A, 0xE0E0E0);
+    public static final RegistryObject<Item> PG_ALIEN_SOLDIER_SPAWN_EGG = egg("alien_soldier", ModEntities.ALIEN_SOLDIER, 0x4A8A40, 0x303848);
+    public static final RegistryObject<Item> PG_ALIEN_CREATURE_SPAWN_EGG = egg("alien_creature", ModEntities.ALIEN_CREATURE, 0x5A3A7A, 0xC0FF60);
+    public static final RegistryObject<Item> PG_ALIEN_PREDATOR_SPAWN_EGG = egg("alien_predator", ModEntities.ALIEN_PREDATOR, 0x2A3020, 0xB04AFF);
+
     // ===== AYUDANTES =====
+
+    /** Huevo de aparición de una criatura. */
+    private static RegistryObject<Item> egg(String mob, Supplier<? extends EntityType<? extends Mob>> type, int background, int spots) {
+        return ITEMS.register("pg_" + mob + "_spawn_egg", () -> new ForgeSpawnEggItem(type, background, spots, new Item.Properties()));
+    }
 
     /** Material normal (nombre blanco). */
     private static RegistryObject<Item> material(String name) {

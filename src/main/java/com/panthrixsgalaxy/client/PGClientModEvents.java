@@ -1,9 +1,18 @@
 package com.panthrixsgalaxy.client;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.client.model.PGAlienCreatureModel;
+import com.panthrixsgalaxy.client.model.PGAlienModels;
+import com.panthrixsgalaxy.client.model.PGMartianWormModel;
 import com.panthrixsgalaxy.client.model.PGRocketModel;
+import com.panthrixsgalaxy.client.model.PGScorpionModel;
 import com.panthrixsgalaxy.client.model.PGShipModel;
+import com.panthrixsgalaxy.client.renderer.PGAlienCreatureRenderer;
+import com.panthrixsgalaxy.client.renderer.PGAlienRenderer;
+import com.panthrixsgalaxy.client.renderer.PGCrawlerRenderer;
 import com.panthrixsgalaxy.client.renderer.PGLaserBoltRenderer;
+import com.panthrixsgalaxy.client.renderer.PGMartianWormRenderer;
+import com.panthrixsgalaxy.client.renderer.PGScorpionRenderer;
 import com.panthrixsgalaxy.client.renderer.PGRocketRenderer;
 import com.panthrixsgalaxy.client.renderer.PGShipRenderer;
 import com.panthrixsgalaxy.client.screen.PGBackpackScreen;
@@ -96,6 +105,16 @@ public final class PGClientModEvents {
         event.registerEntityRenderer(ModEntities.ROCKET.get(), PGRocketRenderer::new);
         event.registerEntityRenderer(ModEntities.SHIP.get(), PGShipRenderer::new);
         event.registerEntityRenderer(ModEntities.LASER_BOLT.get(), PGLaserBoltRenderer::new);
+        // Criaturas (Fase 17)
+        event.registerEntityRenderer(ModEntities.LUNAR_CRAWLER.get(), PGCrawlerRenderer::new);
+        event.registerEntityRenderer(ModEntities.MARTIAN_CRAWLER.get(), PGCrawlerRenderer::new);
+        event.registerEntityRenderer(ModEntities.LUNAR_SCORPION.get(), PGScorpionRenderer::new);
+        event.registerEntityRenderer(ModEntities.MARTIAN_SCORPION.get(), PGScorpionRenderer::new);
+        event.registerEntityRenderer(ModEntities.MARTIAN_WORM.get(), PGMartianWormRenderer::new);
+        event.registerEntityRenderer(ModEntities.ALIEN_CREATURE.get(), PGAlienCreatureRenderer::new);
+        event.registerEntityRenderer(ModEntities.ALIEN_EXPLORER.get(), context -> new PGAlienRenderer<>(context, "alien_explorer", 1.0f));
+        event.registerEntityRenderer(ModEntities.ALIEN_SOLDIER.get(), context -> new PGAlienRenderer<>(context, "alien_soldier", 1.0f));
+        event.registerEntityRenderer(ModEntities.ALIEN_PREDATOR.get(), context -> new PGAlienRenderer<>(context, "alien_predator", 1.15f));
     }
 
     /** Registra los modelos 3D de las entidades. */
@@ -103,6 +122,10 @@ public final class PGClientModEvents {
     public static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(PGRocketModel.LAYER_LOCATION, PGRocketModel::createBodyLayer);
         event.registerLayerDefinition(PGShipModel.LAYER_LOCATION, PGShipModel::createBodyLayer);
+        event.registerLayerDefinition(PGScorpionModel.LAYER_LOCATION, PGScorpionModel::createBodyLayer);
+        event.registerLayerDefinition(PGMartianWormModel.LAYER_LOCATION, PGMartianWormModel::createBodyLayer);
+        event.registerLayerDefinition(PGAlienCreatureModel.LAYER_LOCATION, PGAlienCreatureModel::createBodyLayer);
+        event.registerLayerDefinition(PGAlienModels.ALIEN, PGAlienModels::createAlienLayer);
     }
 
     /** Añade la capa "mochila en la espalda" a los dos tipos de jugador (brazos normales y finos). */

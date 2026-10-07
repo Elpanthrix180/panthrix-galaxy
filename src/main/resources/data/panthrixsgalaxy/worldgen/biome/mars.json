@@ -8,7 +8,40 @@
     "water_color": 4159204,
     "water_fog_color": 329011
   },
-  "spawners": {},
+  "spawners": {
+    "monster": [
+      {
+        "type": "panthrixsgalaxy:martian_crawler",
+        "weight": 70,
+        "minCount": 2,
+        "maxCount": 4
+      },
+      {
+        "type": "panthrixsgalaxy:martian_scorpion",
+        "weight": 60,
+        "minCount": 1,
+        "maxCount": 2
+      },
+      {
+        "type": "panthrixsgalaxy:martian_worm",
+        "weight": 25,
+        "minCount": 1,
+        "maxCount": 1
+      },
+      {
+        "type": "panthrixsgalaxy:alien_explorer",
+        "weight": 12,
+        "minCount": 1,
+        "maxCount": 2
+      },
+      {
+        "type": "panthrixsgalaxy:alien_soldier",
+        "weight": 8,
+        "minCount": 2,
+        "maxCount": 3
+      }
+    ]
+  },
   "spawn_costs": {},
   "carvers": {},
   "features": [

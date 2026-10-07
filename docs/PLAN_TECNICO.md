@@ -122,7 +122,7 @@ pleno vuelo, sin portal ni pantalla de "pulsa botón", para que se sienta contin
 | 14 | Naves | No | ✅ Hecho: nave y nave avanzada pilotables (Java), bodega, HUD, viajes entre planetas |
 | 15 | Armas láser | Parcial | ✅ Hecho: pistola y rifle láser (Java: proyectil + energía FE del arma o la mochila), tipo de daño |
 | 16 | Espadas láser | Parcial | ✅ Hecho: azul, roja y morada; encender/apagar, energía, guardia que desvía láseres |
-| 17 | Mobs | Sí (básicos) | Java: IA y modelos |
+| 17 | Mobs | Sí (básicos) | ✅ Hecho: 9 criaturas (Luna, Marte, aliens) con IA propia, aparición por planeta, botín |
 | 18 | Jefes | Parcial | Java: fases y barra de jefe |
 | 19 | Estaciones espaciales | Parcial | Java + estructuras |
 | 20 | Asteroides | Parcial | Worldgen JSON + Java |

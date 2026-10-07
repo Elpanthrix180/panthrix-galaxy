@@ -2,8 +2,16 @@ package com.panthrixsgalaxy.init;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.entity.laser.PGLaserBoltEntity;
+import com.panthrixsgalaxy.entity.mob.PGAlienCreatureEntity;
+import com.panthrixsgalaxy.entity.mob.PGAlienExplorerEntity;
+import com.panthrixsgalaxy.entity.mob.PGAlienPredatorEntity;
+import com.panthrixsgalaxy.entity.mob.PGAlienSoldierEntity;
+import com.panthrixsgalaxy.entity.mob.PGCrawlerEntity;
+import com.panthrixsgalaxy.entity.mob.PGMartianWormEntity;
+import com.panthrixsgalaxy.entity.mob.PGScorpionEntity;
 import com.panthrixsgalaxy.entity.rocket.PGRocketEntity;
 import com.panthrixsgalaxy.entity.ship.PGShipEntity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.registries.DeferredRegister;
@@ -39,6 +47,41 @@ public final class ModEntities {
                     .clientTrackingRange(8)
                     .updateInterval(1)
                     .build("laser_bolt"));
+
+    // ===== CRIATURAS (Fase 17) =====
+
+    // Luna
+    public static final RegistryObject<EntityType<PGCrawlerEntity>> LUNAR_CRAWLER =
+            monster("lunar_crawler", PGCrawlerEntity::new, 1.2f, 0.7f);
+    public static final RegistryObject<EntityType<PGScorpionEntity>> LUNAR_SCORPION =
+            monster("lunar_scorpion", PGScorpionEntity::new, 1.2f, 0.8f);
+
+    // Marte
+    public static final RegistryObject<EntityType<PGMartianWormEntity>> MARTIAN_WORM =
+            monster("martian_worm", PGMartianWormEntity::new, 1.0f, 2.4f);
+    public static final RegistryObject<EntityType<PGScorpionEntity>> MARTIAN_SCORPION =
+            monster("martian_scorpion", PGScorpionEntity::new, 1.4f, 0.9f);
+    public static final RegistryObject<EntityType<PGCrawlerEntity>> MARTIAN_CRAWLER =
+            monster("martian_crawler", PGCrawlerEntity::new, 1.4f, 0.9f);
+
+    // Alienígenas
+    public static final RegistryObject<EntityType<PGAlienExplorerEntity>> ALIEN_EXPLORER =
+            monster("alien_explorer", PGAlienExplorerEntity::new, 0.6f, 1.95f);
+    public static final RegistryObject<EntityType<PGAlienSoldierEntity>> ALIEN_SOLDIER =
+            monster("alien_soldier", PGAlienSoldierEntity::new, 0.6f, 1.95f);
+    public static final RegistryObject<EntityType<PGAlienCreatureEntity>> ALIEN_CREATURE =
+            monster("alien_creature", PGAlienCreatureEntity::new, 1.0f, 0.9f);
+    public static final RegistryObject<EntityType<PGAlienPredatorEntity>> ALIEN_PREDATOR =
+            monster("alien_predator", PGAlienPredatorEntity::new, 0.7f, 2.25f);
+
+    /** Registra una criatura hostil (categoría MONSTER). */
+    private static <T extends Entity> RegistryObject<EntityType<T>> monster(String name, EntityType.EntityFactory<T> factory,
+                                                                             float width, float height) {
+        return ENTITIES.register(name, () -> EntityType.Builder.of(factory, MobCategory.MONSTER)
+                .sized(width, height)
+                .clientTrackingRange(8)
+                .build(name));
+    }
 
     private ModEntities() {
     }
