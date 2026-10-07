@@ -1,0 +1,20 @@
+{
+  "parent": "panthrixsgalaxy:mars_red_planet",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_ship_cockpit"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.beyond_earth.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.beyond_earth.description"
+    },
+    "frame": "goal"
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "parent": "panthrixsgalaxy:moon_first_step",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_space_helmet"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.astronaut.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.astronaut.description"
+    },
+    "frame": "task"
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

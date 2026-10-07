@@ -1,0 +1,86 @@
+{
+  "parent": "panthrixsgalaxy:first_shot",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_blue_laser_pistol"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.advanced_laser.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.advanced_laser.description"
+    },
+    "frame": "task"
+  },
+  "criteria": {
+    "c0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_blue_laser_pistol"
+            ]
+          }
+        ]
+      }
+    },
+    "c1": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_purple_laser_pistol"
+            ]
+          }
+        ]
+      }
+    },
+    "c2": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_gold_laser_pistol"
+            ]
+          }
+        ]
+      }
+    },
+    "c3": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_white_laser_pistol"
+            ]
+          }
+        ]
+      }
+    },
+    "c4": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_laser_rifle"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "c0",
+      "c1",
+      "c2",
+      "c3",
+      "c4"
+    ]
+  ]
+}

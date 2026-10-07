@@ -1,7 +1,9 @@
 package com.panthrixsgalaxy.block.entity;
 
+import com.panthrixsgalaxy.advancement.PGAdvancements;
 import com.panthrixsgalaxy.block.PGEnergyBlock;
 import com.panthrixsgalaxy.init.ModBlockEntities;
+import com.panthrixsgalaxy.planet.PGPlanets;
 import com.panthrixsgalaxy.system.oxygen.PGAtmosphere;
 import com.panthrixsgalaxy.system.oxygen.PGSealedRooms;
 import it.unimi.dsi.fastutil.longs.LongSet;
@@ -10,7 +12,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 
 /**
  * Distribuidor de oxígeno (Fase 19): llena de aire la sala sellada en la que está.
@@ -87,10 +91,29 @@ public class PGOxygenDistributorBlockEntity extends PGEnergyBlockEntity {
         if (getBlockState().getValue(PGEnergyBlock.LIT) != lit) {
             level.setBlock(worldPosition, getBlockState().setValue(PGEnergyBlock.LIT, lit), 3);
         }
+        if (lit && room != null) {
+            awardBaseAdvancements(room);
+        }
         // Un soplo de aire saliendo del distribuidor
         if (lit && level instanceof ServerLevel server) {
             server.sendParticles(ParticleTypes.CLOUD, worldPosition.getX() + 0.5, worldPosition.getY() + 0.5,
                     worldPosition.getZ() + 0.5, 3, 0.4, 0.4, 0.4, 0.01);
+        }
+    }
+
+    /** Logros "Base lunar", "Colono" y "Estación orbital" para quien esté dentro de la sala sellada (Fase 22). */
+    private void awardBaseAdvancements(LongSet room) {
+        String advancement = level.dimension().equals(PGPlanets.MOON_LEVEL) ? "lunar_base"
+                : level.dimension().equals(PGPlanets.MARS_LEVEL) ? "colonist"
+                : level.dimension().equals(PGPlanets.SPACE) || level.dimension().equals(PGPlanets.ASTEROIDS_LEVEL) ? "orbital_station"
+                : null;
+        if (advancement == null) {
+            return;
+        }
+        for (ServerPlayer player : level.getEntitiesOfClass(ServerPlayer.class, new AABB(worldPosition).inflate(24.0))) {
+            if (room.contains(BlockPos.containing(player.getEyePosition()).asLong())) {
+                PGAdvancements.award(player, advancement);
+            }
         }
     }
 

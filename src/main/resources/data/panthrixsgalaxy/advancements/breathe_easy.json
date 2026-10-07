@@ -1,0 +1,60 @@
+{
+  "parent": "panthrixsgalaxy:engineer",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_oxygen_tank"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.breathe_easy.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.breathe_easy.description"
+    },
+    "frame": "task"
+  },
+  "criteria": {
+    "c0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_oxygen_tank"
+            ]
+          }
+        ]
+      }
+    },
+    "c1": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_large_oxygen_tank"
+            ]
+          }
+        ]
+      }
+    },
+    "c2": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_space_oxygen_tank"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "c0",
+      "c1",
+      "c2"
+    ]
+  ]
+}

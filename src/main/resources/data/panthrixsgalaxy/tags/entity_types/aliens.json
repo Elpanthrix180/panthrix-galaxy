@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "panthrixsgalaxy:alien_explorer",
+    "panthrixsgalaxy:alien_soldier",
+    "panthrixsgalaxy:alien_creature",
+    "panthrixsgalaxy:alien_predator",
+    "panthrixsgalaxy:alien_queen"
+  ]
+}

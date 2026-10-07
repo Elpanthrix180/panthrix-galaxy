@@ -123,6 +123,7 @@ public final class SpaceSkyRenderer {
         }
         Vec3 originCenter = Vec3.atCenterOf(origin);
         List<PGPlanet> planets = new ArrayList<>(PGPlanets.ALL);
+        planets.removeIf(PGPlanets::isSecret); // los planetas secretos no se ven
         planets.sort(Comparator.comparingDouble(
                 (PGPlanet planet) -> originCenter.add(planet.spaceOffset()).distanceTo(cameraPos)).reversed());
 

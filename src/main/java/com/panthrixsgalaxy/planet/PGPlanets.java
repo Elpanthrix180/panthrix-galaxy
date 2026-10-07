@@ -49,6 +49,8 @@ public final class PGPlanets {
     public static final ResourceKey<Level> VENUS_LEVEL = dimension("venus");
     public static final ResourceKey<Level> PLUTO_LEVEL = dimension("pluto");
     public static final ResourceKey<Level> XENORIA_LEVEL = dimension("xenoria");
+    /** Fase 22: el planeta SECRETO. */
+    public static final ResourceKey<Level> NYX_LEVEL = dimension("nyx");
 
     /** Altura a la que se aparece en el Espacio. */
     public static final int SPACE_ARRIVAL_Y = 100;
@@ -97,9 +99,21 @@ public final class PGPlanets {
     public static final PGPlanet XENORIA = new PGPlanet("xenoria", XENORIA_LEVEL, 5,
             new Vec3(5000, 0, -4500), 120.0f, 170.0f, 0.7, false, 320, texture("xenoria"));
 
+    /**
+     * 🤫 NYX (Fase 22): el planeta SECRETO. No aparece en el cielo ni en el panel de la nave.
+     * Solo el monolito de la Luna revela dónde está. Un mundo negro, oscuro y lleno de cristal cósmico.
+     */
+    public static final PGPlanet NYX = new PGPlanet("nyx", NYX_LEVEL, 5,
+            new Vec3(-6500, 0, 6000), 70.0f, 110.0f, 0.5, false, 300, texture("nyx"));
+
     /** Todos los cuerpos celestes, en el orden en que se eligen como destino. */
     public static final List<PGPlanet> ALL = List.of(EARTH, MOON, MARS, ASTEROIDS,
-            MERCURY, VENUS, JUPITER, SATURN, URANUS, NEPTUNE, PLUTO, XENORIA);
+            MERCURY, VENUS, JUPITER, SATURN, URANUS, NEPTUNE, PLUTO, XENORIA, NYX);
+
+    /** ¿Es un planeta secreto? (no se dibuja en el cielo ni sale en el panel de la nave) */
+    public static boolean isSecret(PGPlanet planet) {
+        return planet == NYX;
+    }
 
     public static PGPlanet byIndex(int index) {
         return ALL.get(Math.floorMod(index, ALL.size()));

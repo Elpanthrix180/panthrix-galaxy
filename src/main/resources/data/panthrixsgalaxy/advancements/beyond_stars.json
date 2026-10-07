@@ -1,0 +1,26 @@
+{
+  "parent": "panthrixsgalaxy:solar_explorer",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_cosmic_crystal"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.beyond_stars.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.beyond_stars.description"
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "nyx": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "panthrixsgalaxy:nyx"
+      }
+    }
+  },
+  "rewards": {
+    "experience": 500
+  }
+}

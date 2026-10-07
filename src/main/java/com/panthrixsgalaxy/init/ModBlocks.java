@@ -2,6 +2,7 @@ package com.panthrixsgalaxy.init;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.block.PGCableBlock;
+import com.panthrixsgalaxy.block.PGDiscoveryBlock;
 import com.panthrixsgalaxy.block.PGEnergyBlock;
 import com.panthrixsgalaxy.block.PGEngineeringBenchBlock;
 import com.panthrixsgalaxy.block.PGOxygenRechargerBlock;
@@ -209,6 +210,21 @@ public final class ModBlocks {
     /** Tierra alienígena de Xenoria: morada y blanda. */
     public static final RegistryObject<Block> PG_ALIEN_SOIL = registerBlock("pg_alien_soil",
             () -> new Block(soil(MapColor.COLOR_PURPLE, SoundType.NYLIUM)));
+
+    // ===== DESCUBRIMIENTOS SECRETOS (Fase 22) =====
+
+    /** El MONOLITO: una losa negra en la Luna. Acércate... (logro secreto "El lado oscuro"). */
+    public static final RegistryObject<Block> PG_MONOLITH = registerBlock("pg_monolith",
+            () -> new PGDiscoveryBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
+                    .strength(-1.0f, 3600000.0f).noLootTable().lightLevel(state -> 3).sound(SoundType.NETHERITE_BLOCK),
+                    "dark_side", "message.panthrixsgalaxy.monolith"),
+            new Item.Properties().rarity(Rarity.EPIC));
+    /** Archivo alienígena: el corazón de una aldea de Xenoria (logro secreto "No estamos solos"). */
+    public static final RegistryObject<Block> PG_ALIEN_ARCHIVE = registerBlock("pg_alien_archive",
+            () -> new PGDiscoveryBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE)
+                    .strength(-1.0f, 3600000.0f).noLootTable().lightLevel(state -> 12).sound(SoundType.AMETHYST),
+                    "not_alone", "message.panthrixsgalaxy.alien_archive"),
+            new Item.Properties().rarity(Rarity.EPIC));
 
     // ===== BASES Y ESTACIONES ESPACIALES (Fase 19) =====
 

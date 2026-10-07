@@ -1,5 +1,5 @@
 {
-  "parent": "panthrixsgalaxy:mars_red_planet",
+  "parent": "panthrixsgalaxy:hostile_encounter",
   "display": {
     "icon": {
       "item": "panthrixsgalaxy:pg_necronite_shard"

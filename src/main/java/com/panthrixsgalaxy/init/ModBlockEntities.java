@@ -2,6 +2,7 @@ package com.panthrixsgalaxy.init;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.block.entity.PGCableBlockEntity;
+import com.panthrixsgalaxy.block.entity.PGDiscoveryBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGElectricOxygenRechargerBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGEnergyCellBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGFuelRefineryBlockEntity;
@@ -76,6 +77,13 @@ public final class ModBlockEntities {
     public static final RegistryObject<BlockEntityType<PGStorageCrateBlockEntity>> STORAGE_CRATE =
             BLOCK_ENTITIES.register("storage_crate", () -> BlockEntityType.Builder
                     .of(PGStorageCrateBlockEntity::new, ModBlocks.PG_STORAGE_CRATE.get()).build(null));
+
+    // ===== Fase 22: descubrimientos secretos =====
+
+    @SuppressWarnings("DataFlowIssue")
+    public static final RegistryObject<BlockEntityType<PGDiscoveryBlockEntity>> DISCOVERY =
+            BLOCK_ENTITIES.register("discovery", () -> BlockEntityType.Builder
+                    .of(PGDiscoveryBlockEntity::new, ModBlocks.PG_MONOLITH.get(), ModBlocks.PG_ALIEN_ARCHIVE.get()).build(null));
 
     private ModBlockEntities() {
     }

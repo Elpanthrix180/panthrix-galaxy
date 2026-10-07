@@ -1,5 +1,5 @@
 {
-  "parent": "panthrixsgalaxy:root",
+  "parent": "panthrixsgalaxy:liftoff",
   "display": {
     "icon": {
       "item": "panthrixsgalaxy:pg_lunar_regolith"

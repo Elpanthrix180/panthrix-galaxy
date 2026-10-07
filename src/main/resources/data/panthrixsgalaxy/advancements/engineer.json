@@ -1,0 +1,29 @@
+{
+  "parent": "panthrixsgalaxy:root",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_engineering_bench"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.engineer.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.engineer.description"
+    },
+    "frame": "task"
+  },
+  "criteria": {
+    "bench": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_engineering_bench"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -116,6 +116,7 @@ public final class ShipHudOverlay {
     private static List<PGPlanet> nearestPlanets(PGShipEntity ship) {
         List<PGPlanet> others = new ArrayList<>(PGPlanets.ALL);
         others.remove(PGPlanets.EARTH);
+        others.removeIf(PGPlanets::isSecret);
         others.sort(Comparator.comparingDouble(planet -> ship.getPlanetPosition(planet).distanceTo(ship.position())));
         List<PGPlanet> result = new ArrayList<>();
         result.add(PGPlanets.EARTH);

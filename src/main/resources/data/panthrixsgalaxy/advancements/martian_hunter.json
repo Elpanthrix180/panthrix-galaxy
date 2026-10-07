@@ -1,0 +1,20 @@
+{
+  "parent": "panthrixsgalaxy:hostile_encounter",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_alien_chitin"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.martian_hunter.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.martian_hunter.description"
+    },
+    "frame": "task"
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

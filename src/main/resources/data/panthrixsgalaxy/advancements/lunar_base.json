@@ -1,0 +1,20 @@
+{
+  "parent": "panthrixsgalaxy:moon_first_step",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_oxygen_distributor"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.lunar_base.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.lunar_base.description"
+    },
+    "frame": "goal"
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

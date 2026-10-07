@@ -127,7 +127,7 @@ pleno vuelo, sin portal ni pantalla de "pulsa botón", para que se sienta contin
 | 19 | Estaciones espaciales | Parcial | ✅ Hecho: bloques de base, salas selladas con aire, distribuidor y tanque de oxígeno, módulo habitable |
 | 20 | Asteroides | Parcial | ✅ Hecho: cinturón de asteroides (dimensión), asteroides con minerales, restos de naves, puestos alienígenas |
 | 21 | Planetas adicionales | Sí (dimensiones JSON) | ✅ Hecho: Mercurio, Venus, Plutón, Xenoria (alienígena) + 4 gigantes gaseosos; colmena de la Reina |
-| 22 | Logros | Sí | JSON advancements + triggers Java para los especiales |
+| 22 | Logros | Sí | ✅ Hecho: 30 logros en árbol, contadores Java, secretos (monolito, aldea alienígena, planeta Nyx) |
 | 23-25 | Optimización, pruebas, lanzamiento | — | Perfilado, pruebas, `.jar` final |
 
 ## 7. Progresión

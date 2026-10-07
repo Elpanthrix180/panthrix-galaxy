@@ -1,0 +1,20 @@
+{
+  "parent": "panthrixsgalaxy:colonist",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_station_panel"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.orbital_station.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.orbital_station.description"
+    },
+    "frame": "goal"
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "parent": "panthrixsgalaxy:first_shot",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_blue_laser_sword"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.energy_sword.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.energy_sword.description"
+    },
+    "frame": "task"
+  },
+  "criteria": {
+    "c0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_blue_laser_sword"
+            ]
+          }
+        ]
+      }
+    },
+    "c1": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_green_laser_sword"
+            ]
+          }
+        ]
+      }
+    },
+    "c2": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_red_laser_sword"
+            ]
+          }
+        ]
+      }
+    },
+    "c3": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_purple_laser_sword"
+            ]
+          }
+        ]
+      }
+    },
+    "c4": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_gold_laser_sword"
+            ]
+          }
+        ]
+      }
+    },
+    "c5": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_white_laser_sword"
+            ]
+          }
+        ]
+      }
+    },
+    "c6": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_black_laser_sword"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "c0",
+      "c1",
+      "c2",
+      "c3",
+      "c4",
+      "c5",
+      "c6"
+    ]
+  ]
+}

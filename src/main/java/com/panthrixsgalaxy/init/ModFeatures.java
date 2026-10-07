@@ -3,8 +3,10 @@ package com.panthrixsgalaxy.init;
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.world.feature.PGAlienHiveFeature;
 import com.panthrixsgalaxy.world.feature.PGAlienOutpostFeature;
+import com.panthrixsgalaxy.world.feature.PGAlienVillageFeature;
 import com.panthrixsgalaxy.world.feature.PGAsteroidFeature;
 import com.panthrixsgalaxy.world.feature.PGCraterFeature;
+import com.panthrixsgalaxy.world.feature.PGLunarRuinFeature;
 import com.panthrixsgalaxy.world.feature.PGShipwreckFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
@@ -42,6 +44,15 @@ public final class ModFeatures {
     /** Colmena de la Reina alienígena (Xenoria). */
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> ALIEN_HIVE = FEATURES.register("alien_hive",
             () -> new PGAlienHiveFeature(NoneFeatureConfiguration.CODEC));
+
+    // ===== Secretos (Fase 22) =====
+
+    /** Base lunar abandonada (a veces con el monolito). */
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> LUNAR_RUIN = FEATURES.register("lunar_ruin",
+            () -> new PGLunarRuinFeature(NoneFeatureConfiguration.CODEC));
+    /** Aldea alienígena con el archivo alienígena (Xenoria). */
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> ALIEN_VILLAGE = FEATURES.register("alien_village",
+            () -> new PGAlienVillageFeature(NoneFeatureConfiguration.CODEC));
 
     private ModFeatures() {
     }

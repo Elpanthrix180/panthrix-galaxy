@@ -109,6 +109,9 @@ public final class PGClientModEvents {
                 new PGAirlessSkyEffects(PGPlanets.VENUS.texture(), new Vector3f(0.6f, 0.5f, -0.5f), 6.0f));
         event.register(new ResourceLocation(PanthrixsGalaxy.MOD_ID, "pluto"),
                 new PGAirlessSkyEffects(PGPlanets.NEPTUNE.texture(), new Vector3f(-0.4f, 0.7f, 0.3f), 4.0f));
+        // Fase 22: desde el planeta secreto Nyx se ve Xenoria a lo lejos
+        event.register(new ResourceLocation(PanthrixsGalaxy.MOD_ID, "nyx"),
+                new PGAirlessSkyEffects(PGPlanets.XENORIA.texture(), new Vector3f(0.3f, 0.6f, -0.7f), 5.0f));
     }
 
     /** Une cada entidad con la clase que la dibuja. */
