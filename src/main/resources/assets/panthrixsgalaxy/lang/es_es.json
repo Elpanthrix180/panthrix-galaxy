@@ -464,5 +464,10 @@
   "block.panthrixsgalaxy.pg_monolith": "Monolito",
   "block.panthrixsgalaxy.pg_alien_archive": "Archivo alienígena",
   "message.panthrixsgalaxy.monolith": "El monolito vibra... unas coordenadas aparecen en tu mente: en el Espacio, a (-6500, 0, 6000) de la llegada desde la Tierra, hay un mundo que no sale en ningún mapa.",
-  "message.panthrixsgalaxy.alien_archive": "El archivo se ilumina y te muestra estrellas, planetas y naves: una civilización entera. No estamos solos."
+  "message.panthrixsgalaxy.alien_archive": "El archivo se ilumina y te muestra estrellas, planetas y naves: una civilización entera. No estamos solos.",
+  "command.panthrixsgalaxy.unknown_planet": "No existe ese planeta (o no tiene suelo): %s",
+  "command.panthrixsgalaxy.teleported": "Bienvenido a %s",
+  "command.panthrixsgalaxy.unknown_kit": "Kit desconocido: %s (usa starter, explorer o endgame)",
+  "command.panthrixsgalaxy.kit_given": "Kit «%s» entregado",
+  "command.panthrixsgalaxy.refilled": "Todo lleno: oxígeno, energía y combustible"
 }

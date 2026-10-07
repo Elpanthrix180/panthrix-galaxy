@@ -464,5 +464,10 @@
   "block.panthrixsgalaxy.pg_monolith": "Monolith",
   "block.panthrixsgalaxy.pg_alien_archive": "Alien Archive",
   "message.panthrixsgalaxy.monolith": "The monolith hums... coordinates appear in your mind: in Space, at (-6500, 0, 6000) from the Earth arrival point, there is a world on no map.",
-  "message.panthrixsgalaxy.alien_archive": "The archive lights up showing stars, planets and ships: a whole civilization. We are not alone."
+  "message.panthrixsgalaxy.alien_archive": "The archive lights up showing stars, planets and ships: a whole civilization. We are not alone.",
+  "command.panthrixsgalaxy.unknown_planet": "Unknown planet (or no ground): %s",
+  "command.panthrixsgalaxy.teleported": "Welcome to %s",
+  "command.panthrixsgalaxy.unknown_kit": "Unknown kit: %s (use starter, explorer or endgame)",
+  "command.panthrixsgalaxy.kit_given": "Kit \"%s\" given",
+  "command.panthrixsgalaxy.refilled": "Everything refilled: oxygen, energy and fuel"
 }
