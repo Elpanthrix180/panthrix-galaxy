@@ -142,6 +142,18 @@ public final class PGClientEvents {
         event.setCanceled(true); // necesario para que Minecraft use nuestros valores
     }
 
+    /** Venus (Fase 21): atmósfera espesa y amarilla, solo se ve a unos 48 bloques. */
+    @SubscribeEvent
+    public static void onVenusFog(ViewportEvent.RenderFog event) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.level == null || !minecraft.level.dimension().equals(PGPlanets.VENUS_LEVEL)) {
+            return;
+        }
+        event.setFarPlaneDistance(Math.min(event.getFarPlaneDistance(), 48.0f));
+        event.setNearPlaneDistance(2.0f);
+        event.setCanceled(true);
+    }
+
     /**
      * Al subir con el cohete por encima de las nubes, el horizonte se oscurece poco a poco:
      * cada vez queda menos atmósfera entre nosotros y el espacio negro.

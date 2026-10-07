@@ -44,6 +44,9 @@
     "panthrixsgalaxy:pg_oxygen_distributor",
     "panthrixsgalaxy:pg_oxygen_storage",
     "panthrixsgalaxy:pg_storage_crate",
-    "panthrixsgalaxy:pg_airlock_door"
+    "panthrixsgalaxy:pg_airlock_door",
+    "panthrixsgalaxy:pg_mercury_rock",
+    "panthrixsgalaxy:pg_venus_rock",
+    "panthrixsgalaxy:pg_pluto_ice"
   ]
 }

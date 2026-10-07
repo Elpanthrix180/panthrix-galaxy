@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy.init;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.world.feature.PGAlienHiveFeature;
 import com.panthrixsgalaxy.world.feature.PGAlienOutpostFeature;
 import com.panthrixsgalaxy.world.feature.PGAsteroidFeature;
 import com.panthrixsgalaxy.world.feature.PGCraterFeature;
@@ -35,6 +36,12 @@ public final class ModFeatures {
     /** Puesto alienígena: asteroide hueco con tecnología y guardianes. */
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> ALIEN_OUTPOST = FEATURES.register("alien_outpost",
             () -> new PGAlienOutpostFeature(NoneFeatureConfiguration.CODEC));
+
+    // ===== Planetas adicionales (Fase 21) =====
+
+    /** Colmena de la Reina alienígena (Xenoria). */
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> ALIEN_HIVE = FEATURES.register("alien_hive",
+            () -> new PGAlienHiveFeature(NoneFeatureConfiguration.CODEC));
 
     private ModFeatures() {
     }

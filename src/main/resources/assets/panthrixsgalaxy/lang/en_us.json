@@ -395,5 +395,19 @@
   "engineering.panthrixsgalaxy.category.station": "Space Station",
   "planet.panthrixsgalaxy.asteroids": "the asteroid belt",
   "advancements.panthrixsgalaxy.asteroid_belt.title": "Among the Rocks",
-  "advancements.panthrixsgalaxy.asteroid_belt.description": "Fly your ship to the asteroid belt"
+  "advancements.panthrixsgalaxy.asteroid_belt.description": "Fly your ship to the asteroid belt",
+  "planet.panthrixsgalaxy.mercury": "Mercury",
+  "planet.panthrixsgalaxy.venus": "Venus",
+  "planet.panthrixsgalaxy.jupiter": "Jupiter",
+  "planet.panthrixsgalaxy.saturn": "Saturn",
+  "planet.panthrixsgalaxy.uranus": "Uranus",
+  "planet.panthrixsgalaxy.neptune": "Neptune",
+  "planet.panthrixsgalaxy.pluto": "Pluto",
+  "planet.panthrixsgalaxy.xenoria": "Xenoria",
+  "block.panthrixsgalaxy.pg_mercury_rock": "Mercury Rock",
+  "block.panthrixsgalaxy.pg_venus_rock": "Venusian Volcanic Rock",
+  "block.panthrixsgalaxy.pg_pluto_ice": "Nitrogen Ice",
+  "block.panthrixsgalaxy.pg_alien_soil": "Alien Soil",
+  "message.panthrixsgalaxy.planet_not_landable": "%s is a gas giant: there is no ground to land on",
+  "hud.panthrixsgalaxy.ship_planet_gas_giant": "%s: gas giant (no ground)"
 }

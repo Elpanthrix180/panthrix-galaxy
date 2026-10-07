@@ -18,6 +18,7 @@ import com.panthrixsgalaxy.client.renderer.PGScorpionRenderer;
 import com.panthrixsgalaxy.client.renderer.PGRocketRenderer;
 import com.panthrixsgalaxy.client.renderer.PGShipRenderer;
 import com.panthrixsgalaxy.client.screen.PGBackpackScreen;
+import com.panthrixsgalaxy.client.sky.PGAirlessSkyEffects;
 import com.panthrixsgalaxy.client.sky.PGAsteroidEffects;
 import com.panthrixsgalaxy.client.sky.PGMarsEffects;
 import com.panthrixsgalaxy.client.sky.PGMoonEffects;
@@ -29,6 +30,7 @@ import com.panthrixsgalaxy.init.ModItems;
 import com.panthrixsgalaxy.init.ModMenuTypes;
 import com.panthrixsgalaxy.init.ModRecipes;
 import com.panthrixsgalaxy.item.PGBackpackItem;
+import com.panthrixsgalaxy.planet.PGPlanets;
 import com.panthrixsgalaxy.weapon.PGLaserSwordItem;
 import net.minecraft.client.RecipeBookCategories;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -45,6 +47,7 @@ import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import org.joml.Vector3f;
 
 /**
  * Preparación de la parte visual del mod (solo en la pantalla del jugador):
@@ -101,6 +104,11 @@ public final class PGClientModEvents {
         event.register(new ResourceLocation(PanthrixsGalaxy.MOD_ID, "moon"), new PGMoonEffects());
         event.register(new ResourceLocation(PanthrixsGalaxy.MOD_ID, "mars"), new PGMarsEffects());
         event.register(new ResourceLocation(PanthrixsGalaxy.MOD_ID, "asteroids"), new PGAsteroidEffects());
+        // Fase 21: Mercurio ve a Venus brillante; desde Plutón, Neptuno es un puntito azul
+        event.register(new ResourceLocation(PanthrixsGalaxy.MOD_ID, "mercury"),
+                new PGAirlessSkyEffects(PGPlanets.VENUS.texture(), new Vector3f(0.6f, 0.5f, -0.5f), 6.0f));
+        event.register(new ResourceLocation(PanthrixsGalaxy.MOD_ID, "pluto"),
+                new PGAirlessSkyEffects(PGPlanets.NEPTUNE.texture(), new Vector3f(-0.4f, 0.7f, 0.3f), 4.0f));
     }
 
     /** Une cada entidad con la clase que la dibuja. */

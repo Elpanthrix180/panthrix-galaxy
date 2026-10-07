@@ -395,5 +395,19 @@
   "engineering.panthrixsgalaxy.category.station": "Estación espacial",
   "planet.panthrixsgalaxy.asteroids": "el cinturón de asteroides",
   "advancements.panthrixsgalaxy.asteroid_belt.title": "Entre rocas",
-  "advancements.panthrixsgalaxy.asteroid_belt.description": "Llega con tu nave al cinturón de asteroides"
+  "advancements.panthrixsgalaxy.asteroid_belt.description": "Llega con tu nave al cinturón de asteroides",
+  "planet.panthrixsgalaxy.mercury": "Mercurio",
+  "planet.panthrixsgalaxy.venus": "Venus",
+  "planet.panthrixsgalaxy.jupiter": "Júpiter",
+  "planet.panthrixsgalaxy.saturn": "Saturno",
+  "planet.panthrixsgalaxy.uranus": "Urano",
+  "planet.panthrixsgalaxy.neptune": "Neptuno",
+  "planet.panthrixsgalaxy.pluto": "Plutón",
+  "planet.panthrixsgalaxy.xenoria": "Xenoria",
+  "block.panthrixsgalaxy.pg_mercury_rock": "Roca de Mercurio",
+  "block.panthrixsgalaxy.pg_venus_rock": "Roca volcánica de Venus",
+  "block.panthrixsgalaxy.pg_pluto_ice": "Hielo de nitrógeno",
+  "block.panthrixsgalaxy.pg_alien_soil": "Tierra alienígena",
+  "message.panthrixsgalaxy.planet_not_landable": "%s es un gigante gaseoso: no hay suelo donde aterrizar",
+  "hud.panthrixsgalaxy.ship_planet_gas_giant": "%s: gigante gaseoso (sin suelo)"
 }

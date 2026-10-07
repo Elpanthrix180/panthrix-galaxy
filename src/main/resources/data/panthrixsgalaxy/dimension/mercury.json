@@ -1,0 +1,11 @@
+{
+  "type": "panthrixsgalaxy:mercury",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "panthrixsgalaxy:mercury",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "panthrixsgalaxy:mercury"
+    }
+  }
+}

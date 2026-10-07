@@ -25,7 +25,7 @@ import java.util.List;
  * Baliza alienígena: una señal hecha con tecnología alienígena. Clic derecho en el suelo
  * de OTRO PLANETA (no en la Tierra) y... la REINA ALIENÍGENA acude a la llamada.
  *
- * (En la Fase 21 la Reina también vivirá en su colmena de los planetas alienígenas.)
+ * La Reina también vive en su COLMENA, en el planeta alienígena Xenoria (Fase 21).
  */
 public class PGAlienBeaconItem extends Item {
 

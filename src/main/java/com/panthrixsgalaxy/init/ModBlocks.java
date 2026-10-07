@@ -195,6 +195,21 @@ public final class ModBlocks {
                     .lightLevel(state -> state.getValue(PGEnergyBlock.LIT) ? 11 : 0),
                     PGFuelRefineryBlockEntity::new));
 
+    // ===== PLANETAS ADICIONALES (Fase 21) =====
+
+    /** Roca de Mercurio: gris oscura y quemada por el Sol. */
+    public static final RegistryObject<Block> PG_MERCURY_ROCK = registerBlock("pg_mercury_rock",
+            () -> new Block(stone(MapColor.COLOR_GRAY, 1.8f, 6.0f, SoundType.BASALT)));
+    /** Roca volcánica de Venus: amarillenta, del calor y el azufre. */
+    public static final RegistryObject<Block> PG_VENUS_ROCK = registerBlock("pg_venus_rock",
+            () -> new Block(stone(MapColor.COLOR_YELLOW, 1.8f, 6.0f, SoundType.BASALT)));
+    /** Hielo de nitrógeno de Plutón: congelado, muy resbaladizo. */
+    public static final RegistryObject<Block> PG_PLUTO_ICE = registerBlock("pg_pluto_ice",
+            () -> new Block(stone(MapColor.ICE, 1.0f, 3.0f, SoundType.GLASS).friction(0.98f)));
+    /** Tierra alienígena de Xenoria: morada y blanda. */
+    public static final RegistryObject<Block> PG_ALIEN_SOIL = registerBlock("pg_alien_soil",
+            () -> new Block(soil(MapColor.COLOR_PURPLE, SoundType.NYLIUM)));
+
     // ===== BASES Y ESTACIONES ESPACIALES (Fase 19) =====
 
     /** Tipo de puerta hermética: se abre con la mano (no hace falta redstone) y suena a metal. */

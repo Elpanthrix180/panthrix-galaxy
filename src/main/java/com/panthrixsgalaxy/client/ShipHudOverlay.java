@@ -17,6 +17,10 @@ import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 /**
  * Panel de la nave (solo cuando la pilotas):
  *
@@ -25,7 +29,7 @@ import net.minecraftforge.fml.common.Mod;
  *   Altitud 142 · Velocidad 18 m/s · Espacio a Y 450
  *   ESPACIO motores · W avanzar · S frenar
  *
- * En el Espacio, en vez de la altitud, muestra la distancia y dirección a cada planeta.
+ * En el Espacio, en vez de la altitud, muestra la distancia y dirección a la Tierra y a los 5 planetas más cercanos.
  */
 @Mod.EventBusSubscriber(modid = PanthrixsGalaxy.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class ShipHudOverlay {
@@ -37,6 +41,7 @@ public final class ShipHudOverlay {
     private static final int COLOR_INFO = 0xFF55CCFF;
     private static final int COLOR_HINT = 0xFFAAAAAA;
     private static final int COLOR_ALERT = 0xFFFF4444;
+    private static final int MAX_PLANET_LINES = 5;
 
     public static final IGuiOverlay SHIP_HUD = (gui, graphics, partialTick, screenWidth, screenHeight) -> {
         Minecraft minecraft = Minecraft.getInstance();
@@ -48,7 +53,8 @@ public final class ShipHudOverlay {
         int centerX = screenWidth / 2;
         int y = 8;
         boolean inSpace = ship.isInSpace();
-        int lines = inSpace ? PGPlanets.ALL.size() : 1;
+        List<PGPlanet> shown = inSpace ? nearestPlanets(ship) : List.of();
+        int lines = inSpace ? shown.size() : 1;
         graphics.fill(centerX - 130, y - 4, centerX + 130, y + 40 + lines * 11, 0xA0000000);
 
         // Título y estado de los motores
@@ -71,9 +77,9 @@ public final class ShipHudOverlay {
         int lineY = barY + 16;
         int speed = (int) Math.round(ship.getDeltaMovement().length() * 20.0);
         if (inSpace) {
-            for (PGPlanet planet : PGPlanets.ALL) {
+            for (PGPlanet planet : shown) {
                 graphics.drawCenteredString(font, planetLine(ship, planet, minecraft.player), centerX, lineY,
-                        ship.getTier().getReach() >= planet.requiredReach() ? 0xFFFFFFFF : COLOR_HINT);
+                        ship.getTier().getReach() >= planet.requiredReach() && planet.isLandable() ? 0xFFFFFFFF : COLOR_HINT);
                 lineY += 11;
             }
         } else {
@@ -106,6 +112,17 @@ public final class ShipHudOverlay {
         }
     };
 
+    /** La Tierra y los 5 cuerpos celestes más cercanos (con 12 planetas no caben todos en la pantalla). */
+    private static List<PGPlanet> nearestPlanets(PGShipEntity ship) {
+        List<PGPlanet> others = new ArrayList<>(PGPlanets.ALL);
+        others.remove(PGPlanets.EARTH);
+        others.sort(Comparator.comparingDouble(planet -> ship.getPlanetPosition(planet).distanceTo(ship.position())));
+        List<PGPlanet> result = new ArrayList<>();
+        result.add(PGPlanets.EARTH);
+        result.addAll(others.subList(0, Math.min(MAX_PLANET_LINES, others.size())));
+        return result;
+    }
+
     private static void bar(GuiGraphics graphics, Font font, int x, int y, int amount, int capacity, int color, String key) {
         graphics.drawString(font, Component.translatable(key), x, y, color, false);
         graphics.fill(x, y + 9, x + BAR_WIDTH, y + 13, 0xFF2A3040);
@@ -121,7 +138,10 @@ public final class ShipHudOverlay {
             int height = (int) Math.max(0, ship.getY() - PGPlanets.EARTH_REENTRY_Y);
             return Component.translatable("hud.panthrixsgalaxy.ship_planet_earth", name, height);
         }
-        if (ship.getTier().getReach() < planet.requiredReach() || !planet.isLandable()) {
+        if (!planet.isLandable()) {
+            return Component.translatable("hud.panthrixsgalaxy.ship_planet_gas_giant", name);
+        }
+        if (ship.getTier().getReach() < planet.requiredReach()) {
             return Component.translatable("hud.panthrixsgalaxy.ship_planet_out_of_reach", name);
         }
         Vec3 toTarget = ship.getPlanetPosition(planet).subtract(ship.position());

@@ -197,8 +197,16 @@ public class PGRocketEntity extends Entity implements PGSpaceVehicle {
     public void toggleLaunch(Player pilot) {
         LaunchState state = getLaunchState();
         if (state == LaunchState.IN_SPACE) {
-            // En el Espacio, ESPACIO cambia el destino
-            entityData.set(DESTINATION, Math.floorMod(entityData.get(DESTINATION) + 1, PGPlanets.ALL.size()));
+            // En el Espacio, ESPACIO cambia el destino (solo a los que este cohete puede llegar y tienen suelo)
+            int next = entityData.get(DESTINATION);
+            for (int tries = 0; tries < PGPlanets.ALL.size(); tries++) {
+                next = Math.floorMod(next + 1, PGPlanets.ALL.size());
+                PGPlanet candidate = PGPlanets.ALL.get(next);
+                if (candidate.isLandable() && getTier().getReach() >= candidate.requiredReach()) {
+                    break;
+                }
+            }
+            entityData.set(DESTINATION, next);
             pilot.displayClientMessage(Component.translatable("message.panthrixsgalaxy.destination_set",
                     Component.translatable(getDestination().getTranslationKey())).withStyle(ChatFormatting.AQUA), true);
             return;

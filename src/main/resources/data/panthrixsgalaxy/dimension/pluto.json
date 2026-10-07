@@ -1,0 +1,11 @@
+{
+  "type": "panthrixsgalaxy:pluto",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "panthrixsgalaxy:pluto",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "panthrixsgalaxy:pluto"
+    }
+  }
+}

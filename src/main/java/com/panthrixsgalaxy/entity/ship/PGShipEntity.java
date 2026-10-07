@@ -357,7 +357,8 @@ public class PGShipEntity extends Entity implements PGSpaceVehicle {
                     Vec3 away = position().subtract(getPlanetPosition(planet)).normalize();
                     setDeltaMovement(away.scale(0.3));
                     if (lastWarnedPlanet != planet && getFirstPassenger() instanceof Player pilot) {
-                        pilot.displayClientMessage(Component.translatable("message.panthrixsgalaxy.ship_out_of_reach",
+                        pilot.displayClientMessage(Component.translatable(planet.isLandable()
+                                        ? "message.panthrixsgalaxy.ship_out_of_reach" : "message.panthrixsgalaxy.planet_not_landable",
                                 Component.translatable(planet.getTranslationKey())).withStyle(ChatFormatting.YELLOW), false);
                     }
                     lastWarnedPlanet = planet;
