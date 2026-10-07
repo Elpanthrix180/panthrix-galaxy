@@ -1,5 +1,6 @@
 package com.panthrixsgalaxy.entity.laser;
 
+import com.panthrixsgalaxy.entity.mob.PGAliens;
 import com.panthrixsgalaxy.init.ModDamageTypes;
 import com.panthrixsgalaxy.init.ModEntities;
 import com.panthrixsgalaxy.weapon.LaserTier;
@@ -52,17 +53,24 @@ public class PGLaserBoltEntity extends Projectile {
         setNoGravity(true);
     }
 
-    /** Rayo nuevo disparado por alguien (jugador o, más adelante, criaturas). */
+    /** Rayo nuevo disparado con un arma láser (jugador o alien soldado). */
     public PGLaserBoltEntity(Level level, LivingEntity shooter, LaserTier tier) {
+        this(level, shooter, tier.getDamage(), tier.getLifetime(), tier.getPierce(), tier.getKnockback(),
+                tier.isArmorPiercing(), tier.getColor());
+    }
+
+    /** Rayo con valores propios (por ejemplo, el ácido de la Reina alienígena, Fase 18). */
+    public PGLaserBoltEntity(Level level, LivingEntity shooter, float damage, int lifetime, int pierce, double knockback,
+                             boolean armorPiercing, int color) {
         this(ModEntities.LASER_BOLT.get(), level);
         setOwner(shooter);
         setPos(shooter.getX(), shooter.getEyeY() - 0.1, shooter.getZ());
-        this.damage = tier.getDamage();
-        this.lifetime = tier.getLifetime();
-        this.pierceLeft = tier.getPierce();
-        this.knockback = tier.getKnockback();
-        this.armorPiercing = tier.isArmorPiercing();
-        entityData.set(COLOR, tier.getColor());
+        this.damage = damage;
+        this.lifetime = lifetime;
+        this.pierceLeft = pierce;
+        this.knockback = knockback;
+        this.armorPiercing = armorPiercing;
+        entityData.set(COLOR, color);
     }
 
     @Override
@@ -95,12 +103,15 @@ public class PGLaserBoltEntity extends Projectile {
         updateRotation();
     }
 
-    /** No vuelve a dañar al mismo enemigo, ni a la nave en la que va quien dispara. */
+    /** No vuelve a dañar al mismo enemigo, ni a la nave en la que va quien dispara, ni a otros aliens. */
     @Override
     protected boolean canHitEntity(Entity target) {
         Entity owner = getOwner();
         if (owner != null && owner.isPassenger() && owner.getRootVehicle() == target.getRootVehicle()) {
             return false;
+        }
+        if (owner != null && PGAliens.isAlien(owner) && PGAliens.isAlien(target)) {
+            return false; // los aliens no se disparan entre ellos
         }
         return super.canHitEntity(target) && !hitEntities.contains(target.getId());
     }

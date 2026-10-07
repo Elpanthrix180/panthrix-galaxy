@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy.init;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.entity.boss.PGAlienQueenEntity;
 import com.panthrixsgalaxy.entity.laser.PGLaserBoltEntity;
 import com.panthrixsgalaxy.entity.mob.PGAlienCreatureEntity;
 import com.panthrixsgalaxy.entity.mob.PGAlienExplorerEntity;
@@ -73,6 +74,16 @@ public final class ModEntities {
             monster("alien_creature", PGAlienCreatureEntity::new, 1.0f, 0.9f);
     public static final RegistryObject<EntityType<PGAlienPredatorEntity>> ALIEN_PREDATOR =
             monster("alien_predator", PGAlienPredatorEntity::new, 0.7f, 2.25f);
+
+    // ===== JEFES (Fase 18) =====
+
+    /** 👑 Reina alienígena: 1,6 bloques de ancho y 3,2 de alto. No le afecta el fuego ni la lava. */
+    public static final RegistryObject<EntityType<PGAlienQueenEntity>> ALIEN_QUEEN = ENTITIES.register("alien_queen",
+            () -> EntityType.Builder.of(PGAlienQueenEntity::new, MobCategory.MONSTER)
+                    .sized(1.6f, 3.2f)
+                    .fireImmune()
+                    .clientTrackingRange(10)
+                    .build("alien_queen"));
 
     /** Registra una criatura hostil (categoría MONSTER). */
     private static <T extends Entity> RegistryObject<EntityType<T>> monster(String name, EntityType.EntityFactory<T> factory,

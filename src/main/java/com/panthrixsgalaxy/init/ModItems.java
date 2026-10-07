@@ -5,6 +5,7 @@ import com.panthrixsgalaxy.armor.PGArmorMaterials;
 import com.panthrixsgalaxy.armor.PGSpaceSuitItem;
 import com.panthrixsgalaxy.entity.rocket.RocketTier;
 import com.panthrixsgalaxy.entity.ship.ShipTier;
+import com.panthrixsgalaxy.item.PGAlienBeaconItem;
 import com.panthrixsgalaxy.item.PGBackpackItem;
 import com.panthrixsgalaxy.item.PGBatteryItem;
 import com.panthrixsgalaxy.item.PGFuelCanisterItem;
@@ -312,6 +313,13 @@ public final class ModItems {
     public static final RegistryObject<Item> PG_ALIEN_SOLDIER_SPAWN_EGG = egg("alien_soldier", ModEntities.ALIEN_SOLDIER, 0x4A8A40, 0x303848);
     public static final RegistryObject<Item> PG_ALIEN_CREATURE_SPAWN_EGG = egg("alien_creature", ModEntities.ALIEN_CREATURE, 0x5A3A7A, 0xC0FF60);
     public static final RegistryObject<Item> PG_ALIEN_PREDATOR_SPAWN_EGG = egg("alien_predator", ModEntities.ALIEN_PREDATOR, 0x2A3020, 0xB04AFF);
+
+    // ===== JEFES (Fase 18) =====
+
+    /** Baliza alienígena: invoca a la Reina alienígena en otro planeta. */
+    public static final RegistryObject<Item> PG_ALIEN_BEACON = ITEMS.register("pg_alien_beacon",
+            () -> new PGAlienBeaconItem(new Item.Properties().rarity(Rarity.EPIC)));
+    public static final RegistryObject<Item> PG_ALIEN_QUEEN_SPAWN_EGG = egg("alien_queen", ModEntities.ALIEN_QUEEN, 0x2A1A3A, 0x9CFF3A);
 
     // ===== AYUDANTES =====
 

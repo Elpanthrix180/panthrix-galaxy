@@ -355,5 +355,17 @@
   "tooltip.panthrixsgalaxy.laser_sword_efficient": "Gasta muy poca energía",
   "death.attack.panthrixsgalaxy.piercing_laser": "%1$s fue atravesado por un láser",
   "death.attack.panthrixsgalaxy.piercing_laser.player": "%1$s fue atravesado por el láser de %2$s",
-  "death.attack.panthrixsgalaxy.piercing_laser.item": "%1$s fue atravesado por el láser de %2$s con %3$s"
+  "death.attack.panthrixsgalaxy.piercing_laser.item": "%1$s fue atravesado por el láser de %2$s con %3$s",
+  "entity.panthrixsgalaxy.alien_queen": "Reina alienígena",
+  "item.panthrixsgalaxy.pg_alien_queen_spawn_egg": "Huevo de reina alienígena",
+  "item.panthrixsgalaxy.pg_alien_beacon": "Baliza alienígena",
+  "tooltip.panthrixsgalaxy.alien_beacon": "Llama a la Reina alienígena",
+  "tooltip.panthrixsgalaxy.alien_beacon_hint": "Úsala en el suelo de otro planeta (no en la Tierra). ¡Prepárate!",
+  "message.panthrixsgalaxy.beacon_not_here": "La señal no llega a ningún sitio desde aquí: úsala en otro planeta",
+  "message.panthrixsgalaxy.beacon_queen_present": "La Reina ya está cerca...",
+  "message.panthrixsgalaxy.queen_arrives": "👑 ¡La Reina alienígena ha respondido a la llamada!",
+  "message.panthrixsgalaxy.queen_phase_2": "👑 ¡La Reina entra en FURIA! Salta y lanza ondas de choque",
+  "message.panthrixsgalaxy.queen_phase_3": "👑 ¡La Reina está DESESPERADA! Lluvia de ácido",
+  "advancements.panthrixsgalaxy.alien_queen_slain.title": "La caída de la Reina",
+  "advancements.panthrixsgalaxy.alien_queen_slain.description": "Derrota a la Reina alienígena"
 }

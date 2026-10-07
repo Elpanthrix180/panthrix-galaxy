@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy.entity.mob;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.entity.boss.PGAlienQueenEntity;
 import com.panthrixsgalaxy.init.ModEntities;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -32,6 +33,7 @@ public final class PGMobEvents {
         event.put(ModEntities.ALIEN_SOLDIER.get(), PGAlienSoldierEntity.createAttributes().build());
         event.put(ModEntities.ALIEN_CREATURE.get(), PGAlienCreatureEntity.createAttributes().build());
         event.put(ModEntities.ALIEN_PREDATOR.get(), PGAlienPredatorEntity.createAttributes().build());
+        event.put(ModEntities.ALIEN_QUEEN.get(), PGAlienQueenEntity.createAttributes().build());
     }
 
     @SubscribeEvent

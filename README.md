@@ -4,7 +4,7 @@ Mod de exploración espacial y supervivencia para **Minecraft Java 1.20.1 + Forg
 Construye cohetes, despega desde la Tierra, atraviesa la atmósfera y viaja a la Luna, Marte y más allá.
 
 - Mod ID: `panthrixsgalaxy`
-- Estado: **Fase 17 — Criaturas** ✅
+- Estado: **Fase 18 — Reina alienígena** ✅
 
 ## Probar el mod
 ```bash
@@ -33,3 +33,4 @@ Necesitas Java 17. La primera ejecución descarga Minecraft y Forge (tarda un ra
 - [Fase 16](docs/FASE_16.md) — espadas láser
 - [Fase 16B](docs/FASE_16B.md) — todos los colores de láseres y espadas
 - [Fase 17](docs/FASE_17.md) — criaturas
+- [Fase 18](docs/FASE_18.md) — la Reina alienígena (jefe)

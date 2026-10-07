@@ -1,0 +1,34 @@
+{
+  "parent": "panthrixsgalaxy:mars_red_planet",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_necronite_shard"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.alien_queen_slain.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.alien_queen_slain.description"
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "queen": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "panthrixsgalaxy:alien_queen"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 500
+  }
+}

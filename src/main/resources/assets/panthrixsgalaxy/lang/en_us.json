@@ -355,5 +355,17 @@
   "tooltip.panthrixsgalaxy.laser_sword_efficient": "Uses very little energy",
   "death.attack.panthrixsgalaxy.piercing_laser": "%1$s was pierced by a laser",
   "death.attack.panthrixsgalaxy.piercing_laser.player": "%1$s was pierced by %2$s's laser",
-  "death.attack.panthrixsgalaxy.piercing_laser.item": "%1$s was pierced by %2$s using %3$s"
+  "death.attack.panthrixsgalaxy.piercing_laser.item": "%1$s was pierced by %2$s using %3$s",
+  "entity.panthrixsgalaxy.alien_queen": "Alien Queen",
+  "item.panthrixsgalaxy.pg_alien_queen_spawn_egg": "Alien Queen Spawn Egg",
+  "item.panthrixsgalaxy.pg_alien_beacon": "Alien Beacon",
+  "tooltip.panthrixsgalaxy.alien_beacon": "Calls the Alien Queen",
+  "tooltip.panthrixsgalaxy.alien_beacon_hint": "Use it on the ground of another planet (not Earth). Get ready!",
+  "message.panthrixsgalaxy.beacon_not_here": "The signal reaches nothing from here: use it on another planet",
+  "message.panthrixsgalaxy.beacon_queen_present": "The Queen is already near...",
+  "message.panthrixsgalaxy.queen_arrives": "👑 The Alien Queen has answered the call!",
+  "message.panthrixsgalaxy.queen_phase_2": "👑 The Queen is FURIOUS! She leaps and sends shockwaves",
+  "message.panthrixsgalaxy.queen_phase_3": "👑 The Queen is DESPERATE! Acid rain",
+  "advancements.panthrixsgalaxy.alien_queen_slain.title": "Fall of the Queen",
+  "advancements.panthrixsgalaxy.alien_queen_slain.description": "Defeat the Alien Queen"
 }

@@ -3,11 +3,13 @@ package com.panthrixsgalaxy.client;
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.client.model.PGAlienCreatureModel;
 import com.panthrixsgalaxy.client.model.PGAlienModels;
+import com.panthrixsgalaxy.client.model.PGAlienQueenModel;
 import com.panthrixsgalaxy.client.model.PGMartianWormModel;
 import com.panthrixsgalaxy.client.model.PGRocketModel;
 import com.panthrixsgalaxy.client.model.PGScorpionModel;
 import com.panthrixsgalaxy.client.model.PGShipModel;
 import com.panthrixsgalaxy.client.renderer.PGAlienCreatureRenderer;
+import com.panthrixsgalaxy.client.renderer.PGAlienQueenRenderer;
 import com.panthrixsgalaxy.client.renderer.PGAlienRenderer;
 import com.panthrixsgalaxy.client.renderer.PGCrawlerRenderer;
 import com.panthrixsgalaxy.client.renderer.PGLaserBoltRenderer;
@@ -115,6 +117,8 @@ public final class PGClientModEvents {
         event.registerEntityRenderer(ModEntities.ALIEN_EXPLORER.get(), context -> new PGAlienRenderer<>(context, "alien_explorer", 1.0f));
         event.registerEntityRenderer(ModEntities.ALIEN_SOLDIER.get(), context -> new PGAlienRenderer<>(context, "alien_soldier", 1.0f));
         event.registerEntityRenderer(ModEntities.ALIEN_PREDATOR.get(), context -> new PGAlienRenderer<>(context, "alien_predator", 1.15f));
+        // Jefes (Fase 18)
+        event.registerEntityRenderer(ModEntities.ALIEN_QUEEN.get(), PGAlienQueenRenderer::new);
     }
 
     /** Registra los modelos 3D de las entidades. */
@@ -126,6 +130,7 @@ public final class PGClientModEvents {
         event.registerLayerDefinition(PGMartianWormModel.LAYER_LOCATION, PGMartianWormModel::createBodyLayer);
         event.registerLayerDefinition(PGAlienCreatureModel.LAYER_LOCATION, PGAlienCreatureModel::createBodyLayer);
         event.registerLayerDefinition(PGAlienModels.ALIEN, PGAlienModels::createAlienLayer);
+        event.registerLayerDefinition(PGAlienQueenModel.LAYER_LOCATION, PGAlienQueenModel::createBodyLayer);
     }
 
     /** Añade la capa "mochila en la espalda" a los dos tipos de jugador (brazos normales y finos). */
