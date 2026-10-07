@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy.entity.rocket;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.entity.PGSpaceVehicle;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -12,14 +13,14 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = PanthrixsGalaxy.MOD_ID)
 public final class PGRocketEvents {
 
-    /** No se puede bajar del cohete mientras vuela. */
+    /** No se puede bajar de un vehículo (cohete o nave) mientras vuela. */
     @SubscribeEvent
     public static void onDismount(EntityMountEvent event) {
-        if (!event.isDismounting() || !(event.getEntityBeingMounted() instanceof PGRocketEntity rocket)) {
+        if (!event.isDismounting() || !(event.getEntityBeingMounted() instanceof PGSpaceVehicle vehicle)) {
             return;
         }
         boolean pilotAlive = event.getEntityMounting().isAlive();
-        if (rocket.getLaunchState().isFlying() && !rocket.isRemoved() && pilotAlive) {
+        if (vehicle.isInFlight() && !event.getEntityBeingMounted().isRemoved() && pilotAlive) {
             event.setCanceled(true);
             if (event.getEntityMounting() instanceof Player player && !player.level().isClientSide
                     && player.tickCount % 20 == 0) {

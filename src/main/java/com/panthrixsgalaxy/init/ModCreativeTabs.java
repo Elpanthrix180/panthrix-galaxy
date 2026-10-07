@@ -5,6 +5,7 @@ import com.panthrixsgalaxy.item.PGBackpackItem;
 import com.panthrixsgalaxy.item.PGBatteryItem;
 import com.panthrixsgalaxy.item.PGFuelCanisterItem;
 import com.panthrixsgalaxy.item.PGRocketItem;
+import com.panthrixsgalaxy.item.PGShipItem;
 import com.panthrixsgalaxy.item.PGOxygenTankItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -78,7 +79,7 @@ public final class ModCreativeTabs {
     /** Equipo = herramientas y armas (tienen "nivel"), piezas de armadura y mochilas. */
     private static boolean isEquipment(Item item) {
         return item instanceof TieredItem || item instanceof ArmorItem || item instanceof PGBackpackItem
-                || item instanceof PGRocketItem;
+                || item instanceof PGRocketItem || item instanceof PGShipItem;
     }
 
     private ModCreativeTabs() {

@@ -18,7 +18,7 @@ public enum EngineeringCategory {
     OXYGEN(() -> new ItemStack(ModItems.PG_OXYGEN_TANK.get())),
     ENERGY(() -> new ItemStack(ModItems.PG_ADVANCED_BATTERY.get())),
     ROCKETS(() -> new ItemStack(Items.FIREWORK_ROCKET)),
-    SHIPS(() -> new ItemStack(ModItems.PG_ASTEROID_METAL_INGOT.get())),
+    SHIPS(() -> new ItemStack(ModItems.PG_SPACE_SHIP.get())),
     LASERS(() -> new ItemStack(ModItems.PG_MARTIAN_CRYSTAL.get())),
     LASER_SWORDS(() -> new ItemStack(ModItems.PG_XENITE_SWORD.get())),
     MACHINES(() -> new ItemStack(ModBlocks.PG_GENERATOR.get())),

@@ -7,7 +7,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import com.panthrixsgalaxy.entity.rocket.PGRocketEntity;
+import com.panthrixsgalaxy.entity.PGSpaceVehicle;
 import com.panthrixsgalaxy.planet.PGPlanet;
 import com.panthrixsgalaxy.planet.PGPlanets;
 import net.minecraft.client.Camera;
@@ -118,8 +118,8 @@ public final class SpaceSkyRenderer {
     private static void renderPlanets(Matrix4f matrix, Vec3 cameraPos) {
         BlockPos origin = BlockPos.ZERO;
         Minecraft minecraft = Minecraft.getInstance();
-        if (minecraft.player != null && minecraft.player.getVehicle() instanceof PGRocketEntity rocket) {
-            origin = rocket.getSpaceOrigin();
+        if (minecraft.player != null && minecraft.player.getVehicle() instanceof PGSpaceVehicle vehicle) {
+            origin = vehicle.getSpaceOrigin();
         }
         Vec3 originCenter = Vec3.atCenterOf(origin);
         List<PGPlanet> planets = new ArrayList<>(PGPlanets.ALL);

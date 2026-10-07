@@ -2,12 +2,15 @@ package com.panthrixsgalaxy.client;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.client.model.PGRocketModel;
+import com.panthrixsgalaxy.client.model.PGShipModel;
 import com.panthrixsgalaxy.client.renderer.PGRocketRenderer;
+import com.panthrixsgalaxy.client.renderer.PGShipRenderer;
 import com.panthrixsgalaxy.client.screen.PGBackpackScreen;
 import com.panthrixsgalaxy.client.sky.PGMarsEffects;
 import com.panthrixsgalaxy.client.sky.PGMoonEffects;
 import com.panthrixsgalaxy.client.sky.PGSpaceEffects;
 import com.panthrixsgalaxy.client.screen.PGEngineeringBenchScreen;
+import com.panthrixsgalaxy.client.screen.PGShipScreen;
 import com.panthrixsgalaxy.init.ModEntities;
 import com.panthrixsgalaxy.init.ModItems;
 import com.panthrixsgalaxy.init.ModMenuTypes;
@@ -41,6 +44,7 @@ public final class PGClientModEvents {
         event.enqueueWork(() -> {
             MenuScreens.<ChestMenu, PGBackpackScreen>register(ModMenuTypes.BACKPACK.get(), PGBackpackScreen::new);
             MenuScreens.register(ModMenuTypes.ENGINEERING_BENCH.get(), PGEngineeringBenchScreen::new);
+            MenuScreens.<ChestMenu, PGShipScreen>register(ModMenuTypes.SHIP.get(), PGShipScreen::new);
         });
     }
 
@@ -80,12 +84,14 @@ public final class PGClientModEvents {
     @SubscribeEvent
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.ROCKET.get(), PGRocketRenderer::new);
+        event.registerEntityRenderer(ModEntities.SHIP.get(), PGShipRenderer::new);
     }
 
     /** Registra los modelos 3D de las entidades. */
     @SubscribeEvent
     public static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(PGRocketModel.LAYER_LOCATION, PGRocketModel::createBodyLayer);
+        event.registerLayerDefinition(PGShipModel.LAYER_LOCATION, PGShipModel::createBodyLayer);
     }
 
     /** Añade la capa "mochila en la espalda" a los dos tipos de jugador (brazos normales y finos). */

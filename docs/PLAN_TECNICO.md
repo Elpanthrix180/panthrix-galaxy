@@ -119,7 +119,7 @@ pleno vuelo, sin portal ni pantalla de "pulsa botón", para que se sienta contin
 | 11 | Tierra → Espacio | No | ✅ Hecho: dimensión Espacio, cielo con planetas, transición en vuelo, navegación, registro de planetas |
 | 12 | Luna | Parcial (dimensión) | ✅ Hecho: dimensión JSON, cráteres (Java), menas, gravedad, temperatura, cielo con la Tierra, logro |
 | 13 | Marte | Parcial | ✅ Hecho: dimensión JSON con montañas, menas, hielo, tormentas de polvo (Java), logro |
-| 14 | Naves | No | Java: entidad pilotable |
+| 14 | Naves | No | ✅ Hecho: nave y nave avanzada pilotables (Java), bodega, HUD, viajes entre planetas |
 | 15 | Armas láser | Parcial | Java: proyectil + energía |
 | 16 | Espadas láser | Parcial | Java: activación, energía, partículas |
 | 17 | Mobs | Sí (básicos) | Java: IA y modelos |

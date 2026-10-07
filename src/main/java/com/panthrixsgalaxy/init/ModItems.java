@@ -4,10 +4,12 @@ import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.armor.PGArmorMaterials;
 import com.panthrixsgalaxy.armor.PGSpaceSuitItem;
 import com.panthrixsgalaxy.entity.rocket.RocketTier;
+import com.panthrixsgalaxy.entity.ship.ShipTier;
 import com.panthrixsgalaxy.item.PGBackpackItem;
 import com.panthrixsgalaxy.item.PGBatteryItem;
 import com.panthrixsgalaxy.item.PGFuelCanisterItem;
 import com.panthrixsgalaxy.item.PGRocketItem;
+import com.panthrixsgalaxy.item.PGShipItem;
 import com.panthrixsgalaxy.item.PGOxygenTankItem;
 import com.panthrixsgalaxy.item.PGTestItem;
 import com.panthrixsgalaxy.tool.PGToolTiers;
@@ -214,6 +216,20 @@ public final class ModItems {
     /** Cohete avanzado: Tierra -> Marte. Lleva lunarita. */
     public static final RegistryObject<Item> PG_ADVANCED_ROCKET = ITEMS.register("pg_advanced_rocket",
             () -> new PGRocketItem(RocketTier.ADVANCED, new Item.Properties().rarity(Rarity.RARE)));
+
+    // ===== NAVES ESPACIALES (Fase 14) =====
+
+    /** Componentes de la nave (Banco de Ingeniería, categoría Naves). */
+    public static final RegistryObject<Item> PG_SHIP_HULL = material("pg_ship_hull", Rarity.UNCOMMON);
+    public static final RegistryObject<Item> PG_ION_ENGINE = material("pg_ion_engine", Rarity.UNCOMMON);
+    public static final RegistryObject<Item> PG_SHIP_COCKPIT = material("pg_ship_cockpit", Rarity.UNCOMMON);
+
+    /** PG_Space_Ship: vuela libre; Luna, Marte y asteroides. */
+    public static final RegistryObject<Item> PG_SPACE_SHIP = ITEMS.register("pg_space_ship",
+            () -> new PGShipItem(ShipTier.SHIP, new Item.Properties().rarity(Rarity.RARE)));
+    /** Nave avanzada: planetas exteriores y alienígenas. Lleva metal de asteroide y osmio. */
+    public static final RegistryObject<Item> PG_ADVANCED_SPACE_SHIP = ITEMS.register("pg_advanced_space_ship",
+            () -> new PGShipItem(ShipTier.ADVANCED, new Item.Properties().rarity(Rarity.EPIC)));
 
     // ===== AYUDANTES =====
 

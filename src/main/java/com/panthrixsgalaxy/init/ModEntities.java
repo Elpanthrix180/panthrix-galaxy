@@ -2,6 +2,7 @@ package com.panthrixsgalaxy.init;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.entity.rocket.PGRocketEntity;
+import com.panthrixsgalaxy.entity.ship.PGShipEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.registries.DeferredRegister;
@@ -21,6 +22,14 @@ public final class ModEntities {
                     .clientTrackingRange(10)
                     .updateInterval(1) // posición enviada cada tick: vuelo suave
                     .build("rocket"));
+
+    /** Nave espacial: 2,75 bloques de ancho y 1,3 de alto (Fase 14). */
+    public static final RegistryObject<EntityType<PGShipEntity>> SHIP = ENTITIES.register("ship",
+            () -> EntityType.Builder.<PGShipEntity>of(PGShipEntity::new, MobCategory.MISC)
+                    .sized(2.75f, 1.3f)
+                    .clientTrackingRange(10)
+                    .updateInterval(1)
+                    .build("ship"));
 
     private ModEntities() {
     }

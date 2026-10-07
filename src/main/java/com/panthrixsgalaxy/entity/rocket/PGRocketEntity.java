@@ -1,5 +1,6 @@
 package com.panthrixsgalaxy.entity.rocket;
 
+import com.panthrixsgalaxy.entity.PGSpaceVehicle;
 import com.panthrixsgalaxy.init.ModBlocks;
 import com.panthrixsgalaxy.init.ModEntities;
 import com.panthrixsgalaxy.item.PGBackpackItem;
@@ -56,7 +57,7 @@ import java.util.UUID;
  * Si se despega desde una dimensión que no es un planeta del mod, se hace el vuelo de
  * prueba de la Fase 10: al llegar arriba, desciende y aterriza.
  */
-public class PGRocketEntity extends Entity {
+public class PGRocketEntity extends Entity implements PGSpaceVehicle {
 
     /** Duración de la cuenta atrás (200 ticks = 10 segundos). */
     public static final int COUNTDOWN_TICKS = 200;
@@ -158,8 +159,20 @@ public class PGRocketEntity extends Entity {
         return PGPlanets.byIndex(entityData.get(DESTINATION));
     }
 
+    @Override
     public BlockPos getSpaceOrigin() {
         return entityData.get(SPACE_ORIGIN);
+    }
+
+    /** La cabina del cohete siempre está presurizada. */
+    @Override
+    public boolean isPressurized() {
+        return true;
+    }
+
+    @Override
+    public boolean isInFlight() {
+        return getLaunchState().isFlying();
     }
 
     /** Posición de un planeta en el Espacio (según el punto de llegada de este cohete). */

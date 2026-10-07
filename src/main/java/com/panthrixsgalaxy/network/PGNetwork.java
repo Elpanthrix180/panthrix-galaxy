@@ -47,6 +47,11 @@ public final class PGNetwork {
                 .decoder(BackpackActionPacket::new)
                 .consumerMainThread(BackpackActionPacket::handle)
                 .add();
+        CHANNEL.messageBuilder(ShipActionPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(ShipActionPacket::encode)
+                .decoder(ShipActionPacket::new)
+                .consumerMainThread(ShipActionPacket::handle)
+                .add();
     }
 
     /** Envía un paquete del servidor a un jugador concreto. */

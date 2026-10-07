@@ -1,0 +1,30 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "ships",
+  "category": "misc",
+  "pattern": [
+    "AOA",
+    "ESE",
+    "OBO"
+  ],
+  "key": {
+    "A": {
+      "item": "panthrixsgalaxy:pg_asteroid_metal_ingot"
+    },
+    "O": {
+      "item": "panthrixsgalaxy:pg_osmium_ingot"
+    },
+    "E": {
+      "item": "panthrixsgalaxy:pg_ion_engine"
+    },
+    "S": {
+      "item": "panthrixsgalaxy:pg_space_ship"
+    },
+    "B": {
+      "item": "panthrixsgalaxy:pg_advanced_battery"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_advanced_space_ship"
+  }
+}

@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy.client;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.entity.PGSpaceVehicle;
 import com.panthrixsgalaxy.entity.rocket.LaunchState;
 import com.panthrixsgalaxy.entity.rocket.PGRocketEntity;
 import com.panthrixsgalaxy.network.BackpackActionPacket;
@@ -56,7 +57,7 @@ public final class PGClientEvents {
         // ESPACIO dentro del cohete: iniciar / cancelar la cuenta atrás
         boolean jumpDown = minecraft.options.keyJump.isDown();
         if (jumpDown && !jumpWasDown && minecraft.screen == null && minecraft.player != null
-                && minecraft.player.getVehicle() instanceof PGRocketEntity) {
+                && minecraft.player.getVehicle() instanceof PGSpaceVehicle) {
             PGNetwork.CHANNEL.sendToServer(new RocketLaunchPacket());
         }
         jumpWasDown = jumpDown;
@@ -71,10 +72,10 @@ public final class PGClientEvents {
         }
     }
 
-    /** El astronauta va DENTRO del cohete: no se dibuja (si no, atravesaría las paredes). */
+    /** El astronauta va DENTRO del cohete o la nave: no se dibuja (si no, atravesaría las paredes). */
     @SubscribeEvent
     public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
-        if (event.getEntity().getVehicle() instanceof PGRocketEntity) {
+        if (event.getEntity().getVehicle() instanceof PGSpaceVehicle) {
             event.setCanceled(true);
         }
     }
@@ -150,7 +151,7 @@ public final class PGClientEvents {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.player == null || minecraft.level == null
                 || !minecraft.level.dimension().equals(Level.OVERWORLD)
-                || !(minecraft.player.getVehicle() instanceof PGRocketEntity)) {
+                || !(minecraft.player.getVehicle() instanceof PGSpaceVehicle)) {
             return;
         }
         double height = minecraft.player.getY();

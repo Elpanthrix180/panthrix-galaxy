@@ -1,0 +1,27 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "ships",
+  "category": "misc",
+  "pattern": [
+    "GGG",
+    "GCG",
+    "PBP"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "C": {
+      "item": "panthrixsgalaxy:pg_martian_crystal"
+    },
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    },
+    "B": {
+      "item": "panthrixsgalaxy:pg_basic_battery"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_ship_cockpit"
+  }
+}
