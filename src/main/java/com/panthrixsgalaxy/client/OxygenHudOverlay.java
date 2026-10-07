@@ -42,7 +42,7 @@ public final class OxygenHudOverlay {
         int oxygen = ClientOxygenData.getOxygen();
         int percent = capacity > 0 ? Math.round(100.0f * oxygen / capacity) : 0;
         int color = switch (state) {
-            case LOW -> COLOR_LOW;
+            case LOW, EMERGENCY -> COLOR_LOW;
             case NO_HELMET, NO_OXYGEN -> COLOR_EMPTY;
             default -> COLOR_OK;
         };
@@ -61,9 +61,10 @@ public final class OxygenHudOverlay {
             case NO_HELMET -> Component.translatable("hud.panthrixsgalaxy.no_helmet");
             case NO_OXYGEN -> Component.translatable("hud.panthrixsgalaxy.no_oxygen");
             case LOW -> Component.translatable("hud.panthrixsgalaxy.low_oxygen");
+            case EMERGENCY -> Component.translatable("hud.panthrixsgalaxy.emergency_oxygen");
             default -> null;
         };
-        if (warning != null && (blink || state == OxygenState.LOW)) {
+        if (warning != null && (blink || state == OxygenState.LOW || state == OxygenState.EMERGENCY)) {
             graphics.drawCenteredString(font, warning, screenWidth / 2, screenHeight / 2 + 20, color);
         }
         if (state == OxygenState.NO_HELMET || state == OxygenState.NO_OXYGEN) {

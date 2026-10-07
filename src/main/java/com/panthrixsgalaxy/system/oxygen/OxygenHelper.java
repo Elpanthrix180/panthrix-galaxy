@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy.system.oxygen;
 
 import com.panthrixsgalaxy.item.PGBackpackItem;
+import com.panthrixsgalaxy.item.PGBackpackItem.Tank;
 import com.panthrixsgalaxy.item.PGOxygenTankItem;
 import com.panthrixsgalaxy.system.backpack.PGBackpackSlot;
 import net.minecraft.world.entity.player.Player;
@@ -85,6 +86,25 @@ public final class OxygenHelper {
             remaining -= used;
         }
         return amount - remaining;
+    }
+
+    /**
+     * Oxígeno de emergencia (Fase 7B): si la mochila equipada tiene agua y energía,
+     * fabrica 1 unidad de oxígeno en el momento. Devuelve true si lo ha conseguido.
+     */
+    public static boolean tryEmergencyElectrolysis(Player player) {
+        ItemStack backpack = PGBackpackSlot.getEquipped(player);
+        if (!(backpack.getItem() instanceof PGBackpackItem)) {
+            return false;
+        }
+        int water = PGBackpackItem.getTank(backpack, Tank.WATER);
+        int energy = PGBackpackItem.getTank(backpack, Tank.ENERGY);
+        if (water < Electrolysis.EMERGENCY_WATER_PER_OXYGEN || energy < Electrolysis.EMERGENCY_ENERGY_PER_OXYGEN) {
+            return false;
+        }
+        PGBackpackItem.setTank(backpack, Tank.WATER, water - Electrolysis.EMERGENCY_WATER_PER_OXYGEN);
+        PGBackpackItem.setTank(backpack, Tank.ENERGY, energy - Electrolysis.EMERGENCY_ENERGY_PER_OXYGEN);
+        return true;
     }
 
     private OxygenHelper() {

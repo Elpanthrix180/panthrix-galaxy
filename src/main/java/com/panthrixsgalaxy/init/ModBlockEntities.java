@@ -1,6 +1,8 @@
 package com.panthrixsgalaxy.init;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.block.entity.PGCableBlockEntity;
+import com.panthrixsgalaxy.block.entity.PGElectricOxygenRechargerBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGEnergyCellBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGGeneratorBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGReactorBlockEntity;
@@ -38,6 +40,16 @@ public final class ModBlockEntities {
     public static final RegistryObject<BlockEntityType<PGEnergyCellBlockEntity>> ENERGY_CELL =
             BLOCK_ENTITIES.register("energy_cell", () -> BlockEntityType.Builder
                     .of(PGEnergyCellBlockEntity::new, ModBlocks.PG_ENERGY_CELL.get()).build(null));
+
+    @SuppressWarnings("DataFlowIssue")
+    public static final RegistryObject<BlockEntityType<PGCableBlockEntity>> CABLE =
+            BLOCK_ENTITIES.register("energy_cable", () -> BlockEntityType.Builder
+                    .of(PGCableBlockEntity::new, ModBlocks.PG_ENERGY_CABLE.get()).build(null));
+
+    @SuppressWarnings("DataFlowIssue")
+    public static final RegistryObject<BlockEntityType<PGElectricOxygenRechargerBlockEntity>> ELECTRIC_OXYGEN_RECHARGER =
+            BLOCK_ENTITIES.register("electric_oxygen_recharger", () -> BlockEntityType.Builder
+                    .of(PGElectricOxygenRechargerBlockEntity::new, ModBlocks.PG_ELECTRIC_OXYGEN_RECHARGER.get()).build(null));
 
     private ModBlockEntities() {
     }

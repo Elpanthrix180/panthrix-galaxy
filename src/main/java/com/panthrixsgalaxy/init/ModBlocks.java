@@ -1,8 +1,10 @@
 package com.panthrixsgalaxy.init;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.block.PGCableBlock;
 import com.panthrixsgalaxy.block.PGEnergyBlock;
 import com.panthrixsgalaxy.block.PGOxygenRechargerBlock;
+import com.panthrixsgalaxy.block.entity.PGElectricOxygenRechargerBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGEnergyCellBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGGeneratorBlockEntity;
 import com.panthrixsgalaxy.block.entity.PGReactorBlockEntity;
@@ -149,6 +151,21 @@ public final class ModBlocks {
             () -> new PGEnergyBlock(stone(MapColor.COLOR_YELLOW, 4.0f, 9.0f, SoundType.METAL)
                     .lightLevel(state -> 5),
                     PGEnergyCellBlockEntity::new));
+
+    // ===== ENERGÍA: TRANSPORTE Y USO (Fase 7B) =====
+
+    /** Cable energético: une máquinas. Hasta 2000 FE/t. */
+    public static final RegistryObject<Block> PG_ENERGY_CABLE = registerBlock("pg_energy_cable",
+            () -> new PGCableBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_ORANGE)
+                    .strength(0.5f)
+                    .sound(SoundType.METAL)
+                    .noOcclusion()));
+    /** Recargador de oxígeno eléctrico: agua + energía -> oxígeno. Funciona en la Luna. */
+    public static final RegistryObject<Block> PG_ELECTRIC_OXYGEN_RECHARGER = registerBlock("pg_electric_oxygen_recharger",
+            () -> new PGEnergyBlock(stone(MapColor.COLOR_LIGHT_BLUE, 3.5f, 6.0f, SoundType.METAL)
+                    .lightLevel(state -> state.getValue(PGEnergyBlock.LIT) ? 10 : 2),
+                    PGElectricOxygenRechargerBlockEntity::new));
 
     // ===== AYUDANTES =====
     // Pequeños "moldes" para no repetir las mismas propiedades en cada bloque.

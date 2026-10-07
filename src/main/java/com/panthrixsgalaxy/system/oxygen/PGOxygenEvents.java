@@ -18,6 +18,7 @@ import net.minecraftforge.fml.common.Mod;
  *
  *   ¿Hay aire?  sí -> no pasa nada.
  *               no -> ¿casco + oxígeno?  sí -> gasta 1 de oxígeno.
+ *                     ¿casco + agua y energía en la mochila? sí -> oxígeno de emergencia (Fase 7B).
  *                                        no -> advertencia, 5 s de margen y después daño.
  */
 @Mod.EventBusSubscriber(modid = PanthrixsGalaxy.MOD_ID)
@@ -63,6 +64,10 @@ public final class PGOxygenEvents {
                 OxygenHelper.consume(player, CONSUMPTION_PER_SECOND);
                 noAirSeconds = 0;
                 state = oxygen - CONSUMPTION_PER_SECOND < LOW_OXYGEN ? OxygenState.LOW : OxygenState.OK;
+            } else if (hasHelmet && OxygenHelper.tryEmergencyElectrolysis(player)) {
+                // Sin oxígeno, pero la mochila lo fabrica con agua + energía
+                noAirSeconds = 0;
+                state = OxygenState.EMERGENCY;
             } else {
                 // No puede respirar
                 state = hasHelmet ? OxygenState.NO_OXYGEN : OxygenState.NO_HELMET;

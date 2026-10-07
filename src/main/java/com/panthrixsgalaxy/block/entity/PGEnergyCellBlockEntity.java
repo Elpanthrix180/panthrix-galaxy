@@ -2,14 +2,17 @@ package com.panthrixsgalaxy.block.entity;
 
 import com.panthrixsgalaxy.init.ModBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
 /**
  * Celda energética: gran almacén de energía (1 000 000 FE).
- * Recibe la energía de los generadores que tenga al lado y carga objetos con clic derecho.
+ * Recibe la energía de los generadores o cables que tenga al lado y carga objetos con clic derecho.
+ * Envía su energía por los cables conectados (no directamente a otras máquinas pegadas).
  * Al romperla conserva la energía guardada.
- * (En la Fase 7B los cables podrán sacar energía de ella hacia las máquinas.)
  */
 public class PGEnergyCellBlockEntity extends PGEnergyBlockEntity {
 
@@ -22,7 +25,20 @@ public class PGEnergyCellBlockEntity extends PGEnergyBlockEntity {
 
     @Override
     public void serverTick() {
-        // Solo almacena: no hace nada por sí misma.
+        // Envía su energía SOLO a los cables que tenga al lado (Fase 7B).
+        // A otras máquinas pegadas no les envía: así no se vacía en otra celda vecina.
+        if (level == null || energy.getEnergyStored() <= 0) {
+            return;
+        }
+        for (Direction direction : Direction.values()) {
+            BlockEntity neighbor = level.getBlockEntity(worldPosition.relative(direction));
+            if (neighbor instanceof PGCableBlockEntity cable) {
+                cable.getCapability(ForgeCapabilities.ENERGY, direction.getOpposite()).ifPresent(input -> {
+                    int sent = input.receiveEnergy(Math.min(TRANSFER, energy.getEnergyStored()), false);
+                    energy.take(sent);
+                });
+            }
+        }
     }
 
     @Override

@@ -106,7 +106,7 @@ pleno vuelo, sin portal ni pantalla de "pulsa botón", para que se sienta contin
 | 4 | Traje espacial | Sí (armadura) | ✅ Hecho. Guantes integrados en la pechera (no hay ranura de manos); mochila en Fase 6 |
 | 5 | Oxígeno | Parcial (procedimientos) | ✅ Hecho: bombonas con NBT, evento por segundo, HUD con red propia, `/pgvacuum` |
 | 6 | Mochilas | Parcial (sin depósitos separados) | ✅ Hecho: hueco propio (capability), 4 mochilas, depósitos, panel, modelo en la espalda |
-| 7 | Energía | Parcial | 7A ✅ generar y almacenar (Forge Energy, block entities). 7B ⏳ cables y consumo |
+| 7 | Energía | Parcial | ✅ 7A generar y almacenar · 7B cables, recargador eléctrico, oxígeno de emergencia |
 | 8 | Banco de Ingeniería | Parcial (GUI básica) | Java: menú y recetas propias |
 | 9 | Cohete | No (entidad montable con física) | Java: entidad + modelo |
 | 10 | Lanzamiento | No | Java: cuenta atrás, partículas, sonido |

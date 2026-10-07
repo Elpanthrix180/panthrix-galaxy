@@ -8,6 +8,8 @@ public enum OxygenState {
     OK,
     /** Queda poco oxígeno (menos de 1 minuto). */
     LOW,
+    /** Sin oxígeno en las bombonas, pero la mochila lo fabrica con su agua y energía. */
+    EMERGENCY,
     /** ¡Sin casco espacial! */
     NO_HELMET,
     /** Con casco, pero las bombonas están vacías. */

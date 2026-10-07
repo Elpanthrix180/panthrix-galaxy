@@ -1,8 +1,8 @@
 # FASE 7 — Energía
 
-La fase se divide en dos partes:
-- **7A — Generar y almacenar** ✅ (este documento)
-- **7B — Transportar y usar** ⏳ (cables, máquinas que consumen energía, recargador de oxígeno eléctrico)
+La fase se divide en dos partes (las dos en este documento):
+- **7A — Generar y almacenar** ✅
+- **7B — Transportar y usar** ✅ (cables, recargador de oxígeno eléctrico, oxígeno de emergencia)
 
 ## 🎯 Objetivo de la 7A
 Crear la energía del mod: producirla, guardarla y cargar con ella baterías y mochilas.
@@ -114,7 +114,109 @@ Los números (producción, capacidad...) están al principio de cada `PG*BlockEn
 - [x] Alimentación con tolva
 - [ ] Probado en tu PC ← te toca a ti
 
-## ⏳ Qué falta (Fase 7B)
-- **Cables** para llevar energía de un sitio a otro.
-- **Recargador de oxígeno eléctrico**: funcionará en la Luna usando energía + agua (electrólisis), con el depósito de agua de la mochila.
-- Máquinas que **consumen** energía y el uso de la energía de la mochila por parte del traje.
+---
+
+# FASE 7B — Transportar y usar ✅
+
+## 🎯 Objetivo
+Llevar la energía de un sitio a otro con cables y darle usos: fabricar oxígeno donde no hay aire.
+
+## 📦 Elementos creados
+| Elemento | ID | Qué hace | Receta |
+|---|---|---|---|
+| Cable energético ×8 | `pg_energy_cable` | Une máquinas; hasta 2 000 FE/t | 6 lana + 2 cobre + 1 redstone |
+| Recargador de oxígeno eléctrico | `pg_electric_oxygen_recharger` | Agua + energía → oxígeno. **Funciona en la Luna** | Placas, selenita, 2 cubos, recargador de oxígeno, batería básica |
+
+### 🔌 Cables
+- Se **conectan solos** (con un "brazo") a otros cables y a cualquier bloque con energía, también de otros mods.
+- No guardan energía: la reparten en el momento entre **todas las máquinas de la red**.
+- Nunca devuelven la energía a la máquina que la envía.
+- **La celda energética ahora envía su energía por los cables** (solo a cables, no a máquinas pegadas).
+  Así un panel solar puede cargar una celda de día y la celda alimenta las máquinas de noche.
+- Si la energía sale de una celda, no se reparte a otras celdas (para que no "rebote" entre ellas).
+
+```
+[Panel solar]─cable─cable─[Celda]─cable─cable─[Recargador eléctrico]
+                               (de noche, la celda alimenta al recargador)
+```
+
+### 💧 Recargador de oxígeno eléctrico (electrólisis)
+| | Valor |
+|---|---|
+| 1 unidad de oxígeno (1 segundo respirando) | 1 mB de agua + 20 FE |
+| Llenar una bombona (600) | 600 mB de agua + 12 000 FE |
+| Depósito de agua | 8 000 mB (8 cubos) |
+| Agua automática | 200 mB por segundo si tiene una **fuente de agua** pegada a un lado |
+| Luz encendida | Tiene agua y energía: listo |
+
+| Acción | Resultado |
+|---|---|
+| Clic derecho con **cubo de agua** | +1 000 mB de agua (te devuelve el cubo vacío) |
+| Clic derecho con **bombona** o **mochila** en la mano | La llena de oxígeno |
+| Clic derecho con la **mano vacía** | Llena el **oxígeno y el agua** de la mochila equipada |
+| Clic derecho con una batería | Igual que en las demás máquinas |
+
+El recargador normal (sin energía) sigue existiendo para la Tierra: es más barato pero no funciona sin aire.
+
+### 🆘 Oxígeno de emergencia (la mochila usa su energía y su agua)
+Si estás sin aire, con el casco puesto y **se te acaban las bombonas**, la mochila equipada fabrica
+oxígeno ella sola con su agua y su energía:
+- Cada segundo gasta **2 mB de agua + 50 FE** (más caro que el recargador).
+- Aviso naranja: *"Oxígeno de emergencia: la mochila usa agua y energía"*.
+- Con la mochila básica llena de agua y energía: unos 100 segundos extra para volver a la base.
+
+Así **todos los depósitos de la mochila tienen uso**: oxígeno, energía y agua. El de combustible llega con los cohetes (Fase 9).
+
+## 🧠 MCreator vs Java
+| Parte | ¿MCreator puede? | Qué hicimos |
+|---|---|---|
+| Cable que se conecta visualmente | ⚠️ Parcial (bloques con conexiones) | `block/PGCableBlock.java` + blockstate *multipart* |
+| Red de cables que reparte energía | ❌ No | `block/entity/PGCableBlockEntity.java` |
+| Electrólisis (agua + energía) | ⚠️ Parcial (procedimientos) | `block/entity/PGElectricOxygenRechargerBlockEntity.java` |
+| Oxígeno de emergencia de la mochila | ❌ No | `OxygenHelper.tryEmergencyElectrolysis()` |
+
+## 🗂️ Dónde está cada cosa
+| Archivo | Qué hace |
+|---|---|
+| `block/PGCableBlock.java` | El bloque del cable y sus 6 brazos |
+| `block/entity/PGCableBlockEntity.java` | Busca las máquinas de la red y reparte la energía |
+| `block/entity/PGElectricOxygenRechargerBlockEntity.java` | Recargador eléctrico |
+| `system/oxygen/Electrolysis.java` | Los "precios" de agua y energía de cada unidad de oxígeno |
+| `models/block/pg_energy_cable_core.json` / `_arm.json` | Modelo del cable (centro + brazo) |
+| `blockstates/pg_energy_cable.json` | Qué brazos se dibujan según las conexiones |
+
+**Cambios en archivos existentes:**
+- `PGEnergyCellBlockEntity.java`: ahora envía energía a los cables.
+- `OxygenHelper.java`, `PGOxygenEvents.java`, `OxygenState.java`, `OxygenHudOverlay.java`: oxígeno de emergencia.
+- `ModBlocks`, `ModBlockEntities`: los dos bloques nuevos. Mensaje del recargador normal sin aire: ahora recomienda el eléctrico.
+
+## 🧪 Cómo probarlo
+1. **Cables:** generador → 5 cables → celda. Echa carbón al generador.
+   - [ ] Los cables se unen solos y forman una línea con brazos hacia las máquinas.
+   - [ ] La energía de la celda sube aunque esté lejos del generador.
+2. **Celda por cable:** celda (cargada) → cables → recargador eléctrico. Clic derecho al recargador con la mano vacía (sin mochila) → su energía sube.
+3. **Recargador eléctrico:** dale 2 cubos de agua. Clic derecho con una bombona vacía → *"Oxígeno producido: 600"*.
+   - [ ] Ponlo junto a una fuente de agua: el agua sube sola.
+   - [ ] La luz se enciende cuando tiene agua y energía.
+4. **En "la Luna":** de momento no existe, pero comprueba que el recargador normal da el aviso nuevo en una dimensión sin aire (se verá en la Fase 12).
+5. **Emergencia:** equipa una mochila, llénala de energía (clic derecho a una celda con la mano vacía) y de agua (clic derecho al recargador eléctrico con la mano vacía). Quita las bombonas, vacía el oxígeno de la mochila (o usa una nueva), ponte el casco y `/pgvacuum true`.
+   - [ ] Aviso naranja de **oxígeno de emergencia** y no recibes daño.
+   - [ ] Abre la mochila con **B**: el agua y la energía bajan.
+
+## 🐛 Errores comunes
+| Problema | Solución |
+|---|---|
+| El cable no se une a una máquina | Solo se une a bloques con energía. El recargador **normal** no usa energía. |
+| La energía no llega | Comprueba que los cables se toquen de verdad (se ven los brazos). Máximo 512 cables por red. |
+| La celda no envía energía | Solo envía a **cables**, no a máquinas pegadas directamente. |
+| El recargador eléctrico dice "Falta energía" | Necesita al menos 20 FE por unidad de oxígeno; conéctalo con cables. |
+| No funciona el oxígeno de emergencia | Necesita **casco** + mochila **equipada** con al menos 2 mB de agua y 50 FE. |
+
+## ✅ Checklist de la 7B
+- [x] Cables que se conectan solos y reparten energía por la red
+- [x] Celda que alimenta máquinas por cable
+- [x] Recargador de oxígeno eléctrico (electrólisis) que funciona sin aire
+- [x] Bomba de agua automática
+- [x] Depósito de agua de la mochila con uso real
+- [x] Oxígeno de emergencia con la energía y el agua de la mochila
+- [ ] Probado en tu PC ← te toca a ti

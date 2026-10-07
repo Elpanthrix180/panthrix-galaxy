@@ -49,7 +49,7 @@ P P P                               P R P      B = barrotes de hierro  R = redst
 - El daño por falta de oxígeno **atraviesa la armadura**. Mensaje de muerte: *"Jugador se quedó sin oxígeno"*.
 - En **creativo** no se gasta oxígeno ni se recibe daño.
 - Las bombonas fabricadas salen **vacías**; las de la pestaña creativa salen **llenas**.
-- El recargador **no funciona donde no hay aire** (Luna, Marte). En la Fase 7 haremos uno con energía.
+- El recargador **no funciona donde no hay aire** (Luna, Marte). *(Fase 7B)* Para eso está el **recargador de oxígeno eléctrico**.
 
 ### Indicador en pantalla (HUD)
 Solo aparece cuando no hay aire. Encima de la barra de comida:

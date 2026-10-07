@@ -91,7 +91,7 @@
   "tooltip.panthrixsgalaxy.oxygen_empty": "Vacía: llénala en un recargador de oxígeno",
   "message.panthrixsgalaxy.tank_filled": "Bombona llena de oxígeno",
   "message.panthrixsgalaxy.tank_already_full": "La bombona ya está llena",
-  "message.panthrixsgalaxy.recharger_no_air": "No hay aire que comprimir aquí",
+  "message.panthrixsgalaxy.recharger_no_air": "No hay aire que comprimir aquí: usa un recargador de oxígeno eléctrico",
   "hud.panthrixsgalaxy.no_helmet": "⚠ ¡SIN CASCO! No hay aire respirable",
   "hud.panthrixsgalaxy.no_oxygen": "⚠ ¡SIN OXÍGENO! Las bombonas están vacías",
   "hud.panthrixsgalaxy.low_oxygen": "Oxígeno bajo",
@@ -145,5 +145,15 @@
   "status.panthrixsgalaxy.no_fuel": "Sin combustible",
   "status.panthrixsgalaxy.fuel_stock": "Combustible: %s × %s",
   "status.panthrixsgalaxy.no_sun": "Sin luz solar (de noche, bajo techo o sin cielo)",
-  "status.panthrixsgalaxy.stored_percent": "Carga: %s%%"
+  "status.panthrixsgalaxy.stored_percent": "Carga: %s%%",
+  "block.panthrixsgalaxy.pg_energy_cable": "Cable energético",
+  "block.panthrixsgalaxy.pg_electric_oxygen_recharger": "Recargador de oxígeno eléctrico",
+  "block.panthrixsgalaxy.pg_electric_oxygen_recharger.desc": "Agua + energía → oxígeno. Funciona sin atmósfera",
+  "message.panthrixsgalaxy.water_added": "Agua: %s / %s mB",
+  "message.panthrixsgalaxy.water_full": "El depósito de agua está lleno",
+  "message.panthrixsgalaxy.electrolysis_done": "Oxígeno producido: %s · Agua a la mochila: %s mB",
+  "message.panthrixsgalaxy.need_water": "Falta agua: usa un cubo de agua o ponlo junto a agua",
+  "message.panthrixsgalaxy.need_energy": "Falta energía: conéctalo con cables a un generador o celda",
+  "status.panthrixsgalaxy.water": "Agua: %s / %s mB",
+  "hud.panthrixsgalaxy.emergency_oxygen": "Oxígeno de emergencia: la mochila usa agua y energía"
 }

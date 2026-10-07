@@ -91,7 +91,7 @@
   "tooltip.panthrixsgalaxy.oxygen_empty": "Empty: fill it at an oxygen recharger",
   "message.panthrixsgalaxy.tank_filled": "Tank filled with oxygen",
   "message.panthrixsgalaxy.tank_already_full": "The tank is already full",
-  "message.panthrixsgalaxy.recharger_no_air": "There is no air to compress here",
+  "message.panthrixsgalaxy.recharger_no_air": "There is no air to compress here: use an electric oxygen recharger",
   "hud.panthrixsgalaxy.no_helmet": "⚠ NO HELMET! No breathable air",
   "hud.panthrixsgalaxy.no_oxygen": "⚠ NO OXYGEN! Tanks are empty",
   "hud.panthrixsgalaxy.low_oxygen": "Low oxygen",
@@ -145,5 +145,15 @@
   "status.panthrixsgalaxy.no_fuel": "No fuel",
   "status.panthrixsgalaxy.fuel_stock": "Fuel: %s × %s",
   "status.panthrixsgalaxy.no_sun": "No sunlight (night, under a roof or no sky)",
-  "status.panthrixsgalaxy.stored_percent": "Charge: %s%%"
+  "status.panthrixsgalaxy.stored_percent": "Charge: %s%%",
+  "block.panthrixsgalaxy.pg_energy_cable": "Energy Cable",
+  "block.panthrixsgalaxy.pg_electric_oxygen_recharger": "Electric Oxygen Recharger",
+  "block.panthrixsgalaxy.pg_electric_oxygen_recharger.desc": "Water + energy → oxygen. Works without atmosphere",
+  "message.panthrixsgalaxy.water_added": "Water: %s / %s mB",
+  "message.panthrixsgalaxy.water_full": "The water tank is full",
+  "message.panthrixsgalaxy.electrolysis_done": "Oxygen produced: %s · Water to backpack: %s mB",
+  "message.panthrixsgalaxy.need_water": "Needs water: use a water bucket or place it next to water",
+  "message.panthrixsgalaxy.need_energy": "Needs energy: connect it with cables to a generator or cell",
+  "status.panthrixsgalaxy.water": "Water: %s / %s mB",
+  "hud.panthrixsgalaxy.emergency_oxygen": "Emergency oxygen: the backpack is using water and energy"
 }
