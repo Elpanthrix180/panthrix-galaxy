@@ -1,6 +1,8 @@
 package com.panthrixsgalaxy.fabric.mixin;
 
+import com.panthrixsgalaxy.fabric.PGFabricEvents;
 import com.panthrixsgalaxy.fabric.PGPlayerData;
+import com.panthrixsgalaxy.system.backpack.PGBackpackEvents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -43,6 +45,22 @@ public abstract class PlayerMixin implements PGPlayerData {
     @Override
     public void panthrixsgalaxy$setBackpack(ItemStack backpack) {
         panthrixsgalaxy$backpack = backpack;
+    }
+
+    /** Al final de cada tick del jugador (en Forge: PlayerTickEvent). */
+    @Inject(method = "tick", at = @At("TAIL"))
+    private void panthrixsgalaxy$afterTick(CallbackInfo info) {
+        PGFabricEvents.onPlayerTickEnd((Player) (Object) this);
+    }
+
+    /** Al morir: sin keepInventory la mochila cae al suelo (en Forge: LivingDropsEvent). */
+    @Inject(method = "dropEquipment", at = @At("TAIL"))
+    private void panthrixsgalaxy$dropBackpack(CallbackInfo info) {
+        Player player = (Player) (Object) this;
+        ItemStack backpack = PGBackpackEvents.takeDeathDrop(player);
+        if (!backpack.isEmpty()) {
+            player.drop(backpack, true, false);
+        }
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))

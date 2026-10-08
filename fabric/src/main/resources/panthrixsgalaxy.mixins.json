@@ -4,6 +4,7 @@
   "package": "com.panthrixsgalaxy.fabric.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "LivingEntityMixin",
     "PlayerMixin"
   ],
   "injectors": {

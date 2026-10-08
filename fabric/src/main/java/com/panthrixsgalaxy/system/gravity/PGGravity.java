@@ -7,7 +7,7 @@ import net.minecraft.world.level.Level;
 /**
  * Gravedad de cada planeta.
  *
- * VERSIÓN FABRIC (de momento solo el valor; aplicarla a las criaturas llega en la Fase F3).
+ * VERSIÓN FABRIC: se aplica a las criaturas con el mixin fabric/mixin/LivingEntityMixin.
  * La versión Forge (src/main/java/...) usa el atributo de gravedad de Forge.
  */
 public final class PGGravity {
