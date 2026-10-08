@@ -5,7 +5,6 @@ import com.panthrixsgalaxy.platform.PGHolder;
 import com.panthrixsgalaxy.platform.PGRegistry;
 import com.panthrixsgalaxy.recipe.PGEngineeringRecipe;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 
@@ -18,7 +17,12 @@ public final class ModRecipes {
     /** Recetas del Banco de Ingeniería Espacial ("type": "panthrixsgalaxy:engineering"). */
     public static final PGHolder<RecipeType<PGEngineeringRecipe>> ENGINEERING_TYPE =
             RECIPE_TYPES.register("engineering",
-                    () -> RecipeType.simple(new ResourceLocation(PanthrixsGalaxy.MOD_ID, "engineering")));
+                    () -> new RecipeType<PGEngineeringRecipe>() {
+                        @Override
+                        public String toString() {
+                            return PanthrixsGalaxy.MOD_ID + ":engineering";
+                        }
+                    });
 
     public static final PGHolder<RecipeSerializer<PGEngineeringRecipe>> ENGINEERING_SERIALIZER =
             RECIPE_SERIALIZERS.register("engineering", PGEngineeringRecipe.Serializer::new);

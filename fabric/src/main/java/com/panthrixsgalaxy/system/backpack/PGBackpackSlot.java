@@ -1,6 +1,6 @@
 package com.panthrixsgalaxy.system.backpack;
 
-import com.panthrixsgalaxy.fabric.PGBackpackHolder;
+import com.panthrixsgalaxy.fabric.PGPlayerData;
 import com.panthrixsgalaxy.network.BackpackSyncPacket;
 import com.panthrixsgalaxy.network.PGNetwork;
 import net.minecraft.server.level.ServerPlayer;
@@ -17,12 +17,12 @@ public final class PGBackpackSlot {
 
     /** La mochila que lleva equipada el jugador (vacío si no lleva). */
     public static ItemStack getEquipped(Player player) {
-        return ((PGBackpackHolder) player).panthrixsgalaxy$getBackpack();
+        return ((PGPlayerData) player).panthrixsgalaxy$getBackpack();
     }
 
     /** Equipa (o quita, con ItemStack.EMPTY) la mochila del jugador. */
     public static void setEquipped(Player player, ItemStack stack) {
-        ((PGBackpackHolder) player).panthrixsgalaxy$setBackpack(stack);
+        ((PGPlayerData) player).panthrixsgalaxy$setBackpack(stack);
     }
 
     /** Avisa al jugador y a los que lo ven de qué mochila lleva (para dibujarla en su espalda). */

@@ -50,7 +50,7 @@ public class PGGeneratorBlockEntity extends PGEnergyBlockEntity implements PGIte
 
     /** Combustible válido: se quema en un horno y no deja restos (los cubos de lava no valen). */
     private static boolean isFuel(ItemStack stack) {
-        return PGPlatform.getBurnTime(stack) > 0 && !stack.hasCraftingRemainingItem();
+        return PGPlatform.getBurnTime(stack) > 0 && !stack.getItem().hasCraftingRemainingItem();
     }
 
     @Override

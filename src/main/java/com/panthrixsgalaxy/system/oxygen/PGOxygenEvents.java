@@ -6,6 +6,7 @@ import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.init.ModDamageTypes;
 import com.panthrixsgalaxy.network.OxygenSyncPacket;
 import com.panthrixsgalaxy.network.PGNetwork;
+import com.panthrixsgalaxy.platform.PGPlatform;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -56,7 +57,7 @@ public final class PGOxygenEvents {
             return;
         }
 
-        CompoundTag data = player.getPersistentData();
+        CompoundTag data = PGPlatform.getPersistentData(player);
         boolean airless = PGAtmosphere.isAirlessFor(player);
         int noAirSeconds = data.getInt(NO_AIR_SECONDS_TAG);
         OxygenState state;

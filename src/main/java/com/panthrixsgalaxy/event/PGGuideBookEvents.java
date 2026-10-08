@@ -3,12 +3,12 @@ package com.panthrixsgalaxy.event;
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.item.PGGuideBook;
+import com.panthrixsgalaxy.platform.PGPlatform;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.Commands;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -32,13 +32,11 @@ public final class PGGuideBookEvents {
             return;
         }
         // Los datos "persistidos" sobreviven a la muerte y al cambio de dimensión
-        CompoundTag persistent = player.getPersistentData();
-        CompoundTag persisted = persistent.getCompound(Player.PERSISTED_NBT_TAG);
+        CompoundTag persisted = PGPlatform.getPersistedData(player);
         if (persisted.getBoolean(RECEIVED_KEY)) {
             return;
         }
         persisted.putBoolean(RECEIVED_KEY, true);
-        persistent.put(Player.PERSISTED_NBT_TAG, persisted);
 
         give(player);
         player.sendSystemMessage(Component.translatable("message.panthrixsgalaxy.guide_book_welcome")

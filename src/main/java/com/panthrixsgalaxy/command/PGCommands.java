@@ -2,6 +2,7 @@ package com.panthrixsgalaxy.command;
 
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.platform.PGPlatform;
 import com.panthrixsgalaxy.system.oxygen.PGAtmosphere;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -29,7 +30,7 @@ public final class PGCommands {
                         .executes(context -> {
                             ServerPlayer player = context.getSource().getPlayerOrException();
                             boolean enabled = BoolArgumentType.getBool(context, "enabled");
-                            player.getPersistentData().putBoolean(PGAtmosphere.VACUUM_TEST_TAG, enabled);
+                            PGPlatform.getPersistentData(player).putBoolean(PGAtmosphere.VACUUM_TEST_TAG, enabled);
                             context.getSource().sendSuccess(() -> Component.translatable(enabled
                                     ? "command.panthrixsgalaxy.vacuum_on"
                                     : "command.panthrixsgalaxy.vacuum_off"), false);

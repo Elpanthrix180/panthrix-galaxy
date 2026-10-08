@@ -7,12 +7,14 @@ import com.panthrixsgalaxy.weapon.LaserSwordTier;
 import com.panthrixsgalaxy.weapon.PGLaserSwordItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
@@ -87,6 +89,20 @@ public final class PGPlatform {
     /** Ticks que arde un objeto en un horno (0 = no es combustible). */
     public static int getBurnTime(ItemStack stack) {
         return ForgeHooks.getBurnTime(stack, RecipeType.SMELTING);
+    }
+
+    /** Datos extra del jugador que el mod guarda con él (se pierden al morir). */
+    public static CompoundTag getPersistentData(Player player) {
+        return player.getPersistentData();
+    }
+
+    /** Datos extra del jugador que se conservan también al morir (logros, libro guía...). */
+    public static CompoundTag getPersistedData(Player player) {
+        CompoundTag data = player.getPersistentData();
+        if (!data.contains(Player.PERSISTED_NBT_TAG)) {
+            data.put(Player.PERSISTED_NBT_TAG, new CompoundTag());
+        }
+        return data.getCompound(Player.PERSISTED_NBT_TAG);
     }
 
     // ===== Energía de OTROS mods (la del propio mod se mira directamente) =====

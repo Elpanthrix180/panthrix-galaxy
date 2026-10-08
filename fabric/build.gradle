@@ -101,6 +101,9 @@ dependencies {
 }
 
 loom {
+    // Abre algunas cosas de Minecraft que Forge ya trae abiertas
+    accessWidenerPath = file('src/main/resources/panthrixsgalaxy.accesswidener')
+
     runs {
         // ./gradlew -p fabric runClient → abre Minecraft con el mod
         client { runDir = 'run' }

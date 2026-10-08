@@ -13,13 +13,17 @@ import com.panthrixsgalaxy.init.ModMenuTypes;
 import com.panthrixsgalaxy.init.ModRecipes;
 import com.panthrixsgalaxy.network.PGNetwork;
 import com.panthrixsgalaxy.planet.PGPlanets;
+import com.panthrixsgalaxy.platform.PGPlatform;
+import com.panthrixsgalaxy.system.backpack.PGBackpackSlot;
 import com.panthrixsgalaxy.system.oxygen.PGAtmosphere;
 import com.panthrixsgalaxy.system.oxygen.PGSealedRooms;
 import com.panthrixsgalaxy.tool.PGToolTiers;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.nbt.CompoundTag;
 
 /**
  * Clase principal de Panthrixs Galaxy en Fabric.
@@ -64,6 +68,18 @@ public class PanthrixsGalaxyFabric implements ModInitializer {
         });
 
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> PGSealedRooms.clearAll());
+
+        // Al reaparecer (o volver del End) Minecraft crea un jugador nuevo: se copian sus datos del mod.
+        // (De momento la mochila se conserva siempre; en la Fase F3 caerá al suelo al morir, como en Forge.)
+        ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, alive) -> {
+            CompoundTag newData = PGPlatform.getPersistentData(newPlayer);
+            if (alive) {
+                newData.merge(PGPlatform.getPersistentData(oldPlayer).copy());
+            } else {
+                newData.put(PGPlayerData.PERSISTED_TAG, PGPlatform.getPersistedData(oldPlayer).copy());
+            }
+            PGBackpackSlot.setEquipped(newPlayer, PGBackpackSlot.getEquipped(oldPlayer));
+        });
 
         PanthrixsGalaxy.LOGGER.info("[Panthrixs Galaxy] Mod cargado correctamente (Fabric). ¡Preparados para el despegue!");
     }

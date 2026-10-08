@@ -8,6 +8,7 @@ import com.panthrixsgalaxy.entity.mob.PGMartianWormEntity;
 import com.panthrixsgalaxy.entity.mob.PGScorpionEntity;
 import com.panthrixsgalaxy.planet.PGPlanet;
 import com.panthrixsgalaxy.planet.PGPlanets;
+import com.panthrixsgalaxy.platform.PGPlatform;
 import com.panthrixsgalaxy.weapon.PGLaserItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -50,11 +51,7 @@ public final class PGAdvancementEvents {
 
     /** Datos que se conservan al morir. */
     private static CompoundTag persisted(Player player) {
-        CompoundTag data = player.getPersistentData();
-        if (!data.contains(Player.PERSISTED_NBT_TAG)) {
-            data.put(Player.PERSISTED_NBT_TAG, new CompoundTag());
-        }
-        return data.getCompound(Player.PERSISTED_NBT_TAG);
+        return PGPlatform.getPersistedData(player);
     }
 
     @SubscribeEvent

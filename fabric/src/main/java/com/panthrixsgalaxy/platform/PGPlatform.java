@@ -2,6 +2,7 @@ package com.panthrixsgalaxy.platform;
 
 import com.panthrixsgalaxy.fabric.FabricLaserSwordItem;
 import com.panthrixsgalaxy.fabric.PGFabricEnergy;
+import com.panthrixsgalaxy.fabric.PGPlayerData;
 import com.panthrixsgalaxy.system.energy.PGEnergyHandler;
 import com.panthrixsgalaxy.weapon.LaserSwordTier;
 import com.panthrixsgalaxy.weapon.PGLaserSwordItem;
@@ -11,6 +12,7 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -106,6 +108,20 @@ public final class PGPlatform {
         }
         Integer time = FuelRegistry.INSTANCE.get(stack.getItem());
         return time == null ? 0 : time;
+    }
+
+    /** Datos extra del jugador que el mod guarda con él (los añade el mixin PlayerMixin). */
+    public static CompoundTag getPersistentData(Player player) {
+        return ((PGPlayerData) player).panthrixsgalaxy$getData();
+    }
+
+    /** Datos extra del jugador que se conservan también al morir (logros, libro guía...). */
+    public static CompoundTag getPersistedData(Player player) {
+        CompoundTag data = getPersistentData(player);
+        if (!data.contains(PGPlayerData.PERSISTED_TAG)) {
+            data.put(PGPlayerData.PERSISTED_TAG, new CompoundTag());
+        }
+        return data.getCompound(PGPlayerData.PERSISTED_TAG);
     }
 
     // ===== Energía de OTROS mods (la del propio mod se mira directamente) =====
