@@ -59,7 +59,7 @@ public final class PGClientEvents {
         boolean jumpDown = minecraft.options.keyJump.isDown();
         if (jumpDown && !jumpWasDown && minecraft.screen == null && minecraft.player != null
                 && minecraft.player.getVehicle() instanceof PGSpaceVehicle) {
-            PGNetwork.CHANNEL.sendToServer(new RocketLaunchPacket());
+            PGNetwork.sendToServer(new RocketLaunchPacket());
         }
         jumpWasDown = jumpDown;
 
@@ -68,7 +68,7 @@ public final class PGClientEvents {
                 BackpackActionPacket.Action action = Screen.hasShiftDown()
                         ? BackpackActionPacket.Action.UNEQUIP
                         : BackpackActionPacket.Action.OPEN;
-                PGNetwork.CHANNEL.sendToServer(new BackpackActionPacket(action));
+                PGNetwork.sendToServer(new BackpackActionPacket(action));
             }
         }
     }

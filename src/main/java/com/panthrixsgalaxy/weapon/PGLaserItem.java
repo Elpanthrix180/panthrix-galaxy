@@ -2,10 +2,10 @@ package com.panthrixsgalaxy.weapon;
 
 import com.panthrixsgalaxy.entity.laser.PGLaserBoltEntity;
 import com.panthrixsgalaxy.system.energy.ItemEnergyStorage;
+import com.panthrixsgalaxy.system.energy.PGEnergyHandler;
+import com.panthrixsgalaxy.system.energy.PGEnergyItem;
 import com.panthrixsgalaxy.system.energy.PortableEnergy;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -16,12 +16,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -37,7 +31,7 @@ import java.util.List;
  * Guarda la energía en el dato "Energy" igual que las baterías, así que cualquier
  * máquina del mod (o de otros mods) puede cargarla.
  */
-public class PGLaserItem extends Item {
+public class PGLaserItem extends Item implements PGEnergyItem {
 
     private static final int BAR_COLOR = 0xFFDD33;
 
@@ -90,18 +84,10 @@ public class PGLaserItem extends Item {
         player.displayClientMessage(text.copy().withStyle(own > 5 || backpack > 0 ? ChatFormatting.AQUA : ChatFormatting.GOLD), true);
     }
 
-    /** El arma guarda energía como una batería (capability de Forge). */
+    /** El arma guarda energía como una batería (Forge y Fabric la conectan con otros mods). */
     @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-        return new ICapabilityProvider() {
-            private final LazyOptional<IEnergyStorage> energy =
-                    LazyOptional.of(() -> new ItemEnergyStorage(stack, tier.getCapacity(), tier.getCapacity() / 5));
-
-            @Override
-            public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction side) {
-                return ForgeCapabilities.ENERGY.orEmpty(capability, energy);
-            }
-        };
+    public PGEnergyHandler createEnergyHandler(ItemStack stack) {
+        return new ItemEnergyStorage(stack, tier.getCapacity(), tier.getCapacity() / 5);
     }
 
     /** Arma cargada (para el modo creativo). */
@@ -112,7 +98,7 @@ public class PGLaserItem extends Item {
     }
 
     /** Que el arma no "rebote" en la mano cada vez que cambia su energía. */
-    @Override
+    // Forge lo usa (en Fabric no existe, por eso no lleva @Override)
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         return slotChanged || oldStack.getItem() != newStack.getItem();
     }

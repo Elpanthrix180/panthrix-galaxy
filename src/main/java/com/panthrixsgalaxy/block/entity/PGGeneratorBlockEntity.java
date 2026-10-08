@@ -2,6 +2,9 @@ package com.panthrixsgalaxy.block.entity;
 
 import com.panthrixsgalaxy.block.PGEnergyBlock;
 import com.panthrixsgalaxy.init.ModBlockEntities;
+import com.panthrixsgalaxy.platform.PGPlatform;
+import com.panthrixsgalaxy.system.item.PGItemSlots;
+import com.panthrixsgalaxy.system.item.PGItemSlotsProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -10,14 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.Containers;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
  * Un carbón (1600 ticks) = 64 000 FE.
  * Se le echa combustible con clic derecho o con una tolva.
  */
-public class PGGeneratorBlockEntity extends PGEnergyBlockEntity {
+public class PGGeneratorBlockEntity extends PGEnergyBlockEntity implements PGItemSlotsProvider {
 
     public static final int CAPACITY = 20_000;
     /** Energía producida por tick mientras quema. */
@@ -34,7 +30,7 @@ public class PGGeneratorBlockEntity extends PGEnergyBlockEntity {
     /** Máximo que envía a cada máquina vecina por tick. */
     public static final int PUSH = 200;
 
-    private final ItemStackHandler fuel = new ItemStackHandler(1) {
+    private final ItemStackHandler fuel = new PGItemSlots(1) {
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return isFuel(stack);
@@ -45,7 +41,6 @@ public class PGGeneratorBlockEntity extends PGEnergyBlockEntity {
             setChanged();
         }
     };
-    private final LazyOptional<IItemHandler> fuelCapability = LazyOptional.of(() -> fuel);
 
     private int burnTime;
 
@@ -55,7 +50,7 @@ public class PGGeneratorBlockEntity extends PGEnergyBlockEntity {
 
     /** Combustible válido: se quema en un horno y no deja restos (los cubos de lava no valen). */
     private static boolean isFuel(ItemStack stack) {
-        return ForgeHooks.getBurnTime(stack, RecipeType.SMELTING) > 0 && !stack.hasCraftingRemainingItem();
+        return PGPlatform.getBurnTime(stack) > 0 && !stack.hasCraftingRemainingItem();
     }
 
     @Override
@@ -69,7 +64,7 @@ public class PGGeneratorBlockEntity extends PGEnergyBlockEntity {
         if (burnTime <= 0 && energy.getSpace() > 0) {
             ItemStack next = fuel.getStackInSlot(0);
             if (isFuel(next)) {
-                burnTime = ForgeHooks.getBurnTime(next, RecipeType.SMELTING);
+                burnTime = PGPlatform.getBurnTime(next);
                 fuel.extractItem(0, 1, false);
                 setChanged();
             }
@@ -121,18 +116,10 @@ public class PGGeneratorBlockEntity extends PGEnergyBlockEntity {
         }
     }
 
+    /** Las tolvas y tuberías pueden llenar este hueco. */
     @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction side) {
-        if (capability == ForgeCapabilities.ITEM_HANDLER) {
-            return fuelCapability.cast();
-        }
-        return super.getCapability(capability, side);
-    }
-
-    @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        fuelCapability.invalidate();
+    public @Nullable PGItemSlots getItemSlots(@Nullable Direction side) {
+        return fuel;
     }
 
     @Override

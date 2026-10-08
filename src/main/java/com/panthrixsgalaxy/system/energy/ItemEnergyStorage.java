@@ -1,13 +1,12 @@
 package com.panthrixsgalaxy.system.energy;
 
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.energy.IEnergyStorage;
 
 /**
  * Energía guardada dentro de un objeto (batería). Lee y escribe el dato "Energy" del objeto,
  * así cualquier máquina (también de otros mods) puede cargarla o descargarla.
  */
-public class ItemEnergyStorage implements IEnergyStorage {
+public class ItemEnergyStorage implements PGEnergyHandler {
 
     public static final String ENERGY_TAG = "Energy";
 

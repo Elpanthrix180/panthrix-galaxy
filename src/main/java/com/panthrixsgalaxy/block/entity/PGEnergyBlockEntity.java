@@ -2,6 +2,8 @@ package com.panthrixsgalaxy.block.entity;
 
 import com.panthrixsgalaxy.system.backpack.PGBackpackSlot;
 import com.panthrixsgalaxy.system.energy.EnergyHelper;
+import com.panthrixsgalaxy.system.energy.PGEnergyHandler;
+import com.panthrixsgalaxy.system.energy.PGEnergyProvider;
 import com.panthrixsgalaxy.system.energy.PGEnergyStorage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -17,11 +19,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -32,20 +29,18 @@ import org.jetbrains.annotations.Nullable;
  *
  * Lo común a todas:
  *   - Un almacén de energía que se guarda al salir del mundo.
- *   - La energía se ofrece a otros mods y cables (capability ENERGY de Forge).
+ *   - La energía se ofrece a otros mods y cables (PGEnergyProvider: Forge y Fabric la conectan).
  *   - Clic derecho: cargar el objeto de la mano, o con la mano vacía ver información
  *     y cargar la mochila equipada. Mayús + clic derecho: descargar el objeto en la máquina.
  */
-public abstract class PGEnergyBlockEntity extends BlockEntity {
+public abstract class PGEnergyBlockEntity extends BlockEntity implements PGEnergyProvider {
 
     protected final PGEnergyStorage energy;
-    private final LazyOptional<IEnergyStorage> energyCapability;
 
     protected PGEnergyBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state,
                                   int capacity, int maxReceive, int maxExtract) {
         super(type, pos, state);
         this.energy = new PGEnergyStorage(capacity, maxReceive, maxExtract, this::setChanged);
-        this.energyCapability = LazyOptional.of(() -> energy);
     }
 
     /** Lo que hace la máquina cada tick (solo en el servidor). */
@@ -125,34 +120,21 @@ public abstract class PGEnergyBlockEntity extends BlockEntity {
             return;
         }
         for (Direction direction : Direction.values()) {
-            BlockEntity neighbor = level.getBlockEntity(worldPosition.relative(direction));
-            if (neighbor == null) {
-                continue;
+            PGEnergyHandler target = EnergyHelper.findBlockEnergy(level, worldPosition.relative(direction), direction.getOpposite());
+            if (target != null && target.canReceive() && energy.getEnergyStored() > 0) {
+                int offered = Math.min(maxPerTick, energy.getEnergyStored());
+                int accepted = target.receiveEnergy(offered, false);
+                energy.take(accepted);
             }
-            neighbor.getCapability(ForgeCapabilities.ENERGY, direction.getOpposite()).ifPresent(target -> {
-                if (target.canReceive()) {
-                    int offered = Math.min(maxPerTick, energy.getEnergyStored());
-                    int accepted = target.receiveEnergy(offered, false);
-                    energy.take(accepted);
-                }
-            });
         }
     }
 
-    // ===== Capabilities y guardado =====
+    // ===== Energía para otros bloques y guardado =====
 
+    /** La misma energía por todos los lados. */
     @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction side) {
-        if (capability == ForgeCapabilities.ENERGY) {
-            return energyCapability.cast();
-        }
-        return super.getCapability(capability, side);
-    }
-
-    @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        energyCapability.invalidate();
+    public @Nullable PGEnergyHandler getEnergyHandler(@Nullable Direction side) {
+        return energy;
     }
 
     @Override

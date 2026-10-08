@@ -4,21 +4,22 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.panthrixsgalaxy.init.ModDamageTypes;
 import com.panthrixsgalaxy.system.energy.ItemEnergyStorage;
+import com.panthrixsgalaxy.system.energy.PGEnergyHandler;
+import com.panthrixsgalaxy.system.energy.PGEnergyItem;
 import com.panthrixsgalaxy.system.energy.PortableEnergy;
+import com.panthrixsgalaxy.tool.PGTier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -35,14 +36,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeTier;
-import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
@@ -63,13 +56,13 @@ import java.util.Locale;
  *   - si se queda sin energía (ni en la espada ni en la mochila), se apaga sola;
  *   - cada color tiene su habilidad especial (fuego, perforar, brillo, robo de vida...).
  */
-public class PGLaserSwordItem extends SwordItem {
+public class PGLaserSwordItem extends SwordItem implements PGEnergyItem {
 
     public static final String ACTIVE_TAG = "Active";
     private static final int BAR_COLOR = 0xFFDD33;
 
     /** "Nivel" de herramienta: no se desgasta (0 usos) y corta telarañas como una espada de diamante. */
-    private static final Tier LASER_TIER = new ForgeTier(3, 0, 8.0f, 0.0f, 15, BlockTags.NEEDS_DIAMOND_TOOL,
+    private static final Tier LASER_TIER = new PGTier(3, 0, 8.0f, 0.0f, 15, BlockTags.NEEDS_DIAMOND_TOOL,
             () -> Ingredient.EMPTY);
 
     private final LaserSwordTier tier;
@@ -218,18 +211,15 @@ public class PGLaserSwordItem extends SwordItem {
         return isActive(stack) ? super.getDestroySpeed(stack, state) : 1.0f;
     }
 
-    @Override
-    public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
-        return isActive(stack) && super.canPerformAction(stack, toolAction);
-    }
-
-    /** Daño según esté encendida o apagada. */
-    @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+    /**
+     * Daño según esté encendida o apagada: null = el normal de la espada.
+     * Lo usan las versiones de Forge y Fabric de la espada (cada cargador lo pide a su manera).
+     */
+    public @Nullable Multimap<Attribute, AttributeModifier> getStackModifiers(EquipmentSlot slot, ItemStack stack) {
         if (slot == EquipmentSlot.MAINHAND && !isActive(stack)) {
             return offModifiers;
         }
-        return super.getAttributeModifiers(slot, stack);
+        return null;
     }
 
     // ===== Guardia =====
@@ -273,16 +263,8 @@ public class PGLaserSwordItem extends SwordItem {
     // ===== Energía (como una batería) =====
 
     @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-        return new ICapabilityProvider() {
-            private final LazyOptional<IEnergyStorage> energy =
-                    LazyOptional.of(() -> new ItemEnergyStorage(stack, tier.getCapacity(), tier.getCapacity() / 5));
-
-            @Override
-            public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction side) {
-                return ForgeCapabilities.ENERGY.orEmpty(capability, energy);
-            }
-        };
+    public PGEnergyHandler createEnergyHandler(ItemStack stack) {
+        return new ItemEnergyStorage(stack, tier.getCapacity(), tier.getCapacity() / 5);
     }
 
     /** Espada cargada (para el modo creativo). */
@@ -293,7 +275,7 @@ public class PGLaserSwordItem extends SwordItem {
     }
 
     /** Que no "rebote" en la mano cada vez que cambia su energía o se enciende. */
-    @Override
+    // Forge lo usa (en Fabric no existe, por eso no lleva @Override)
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         return slotChanged || oldStack.getItem() != newStack.getItem();
     }

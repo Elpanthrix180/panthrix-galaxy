@@ -3,6 +3,8 @@ package com.panthrixsgalaxy.block.entity;
 import com.panthrixsgalaxy.block.PGEnergyBlock;
 import com.panthrixsgalaxy.init.ModBlockEntities;
 import com.panthrixsgalaxy.init.ModItems;
+import com.panthrixsgalaxy.system.item.PGItemSlots;
+import com.panthrixsgalaxy.system.item.PGItemSlotsProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,11 +14,6 @@ import net.minecraft.world.Containers;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
  * Cada helio-3 dura 20 segundos produciendo 400 FE/t = 160 000 FE.
  * Se alimenta con clic derecho o con tolva.
  */
-public class PGReactorBlockEntity extends PGEnergyBlockEntity {
+public class PGReactorBlockEntity extends PGEnergyBlockEntity implements PGItemSlotsProvider {
 
     public static final int CAPACITY = 200_000;
     public static final int GENERATION = 400;
@@ -33,7 +30,7 @@ public class PGReactorBlockEntity extends PGEnergyBlockEntity {
     /** Ticks que dura cada helio-3 (400 = 20 segundos). */
     public static final int TICKS_PER_FUEL = 400;
 
-    private final ItemStackHandler fuel = new ItemStackHandler(1) {
+    private final ItemStackHandler fuel = new PGItemSlots(1) {
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return stack.is(ModItems.PG_HELIUM_3.get());
@@ -44,7 +41,6 @@ public class PGReactorBlockEntity extends PGEnergyBlockEntity {
             setChanged();
         }
     };
-    private final LazyOptional<IItemHandler> fuelCapability = LazyOptional.of(() -> fuel);
 
     private int fuelTicks;
 
@@ -110,18 +106,10 @@ public class PGReactorBlockEntity extends PGEnergyBlockEntity {
         }
     }
 
+    /** Las tolvas y tuberías pueden llenar este hueco. */
     @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction side) {
-        if (capability == ForgeCapabilities.ITEM_HANDLER) {
-            return fuelCapability.cast();
-        }
-        return super.getCapability(capability, side);
-    }
-
-    @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        fuelCapability.invalidate();
+    public @Nullable PGItemSlots getItemSlots(@Nullable Direction side) {
+        return fuel;
     }
 
     @Override

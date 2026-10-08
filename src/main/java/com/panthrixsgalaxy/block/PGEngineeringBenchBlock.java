@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy.block;
 
 import com.panthrixsgalaxy.menu.PGEngineeringBenchMenu;
+import com.panthrixsgalaxy.platform.PGPlatform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -13,7 +14,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.network.NetworkHooks;
 
 /** Banco de Ingeniería Espacial: clic derecho para abrir su ventana de fabricación. */
 public class PGEngineeringBenchBlock extends Block {
@@ -29,10 +29,10 @@ public class PGEngineeringBenchBlock extends Block {
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player,
                                  InteractionHand hand, BlockHitResult hit) {
         if (player instanceof ServerPlayer serverPlayer) {
-            NetworkHooks.openScreen(serverPlayer, new SimpleMenuProvider(
+            PGPlatform.openMenu(serverPlayer, new SimpleMenuProvider(
                     (containerId, playerInventory, p) ->
                             new PGEngineeringBenchMenu(containerId, playerInventory, ContainerLevelAccess.create(level, pos)),
-                    TITLE));
+                    TITLE), buf -> { });
         }
         return InteractionResult.sidedSuccess(level.isClientSide);
     }

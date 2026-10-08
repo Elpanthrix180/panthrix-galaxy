@@ -11,7 +11,6 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.network.PacketDistributor;
 
 /**
  * El HUECO DE MOCHILA del jugador.
@@ -67,7 +66,6 @@ public class PGBackpackSlot implements INBTSerializable<CompoundTag> {
 
     /** Avisa al propio jugador y a los que le ven de qué mochila lleva (para dibujarla en su espalda). */
     public static void sync(ServerPlayer player) {
-        PGNetwork.CHANNEL.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player),
-                new BackpackSyncPacket(player.getId(), getEquipped(player)));
+        PGNetwork.sendToTrackingAndSelf(player, new BackpackSyncPacket(player.getId(), getEquipped(player)));
     }
 }

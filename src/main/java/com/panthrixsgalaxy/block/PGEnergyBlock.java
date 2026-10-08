@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy.block;
 
 import com.panthrixsgalaxy.block.entity.PGEnergyBlockEntity;
+import com.panthrixsgalaxy.platform.PGPlatform;
 import com.panthrixsgalaxy.system.energy.EnergyHelper;
 import com.panthrixsgalaxy.system.energy.ItemEnergyStorage;
 import net.minecraft.ChatFormatting;
@@ -29,7 +30,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -106,7 +106,7 @@ public class PGEnergyBlock extends BaseEntityBlock {
             // Con un bloque normal en la mano se deja colocarlo (p. ej. un cable pegado a la máquina)
             ItemStack held = player.getItemInHand(hand);
             boolean placeable = held.getItem() instanceof BlockItem && !EnergyHelper.holdsEnergy(held)
-                    && ForgeHooks.getBurnTime(held, null) <= 0;
+                    && PGPlatform.getBurnTime(held) <= 0;
             return placeable ? InteractionResult.PASS : InteractionResult.SUCCESS;
         }
         if (level.getBlockEntity(pos) instanceof PGEnergyBlockEntity machine) {

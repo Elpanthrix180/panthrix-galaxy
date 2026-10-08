@@ -1,6 +1,5 @@
 package com.panthrixsgalaxy.system.oxygen;
 
-import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.init.ModTags;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
@@ -12,9 +11,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.server.ServerStoppedEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayDeque;
@@ -34,7 +30,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * puertas y trampillas CERRADAS y los del tag panthrixsgalaxy:airtight. Las losas, escaleras,
  * vallas, paneles de cristal finos... NO cierran (el aire pasa por el hueco).
  */
-@Mod.EventBusSubscriber(modid = PanthrixsGalaxy.MOD_ID)
 public final class PGSealedRooms {
 
     /** Tamaño máximo de una sala sellada (por distribuidor), de la configuración. Por defecto 2048 (unos 12 x 12 x 14). */
@@ -136,8 +131,8 @@ public final class PGSealedRooms {
     }
 
     /** Al cerrar el mundo se olvidan las salas (los distribuidores las vuelven a medir al cargar). */
-    @SubscribeEvent
-    public static void onServerStopped(ServerStoppedEvent event) {
+    /** Al cerrar el servidor se olvidan todas las salas (lo llaman Forge y Fabric). */
+    public static void clearAll() {
         ROOMS.clear();
     }
 
