@@ -1,0 +1,65 @@
+plugins {
+    id 'fabric-loom' version '1.7-SNAPSHOT'
+}
+
+// ===== Datos comunes con la versión Forge (../gradle.properties) =====
+def common = new Properties()
+file('../gradle.properties').withInputStream { common.load(it) }
+
+version = common.mod_version
+group = common.mod_group_id
+
+base {
+    // El .jar final se llama panthrixsgalaxy-fabric-1.20.1-X.Y.Z.jar
+    archivesName = "${common.mod_id}-fabric-${minecraft_version}"
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
+    withSourcesJar()
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    // Mismos nombres que en Forge (mapeos oficiales de Mojang): así el código común sirve para los dos
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
+    // Energía: se incluye dentro del .jar (el jugador no tiene que instalar nada más)
+    modImplementation include("teamreborn:energy:${energy_version}")
+}
+
+loom {
+    runs {
+        // ./gradlew -p fabric runClient → abre Minecraft con el mod
+        client { runDir = 'run' }
+        server { runDir = 'run-server' }
+    }
+}
+
+processResources {
+    var replaceProperties = [
+            mod_id         : common.mod_id,
+            mod_name       : common.mod_name,
+            mod_version    : common.mod_version,
+            mod_license    : common.mod_license,
+            mod_authors    : common.mod_authors,
+            mod_url        : common.mod_url,
+            mod_issues_url : common.mod_issues_url,
+            loader_version : loader_version,
+            minecraft_version: minecraft_version
+    ]
+    inputs.properties replaceProperties
+    filesMatching('fabric.mod.json') {
+        expand replaceProperties
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 17
+}

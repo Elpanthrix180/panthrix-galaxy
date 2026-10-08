@@ -1,8 +1,9 @@
-# Compila el mod en GitHub y guarda el .jar.
-#  - En cada push: el .jar aparece en la pestaña "Actions" → la ejecución → "Artifacts".
-#  - Al crear una etiqueta v1.0.0 (o v1.0.1...): además se crea una "Release" con el .jar.
+# Compila el mod en GitHub y guarda los .jar (Forge y Fabric).
+#  - En cada push: los .jar aparecen en la pestaña "Actions" → la ejecución → "Artifacts".
+#  - Al crear una etiqueta v1.0.0 (o v1.0.1...): además se crea una "Release" con los .jar.
 #  - También a mano: Actions → "Compilar mod" → "Run workflow" → marcar "Crear Release".
 #    La etiqueta se llama v + mod_version de gradle.properties (p. ej. v1.0.0).
+#  - La Release lleva el .jar de Fabric solo si su compilación salió bien.
 name: Compilar mod
 
 on:
@@ -21,7 +22,8 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  forge:
+    name: Forge
     runs-on: ubuntu-latest
     steps:
       - name: Descargar el código
@@ -36,7 +38,7 @@ jobs:
       - name: Preparar Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Compilar
+      - name: Compilar (Forge)
         run: |
           chmod +x gradlew
           ./gradlew build --no-daemon
@@ -48,16 +50,67 @@ jobs:
           path: build/libs/*.jar
           if-no-files-found: error
 
+  fabric:
+    name: Fabric
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Preparar Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Compilar (Fabric)
+        run: |
+          chmod +x gradlew
+          ./gradlew -p fabric build --no-daemon
+
+      - name: Guardar el .jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: panthrixsgalaxy-fabric-jar
+          path: |
+            fabric/build/libs/*.jar
+            !fabric/build/libs/*-sources.jar
+          if-no-files-found: error
+
+  release:
+    name: Release
+    needs: [forge, fabric]
+    if: always() && needs.forge.result == 'success' && (startsWith(github.ref, 'refs/tags/v') || inputs.release)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Descargar el .jar de Forge
+        uses: actions/download-artifact@v4
+        with:
+          name: panthrixsgalaxy-jar
+          path: jars
+
+      - name: Descargar el .jar de Fabric (si se compiló)
+        if: needs.fabric.result == 'success'
+        uses: actions/download-artifact@v4
+        with:
+          name: panthrixsgalaxy-fabric-jar
+          path: jars
+
       - name: Leer la versión
         id: version
         run: echo "tag=v$(grep '^mod_version=' gradle.properties | cut -d= -f2)" >> "$GITHUB_OUTPUT"
 
-      - name: Crear la Release (etiqueta v* o a mano)
-        if: startsWith(github.ref, 'refs/tags/v') || inputs.release
+      - name: Crear la Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || steps.version.outputs.tag }}
           target_commitish: ${{ github.sha }}
           name: Panthrixs Galaxy ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || steps.version.outputs.tag }}
-          files: build/libs/*.jar
+          files: jars/*.jar
           body_path: CHANGELOG.md
