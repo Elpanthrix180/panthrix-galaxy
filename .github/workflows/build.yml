@@ -1,6 +1,8 @@
 # Compila el mod en GitHub y guarda el .jar.
 #  - En cada push: el .jar aparece en la pestaña "Actions" → la ejecución → "Artifacts".
 #  - Al crear una etiqueta v1.0.0 (o v1.0.1...): además se crea una "Release" con el .jar.
+#  - También a mano: Actions → "Compilar mod" → "Run workflow" → marcar "Crear Release".
+#    La etiqueta se llama v + mod_version de gradle.properties (p. ej. v1.0.0).
 name: Compilar mod
 
 on:
@@ -9,6 +11,11 @@ on:
     tags: ["v*"]
   pull_request:
   workflow_dispatch:
+    inputs:
+      release:
+        description: "Crear Release con la versión de gradle.properties"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -41,9 +48,16 @@ jobs:
           path: build/libs/*.jar
           if-no-files-found: error
 
-      - name: Crear la Release (solo con etiqueta v*)
-        if: startsWith(github.ref, 'refs/tags/v')
+      - name: Leer la versión
+        id: version
+        run: echo "tag=v$(grep '^mod_version=' gradle.properties | cut -d= -f2)" >> "$GITHUB_OUTPUT"
+
+      - name: Crear la Release (etiqueta v* o a mano)
+        if: startsWith(github.ref, 'refs/tags/v') || inputs.release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || steps.version.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: Panthrixs Galaxy ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || steps.version.outputs.tag }}
           files: build/libs/*.jar
           body_path: CHANGELOG.md
