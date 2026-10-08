@@ -33,7 +33,7 @@ def forgeOnly = [
         'com/panthrixsgalaxy/platform/PGPlatform.java',
         'com/panthrixsgalaxy/platform/PGRegistry.java',
         'com/panthrixsgalaxy/network/PGNetwork.java',
-        'com/panthrixsgalaxy/config/PGConfig.java',
+        'com/panthrixsgalaxy/config/PGConfig.java',   // se copia aparte, adaptado (abajo)
         'com/panthrixsgalaxy/system/backpack/PGBackpackSlot.java',
         'com/panthrixsgalaxy/system/backpack/PGBackpackSlotProvider.java',
         'com/panthrixsgalaxy/system/gravity/PGGravity.java',
@@ -55,27 +55,30 @@ def forgeOnly = [
         'com/panthrixsgalaxy/client/PGClientModEvents.java',
 ]
 
-// La configuración se escribe UNA vez (config/PGConfig.java de Forge). Para Fabric se copia
+// Se copia el código común a build/generated/sources/common SIN los archivos solo de Forge.
+// (Hay que copiarlo: si se quitaran con "exclude", también se quitarían los de Fabric que se llaman igual.)
+// La configuración se escribe UNA vez (config/PGConfig.java de Forge): para Fabric se copia
 // cambiando ForgeConfigSpec por PGConfigSpec, que tiene los mismos métodos.
-def generatedConfig = layout.buildDirectory.dir('generated/sources/config')
-tasks.register('generateConfig', Copy) {
+def commonSources = layout.buildDirectory.dir('generated/sources/common')
+tasks.register('prepareCommonSources', Sync) {
+    from('../src/main/java') {
+        exclude forgeOnly
+    }
     from('../src/main/java') {
         include 'com/panthrixsgalaxy/config/PGConfig.java'
+        filter { String line ->
+            line.replace('import net.minecraftforge.common.ForgeConfigSpec;',
+                    'import com.panthrixsgalaxy.fabric.config.PGConfigSpec;')
+                .replace('ForgeConfigSpec', 'PGConfigSpec')
+        }
     }
-    into generatedConfig
-    filter { String line ->
-        line.replace('import net.minecraftforge.common.ForgeConfigSpec;',
-                'import com.panthrixsgalaxy.fabric.config.PGConfigSpec;')
-            .replace('ForgeConfigSpec', 'PGConfigSpec')
-    }
+    into commonSources
 }
 
 sourceSets {
     main {
         java {
-            srcDir '../src/main/java'
-            srcDir generatedConfig
-            exclude forgeOnly
+            srcDir commonSources
         }
         resources {
             srcDir '../src/main/resources'
@@ -84,8 +87,8 @@ sourceSets {
     }
 }
 
-tasks.named('compileJava') { dependsOn 'generateConfig' }
-tasks.named('sourcesJar') { dependsOn 'generateConfig' }
+tasks.named('compileJava') { dependsOn 'prepareCommonSources' }
+tasks.named('sourcesJar') { dependsOn 'prepareCommonSources' }
 
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
