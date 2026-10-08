@@ -52,7 +52,7 @@ Para jugar en Fabric hace falta **Fabric Loader** y **Fabric API**.
 |---|---|---|
 | **F1** | Proyecto, código común, registro de todo, ventanas, dibujos, red, energía | ✅ compila |
 | **F2** | Máquinas y energía, tolvas, energía de objetos, comandos, libro guía | ✅ compila |
-| F3 | Oxígeno, traje, mochila (tecla B, caer al morir, dibujo), gravedad, indicadores | ⏳ |
+| **F3** | Oxígeno, traje, mochila (tecla B, caer al morir, dibujo), gravedad, indicadores | ✅ compila y arranca |
 | F4 | Cohetes, naves, cielos de los planetas, tormentas de Marte | ⏳ |
 | F5 | Armas (guardia), criaturas (aparición), Reina, logros | ⏳ |
 | F6 | Pruebas, `.jar` de Fabric en la Release | ⏳ |
@@ -78,10 +78,26 @@ Para jugar en Fabric hace falta **Fabric Loader** y **Fabric API**.
 - Estos comandos y el libro ahora son **comunes**: Forge los conecta en `forge/PGForgeEvents`
   y Fabric en `fabric/PanthrixsGalaxyFabric` (una línea cada uno).
 
+### ✅ Fase F3
+- **Oxígeno**: se gasta, avisa, daña sin aire y por temperatura (lógica común `PGOxygenEvents`).
+- **Traje**: aviso al completarlo (`PGSuitEvents`).
+- **Mochila**: tecla **B**, se ve en la espalda, cae al suelo al morir (sin keepInventory),
+  se conserva al volver del End y los demás jugadores la ven.
+- **Gravedad** de cada planeta y caídas más suaves (mixin `fabric/mixin/LivingEntityMixin`).
+- **Indicadores** de oxígeno, cohete y nave (los mismos dibujos que en Forge).
+- Lo que pasa cada tick en la pantalla (tecla B, ESPACIO en el cohete, polvo de Marte): `client/PGClientTick`, común.
+- Los "pegamentos" de eventos son `forge/PGForgeEvents` y `fabric/PGFabricEvents`.
+
+### 🧪 Prueba de arranque automática
+En cada subida, GitHub arranca **un servidor de Forge y otro de Fabric** con el mod
+(`./gradlew runServer -Psmoke`). El mod escribe `SMOKE TEST OK` con las dimensiones cargadas
+y apaga el servidor (`system/PGSmokeTest`). Si un mixin, un registro o un archivo de datos
+falla al arrancar, la ejecución sale en rojo. Así se detectan errores sin abrir el juego.
+
 ### ⏳ Lo que todavía NO funciona en Fabric
-Lo que en Forge depende de **eventos** (se conecta en F3-F5): gastar oxígeno, indicadores
-en pantalla, tecla B, gravedad baja, aparición natural de criaturas, logros automáticos,
-cielos especiales y tormentas.
+Se conecta en F4-F5: esconder al astronauta dentro del vehículo, niebla de Venus y de las
+tormentas, temblor de cámara, cielos especiales de los planetas, montar en vehículos,
+guardia de la espada, aparición natural de criaturas y logros automáticos.
 
 > ℹ️ En Fabric los niveles de herramienta no se pueden "intercalar" como en Forge
 > (la lunarita va entre hierro y diamante). En Fabric la lunarita pica como el hierro.
