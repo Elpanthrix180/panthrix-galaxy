@@ -14,8 +14,10 @@
   "icon": "panthrixsgalaxy_logo.png",
   "environment": "*",
   "entrypoints": {
-    "main": ["com.panthrixsgalaxy.fabric.PanthrixsGalaxyFabric"]
+    "main": ["com.panthrixsgalaxy.fabric.PanthrixsGalaxyFabric"],
+    "client": ["com.panthrixsgalaxy.fabric.client.PGFabricClient"]
   },
+  "mixins": ["panthrixsgalaxy.mixins.json"],
   "depends": {
     "fabricloader": ">=${loader_version}",
     "minecraft": "~${minecraft_version}",

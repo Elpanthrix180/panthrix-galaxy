@@ -23,6 +23,70 @@ repositories {
     mavenCentral()
 }
 
+// ===== Código y recursos COMUNES con la versión Forge =====
+// Casi todo el mod está en ../src/main (una sola copia para los dos cargadores).
+// Aquí se quitan los archivos que son SOLO de Forge: Fabric tiene los suyos en fabric/src
+// con el mismo nombre y los mismos métodos (registro, red, configuración, mochila...).
+def forgeOnly = [
+        'com/panthrixsgalaxy/PanthrixsGalaxy.java',
+        'com/panthrixsgalaxy/forge/**',
+        'com/panthrixsgalaxy/platform/PGPlatform.java',
+        'com/panthrixsgalaxy/platform/PGRegistry.java',
+        'com/panthrixsgalaxy/network/PGNetwork.java',
+        'com/panthrixsgalaxy/config/PGConfig.java',
+        'com/panthrixsgalaxy/system/backpack/PGBackpackSlot.java',
+        'com/panthrixsgalaxy/system/backpack/PGBackpackSlotProvider.java',
+        'com/panthrixsgalaxy/system/gravity/PGGravity.java',
+        // Eventos de Forge (en Fabric se irán conectando en las fases F2-F5)
+        'com/panthrixsgalaxy/advancement/PGAdvancementEvents.java',
+        'com/panthrixsgalaxy/command/PGCommands.java',
+        'com/panthrixsgalaxy/command/PGTestCommands.java',
+        'com/panthrixsgalaxy/entity/mob/PGMobEvents.java',
+        'com/panthrixsgalaxy/entity/rocket/PGRocketEvents.java',
+        'com/panthrixsgalaxy/event/PGGuideBookEvents.java',
+        'com/panthrixsgalaxy/event/PGSuitEvents.java',
+        'com/panthrixsgalaxy/system/backpack/PGBackpackEvents.java',
+        'com/panthrixsgalaxy/system/oxygen/PGOxygenEvents.java',
+        'com/panthrixsgalaxy/weapon/PGLaserSwordEvents.java',
+        'com/panthrixsgalaxy/client/OxygenHudOverlay.java',
+        'com/panthrixsgalaxy/client/RocketHudOverlay.java',
+        'com/panthrixsgalaxy/client/ShipHudOverlay.java',
+        'com/panthrixsgalaxy/client/PGClientEvents.java',
+        'com/panthrixsgalaxy/client/PGClientModEvents.java',
+]
+
+// La configuración se escribe UNA vez (config/PGConfig.java de Forge). Para Fabric se copia
+// cambiando ForgeConfigSpec por PGConfigSpec, que tiene los mismos métodos.
+def generatedConfig = layout.buildDirectory.dir('generated/sources/config')
+tasks.register('generateConfig', Copy) {
+    from('../src/main/java') {
+        include 'com/panthrixsgalaxy/config/PGConfig.java'
+    }
+    into generatedConfig
+    filter { String line ->
+        line.replace('import net.minecraftforge.common.ForgeConfigSpec;',
+                'import com.panthrixsgalaxy.fabric.config.PGConfigSpec;')
+            .replace('ForgeConfigSpec', 'PGConfigSpec')
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir '../src/main/java'
+            srcDir generatedConfig
+            exclude forgeOnly
+        }
+        resources {
+            srcDir '../src/main/resources'
+            exclude 'META-INF/mods.toml', 'pack.mcmeta'
+        }
+    }
+}
+
+tasks.named('compileJava') { dependsOn 'generateConfig' }
+tasks.named('sourcesJar') { dependsOn 'generateConfig' }
+
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
     // Mismos nombres que en Forge (mapeos oficiales de Mojang): así el código común sirve para los dos
