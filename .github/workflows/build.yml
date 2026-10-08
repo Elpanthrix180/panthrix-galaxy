@@ -49,6 +49,11 @@ jobs:
           timeout 900 ./gradlew runServer -Psmoke --no-daemon 2>&1 | tee forge-server.log || true
           grep "SMOKE TEST OK" forge-server.log || { grep -E -B2 -A25 "Exception|Error|FATAL|Mixin" forge-server.log | head -300; exit 1; }
 
+      - name: Avisos del arranque (Forge)
+        if: always()
+        run: |
+          grep -iE "panthrixsgalaxy|Parsing error|Couldn't parse|Failed to load|Unknown recipe|missing" forge-server.log | grep -iE "warn|error|fail|missing|unknown|couldn" | head -80 || true
+
       - name: Guardar el .jar
         uses: actions/upload-artifact@v4
         with:
@@ -88,6 +93,11 @@ jobs:
           mkdir -p fabric/run-server && echo "eula=true" > fabric/run-server/eula.txt
           timeout 900 ./gradlew -p fabric runServer -Psmoke --no-daemon 2>&1 | tee fabric-server.log || true
           grep "SMOKE TEST OK" fabric-server.log || { grep -E -B2 -A25 "Exception|Error|FATAL|Mixin" fabric-server.log | head -300; exit 1; }
+
+      - name: Avisos del arranque (Fabric)
+        if: always()
+        run: |
+          grep -iE "panthrixsgalaxy|Parsing error|Couldn't parse|Failed to load|Unknown recipe|missing" fabric-server.log | grep -iE "warn|error|fail|missing|unknown|couldn" | head -80 || true
 
       - name: Guardar el .jar
         uses: actions/upload-artifact@v4
