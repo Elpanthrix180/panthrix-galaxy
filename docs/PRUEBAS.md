@@ -18,6 +18,8 @@ Si algo falla, copia el error de `run/logs/latest.log` (busca `Exception` o `pan
 - [ ] Hay 3 pestañas en el creativo (principal, bloques, equipo).
 - [ ] Se crean `config/panthrixsgalaxy-common.toml` y `-client.toml`.
 - [ ] Crear un mundo nuevo **no se cuelga** (genera las 9 dimensiones al usarlas, no al crear).
+- [ ] Al entrar por primera vez recibes el **libro guía** (16 páginas, en tu idioma) y un mensaje en el chat.
+- [ ] Sal y vuelve a entrar, o muere: **no** te da otro libro. `/pgguide` sí te da otro.
 
 ## 1. Tierra (Fases 1-10)
 - [ ] Minerales en el creativo; herramientas de cada nivel pican lo suyo.

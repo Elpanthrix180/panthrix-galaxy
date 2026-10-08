@@ -27,6 +27,7 @@ public final class PGConfig {
     public static ForgeConfigSpec.DoubleValue laserDamageMultiplier;
     public static ForgeConfigSpec.DoubleValue bossHealthMultiplier;
     public static ForgeConfigSpec.DoubleValue shipFuelMultiplier;
+    public static ForgeConfigSpec.BooleanValue giveGuideBook;
     public static ForgeConfigSpec.IntValue cableNetworkRefreshTicks;
     public static ForgeConfigSpec.IntValue distributorPlayerRange;
 
@@ -68,6 +69,8 @@ public final class PGConfig {
                 .defineInRange("bossHealthMultiplier", 1.0, 0.1, 10.0);
         shipFuelMultiplier = common.comment("Multiplica el combustible que gasta la nave (0.5 = la mitad)")
                 .defineInRange("shipFuelMultiplier", 1.0, 0.0, 10.0);
+        giveGuideBook = common.comment("¿Dar el libro guía del mod a cada jugador la primera vez que entra al mundo?")
+                .define("giveGuideBook", true);
         common.pop();
 
         common.comment("Rendimiento (Fase 23)").push("performance");

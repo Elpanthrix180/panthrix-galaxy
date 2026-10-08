@@ -1,3 +1,13 @@
+# Panthrixs Galaxy 1.1.0 — Minecraft 1.20.1 (Forge 47)
+
+## 📖 Novedades / New
+- **Libro guía:** cada jugador recibe un libro con las instrucciones del mod la primera vez que entra a un mundo
+  (también en mundos y servidores ya existentes). Está en español e inglés, según el idioma del juego.
+- **`/pgguide`:** cualquier jugador puede pedir otra copia del libro.
+- Opción nueva en `config/panthrixsgalaxy-common.toml` → `giveGuideBook` (para desactivarlo).
+
+---
+
 # Panthrixs Galaxy 1.0.0 — Minecraft 1.20.1 (Forge 47)
 
 Primera versión completa. / First full release.
