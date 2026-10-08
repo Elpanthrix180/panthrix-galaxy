@@ -1,8 +1,11 @@
 package com.panthrixsgalaxy.fabric;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.command.PGCommands;
+import com.panthrixsgalaxy.command.PGTestCommands;
 import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.entity.mob.PGMobSetup;
+import com.panthrixsgalaxy.event.PGGuideBookEvents;
 import com.panthrixsgalaxy.init.ModBlockEntities;
 import com.panthrixsgalaxy.init.ModBlocks;
 import com.panthrixsgalaxy.init.ModCreativeTabs;
@@ -19,8 +22,10 @@ import com.panthrixsgalaxy.system.oxygen.PGAtmosphere;
 import com.panthrixsgalaxy.system.oxygen.PGSealedRooms;
 import com.panthrixsgalaxy.tool.PGToolTiers;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.nbt.CompoundTag;
@@ -58,6 +63,16 @@ public class PanthrixsGalaxyFabric implements ModInitializer {
         // Comunicación servidor <-> pantalla y energía compatible con otros mods
         PGNetwork.register();
         PGFabricEnergy.register();
+        PGFabricItems.register();   // tolvas y tuberías pueden llenar las máquinas
+
+        // Comandos (/pgtp, /pgkit, /pgrefill, /pgvacuum, /pgguide) y libro guía al entrar
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
+            PGCommands.register(dispatcher);
+            PGTestCommands.register(dispatcher);
+            PGGuideBookEvents.register(dispatcher);
+        });
+        ServerPlayConnectionEvents.JOIN.register((listener, sender, server) ->
+                PGGuideBookEvents.onPlayerLogin(listener.player));
 
         // El Espacio y los planetas sin aire respirable
         PGAtmosphere.addAirlessDimension(PGPlanets.SPACE);

@@ -39,11 +39,8 @@ def forgeOnly = [
         'com/panthrixsgalaxy/system/gravity/PGGravity.java',
         // Eventos de Forge (en Fabric se irán conectando en las fases F2-F5)
         'com/panthrixsgalaxy/advancement/PGAdvancementEvents.java',
-        'com/panthrixsgalaxy/command/PGCommands.java',
-        'com/panthrixsgalaxy/command/PGTestCommands.java',
         'com/panthrixsgalaxy/entity/mob/PGMobEvents.java',
         'com/panthrixsgalaxy/entity/rocket/PGRocketEvents.java',
-        'com/panthrixsgalaxy/event/PGGuideBookEvents.java',
         'com/panthrixsgalaxy/event/PGSuitEvents.java',
         'com/panthrixsgalaxy/system/backpack/PGBackpackEvents.java',
         'com/panthrixsgalaxy/system/oxygen/PGOxygenEvents.java',

@@ -1,18 +1,16 @@
 package com.panthrixsgalaxy.event;
 
+import com.mojang.brigadier.CommandDispatcher;
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.item.PGGuideBook;
 import com.panthrixsgalaxy.platform.PGPlatform;
 import net.minecraft.ChatFormatting;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 /**
  * El libro guía:
@@ -21,14 +19,13 @@ import net.minecraftforge.fml.common.Mod;
  *   - /pgguide → da otra copia a quien la pida (no hace falta ser operador).
  *   - Se puede desactivar en config/panthrixsgalaxy-common.toml → giveGuideBook.
  */
-@Mod.EventBusSubscriber(modid = PanthrixsGalaxy.MOD_ID)
 public final class PGGuideBookEvents {
 
     private static final String RECEIVED_KEY = PanthrixsGalaxy.MOD_ID + ":received_guide_book";
 
-    @SubscribeEvent
-    public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        if (!(event.getEntity() instanceof ServerPlayer player) || !PGConfig.giveGuideBook.get()) {
+    /** Cuando un jugador entra al mundo (lo llaman Forge y Fabric). */
+    public static void onPlayerLogin(ServerPlayer player) {
+        if (!PGConfig.giveGuideBook.get()) {
             return;
         }
         // Los datos "persistidos" sobreviven a la muerte y al cambio de dimensión
@@ -43,9 +40,9 @@ public final class PGGuideBookEvents {
                 .withStyle(ChatFormatting.AQUA));
     }
 
-    @SubscribeEvent
-    public static void onRegisterCommands(RegisterCommandsEvent event) {
-        event.getDispatcher().register(Commands.literal("pgguide")
+    /** Registra los comandos (lo llaman Forge y Fabric al arrancar el servidor). */
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
+        dispatcher.register(Commands.literal("pgguide")
                 .executes(context -> {
                     ServerPlayer player = context.getSource().getPlayerOrException();
                     give(player);
