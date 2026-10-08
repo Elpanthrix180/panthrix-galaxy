@@ -1,0 +1,24 @@
+{
+  "parent": "panthrixsgalaxy:beyond_earth",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_alien_archive"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.not_alone.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.not_alone.description"
+    },
+    "frame": "challenge",
+    "hidden": true
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 200
+  }
+}

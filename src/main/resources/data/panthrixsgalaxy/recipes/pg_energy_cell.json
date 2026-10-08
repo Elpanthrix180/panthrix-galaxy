@@ -1,0 +1,24 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "energy",
+  "category": "building",
+  "pattern": [
+    "LRL",
+    "RSR",
+    "LRL"
+  ],
+  "key": {
+    "L": {
+      "item": "panthrixsgalaxy:pg_lunarite_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    },
+    "S": {
+      "item": "panthrixsgalaxy:pg_selenite_crystal"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_energy_cell"
+  }
+}

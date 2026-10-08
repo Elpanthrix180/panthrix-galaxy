@@ -1,0 +1,30 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "laser_swords",
+  "category": "equipment",
+  "pattern": [
+    " G ",
+    "XEX",
+    "TH "
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:gold_block"
+    },
+    "X": {
+      "item": "panthrixsgalaxy:pg_xenite_ingot"
+    },
+    "E": {
+      "item": "panthrixsgalaxy:pg_laser_emitter"
+    },
+    "T": {
+      "item": "panthrixsgalaxy:pg_alien_tech"
+    },
+    "H": {
+      "item": "panthrixsgalaxy:pg_laser_sword_hilt"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_gold_laser_sword"
+  }
+}

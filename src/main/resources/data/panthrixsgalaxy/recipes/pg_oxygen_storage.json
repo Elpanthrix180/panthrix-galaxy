@@ -1,0 +1,21 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "station",
+  "category": "misc",
+  "pattern": [
+    "PTP",
+    "T T",
+    "PTP"
+  ],
+  "key": {
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    },
+    "T": {
+      "item": "panthrixsgalaxy:pg_oxygen_tank"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_oxygen_storage"
+  }
+}

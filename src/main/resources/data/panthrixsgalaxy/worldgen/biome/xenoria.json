@@ -1,0 +1,57 @@
+{
+  "has_precipitation": false,
+  "temperature": 0.5,
+  "downfall": 0.0,
+  "effects": {
+    "sky_color": 9064392,
+    "fog_color": 6963104,
+    "water_color": 4159204,
+    "water_fog_color": 329011
+  },
+  "spawners": {
+    "monster": [
+      {
+        "type": "panthrixsgalaxy:alien_creature",
+        "weight": 60,
+        "minCount": 3,
+        "maxCount": 5
+      },
+      {
+        "type": "panthrixsgalaxy:alien_predator",
+        "weight": 12,
+        "minCount": 1,
+        "maxCount": 1
+      },
+      {
+        "type": "panthrixsgalaxy:alien_explorer",
+        "weight": 30,
+        "minCount": 1,
+        "maxCount": 2
+      },
+      {
+        "type": "panthrixsgalaxy:alien_soldier",
+        "weight": 20,
+        "minCount": 2,
+        "maxCount": 3
+      }
+    ]
+  },
+  "spawn_costs": {},
+  "carvers": {},
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [
+      "panthrixsgalaxy:xenoria_alien_hive",
+      "panthrixsgalaxy:xenoria_alien_village"
+    ],
+    [],
+    [
+      "panthrixsgalaxy:xenoria_ore_xenite",
+      "panthrixsgalaxy:xenoria_ore_astralite",
+      "panthrixsgalaxy:xenoria_ore_cosmic_crystal"
+    ]
+  ]
+}

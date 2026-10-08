@@ -1,0 +1,30 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "laser_swords",
+  "category": "equipment",
+  "pattern": [
+    "TCT",
+    "NEN",
+    "THT"
+  ],
+  "key": {
+    "T": {
+      "item": "panthrixsgalaxy:pg_alien_tech"
+    },
+    "C": {
+      "item": "panthrixsgalaxy:pg_cosmic_crystal"
+    },
+    "N": {
+      "item": "panthrixsgalaxy:pg_necronite_ingot"
+    },
+    "E": {
+      "item": "panthrixsgalaxy:pg_laser_emitter"
+    },
+    "H": {
+      "item": "panthrixsgalaxy:pg_laser_sword_hilt"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_black_laser_sword"
+  }
+}

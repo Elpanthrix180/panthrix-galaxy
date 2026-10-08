@@ -1,0 +1,30 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "machines",
+  "category": "building",
+  "pattern": [
+    "PSP",
+    "BOB",
+    "PRP"
+  ],
+  "key": {
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    },
+    "S": {
+      "item": "panthrixsgalaxy:pg_selenite_crystal"
+    },
+    "B": {
+      "item": "minecraft:bucket"
+    },
+    "O": {
+      "item": "panthrixsgalaxy:pg_oxygen_recharger"
+    },
+    "R": {
+      "item": "panthrixsgalaxy:pg_basic_battery"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_electric_oxygen_recharger"
+  }
+}

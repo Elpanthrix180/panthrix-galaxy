@@ -1,0 +1,30 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "machines",
+  "category": "building",
+  "pattern": [
+    "MKM",
+    "LGL",
+    "MRM"
+  ],
+  "key": {
+    "M": {
+      "item": "panthrixsgalaxy:pg_martianite_ingot"
+    },
+    "K": {
+      "item": "panthrixsgalaxy:pg_martian_crystal"
+    },
+    "L": {
+      "item": "panthrixsgalaxy:pg_lunarite_ingot"
+    },
+    "G": {
+      "item": "panthrixsgalaxy:pg_generator"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_helium_3_reactor"
+  }
+}

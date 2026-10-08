@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "panthrixsgalaxy:pg_xenite_ingot"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_xenite_block"
+  }
+}

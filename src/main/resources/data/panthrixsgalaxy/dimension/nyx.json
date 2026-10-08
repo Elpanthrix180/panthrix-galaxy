@@ -1,0 +1,11 @@
+{
+  "type": "panthrixsgalaxy:nyx",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "panthrixsgalaxy:nyx",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "panthrixsgalaxy:nyx"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "rockets",
+  "category": "misc",
+  "pattern": [
+    " L ",
+    "PGP",
+    "P P"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:lightning_rod"
+    },
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    },
+    "G": {
+      "item": "minecraft:glass_pane"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_rocket_nose_cone"
+  }
+}

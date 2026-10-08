@@ -1,0 +1,24 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "suits",
+  "category": "equipment",
+  "pattern": [
+    "F F",
+    "PGP",
+    "FPF"
+  ],
+  "key": {
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    },
+    "F": {
+      "item": "panthrixsgalaxy:pg_space_fabric"
+    },
+    "G": {
+      "item": "panthrixsgalaxy:pg_space_gloves"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_space_chestplate"
+  }
+}

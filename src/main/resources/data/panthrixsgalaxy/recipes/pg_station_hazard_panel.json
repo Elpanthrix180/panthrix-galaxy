@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "SY",
+    "KS"
+  ],
+  "key": {
+    "S": {
+      "item": "panthrixsgalaxy:pg_station_panel"
+    },
+    "Y": {
+      "item": "minecraft:yellow_dye"
+    },
+    "K": {
+      "item": "minecraft:black_dye"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_station_hazard_panel",
+    "count": 2
+  }
+}

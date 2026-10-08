@@ -1,0 +1,47 @@
+{
+  "parent": "panthrixsgalaxy:space_luggage",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_basic_rocket"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.liftoff.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.liftoff.description"
+    },
+    "frame": "task"
+  },
+  "criteria": {
+    "c0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_basic_rocket"
+            ]
+          }
+        ]
+      }
+    },
+    "c1": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_advanced_rocket"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "c0",
+      "c1"
+    ]
+  ]
+}

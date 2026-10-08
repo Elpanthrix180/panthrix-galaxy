@@ -1,0 +1,13 @@
+{
+  "type": "panthrixsgalaxy:asteroids",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "biome": "panthrixsgalaxy:asteroid_belt",
+      "layers": [],
+      "lakes": false,
+      "features": true,
+      "structure_overrides": []
+    }
+  }
+}

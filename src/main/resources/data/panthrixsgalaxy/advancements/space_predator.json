@@ -1,0 +1,23 @@
+{
+  "parent": "panthrixsgalaxy:martian_hunter",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_purple_laser_sword"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.space_predator.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.space_predator.description"
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 200
+  }
+}

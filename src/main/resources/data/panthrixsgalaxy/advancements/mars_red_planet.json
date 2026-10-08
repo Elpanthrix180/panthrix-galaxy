@@ -1,0 +1,23 @@
+{
+  "parent": "panthrixsgalaxy:moon_first_step",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_martian_soil"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.mars_red_planet.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.mars_red_planet.description"
+    },
+    "frame": "goal"
+  },
+  "criteria": {
+    "mars": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "panthrixsgalaxy:mars"
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "parent": "panthrixsgalaxy:moon_first_step",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_monolith"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.dark_side.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.dark_side.description"
+    },
+    "frame": "challenge",
+    "hidden": true
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 200
+  }
+}

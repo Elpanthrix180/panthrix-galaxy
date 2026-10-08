@@ -1,0 +1,20 @@
+{
+  "parent": "panthrixsgalaxy:mars_red_planet",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_habitat_module"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.colonist.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.colonist.description"
+    },
+    "frame": "goal"
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

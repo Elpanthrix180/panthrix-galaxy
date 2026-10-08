@@ -1,0 +1,27 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "backpacks",
+  "category": "equipment",
+  "pattern": [
+    "XKX",
+    "OCO",
+    "XOX"
+  ],
+  "key": {
+    "X": {
+      "item": "panthrixsgalaxy:pg_xenite_ingot"
+    },
+    "K": {
+      "item": "panthrixsgalaxy:pg_cosmic_crystal"
+    },
+    "O": {
+      "item": "panthrixsgalaxy:pg_osmium_ingot"
+    },
+    "C": {
+      "item": "minecraft:chest"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_experimental_space_backpack"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "panthrixsgalaxy:pg_xenite_block"
+    }
+  ],
+  "result": {
+    "item": "panthrixsgalaxy:pg_xenite_ingot",
+    "count": 9
+  }
+}

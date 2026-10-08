@@ -1,0 +1,121 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": {
+        "type": "minecraft:uniform",
+        "min": 4,
+        "max": 7
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "panthrixsgalaxy:pg_reinforced_plate",
+          "weight": 20,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 2,
+                "max": 6
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:iron_ingot",
+          "weight": 15,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 2,
+                "max": 6
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:redstone",
+          "weight": 12,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 2,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "panthrixsgalaxy:pg_asteroid_metal_ingot",
+          "weight": 12,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "panthrixsgalaxy:pg_fuel_canister",
+          "weight": 8,
+          "functions": [
+            {
+              "function": "minecraft:set_nbt",
+              "tag": "{Fuel:1000}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "panthrixsgalaxy:pg_oxygen_tank",
+          "weight": 8,
+          "functions": [
+            {
+              "function": "minecraft:set_nbt",
+              "tag": "{Oxygen:600}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "panthrixsgalaxy:pg_basic_battery",
+          "weight": 6
+        },
+        {
+          "type": "minecraft:item",
+          "name": "panthrixsgalaxy:pg_alien_tech",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "panthrixsgalaxy:pg_laser_pistol",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "panthrixsgalaxy:pg_ship_hull",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "panthrixsgalaxy:pg_ion_engine",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

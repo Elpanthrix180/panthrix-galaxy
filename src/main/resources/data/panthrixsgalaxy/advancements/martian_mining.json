@@ -1,0 +1,60 @@
+{
+  "parent": "panthrixsgalaxy:mars_red_planet",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_raw_martianite"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.martian_mining.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.martian_mining.description"
+    },
+    "frame": "task"
+  },
+  "criteria": {
+    "c0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_raw_martianite"
+            ]
+          }
+        ]
+      }
+    },
+    "c1": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_martian_crystal"
+            ]
+          }
+        ]
+      }
+    },
+    "c2": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_martian_mineral"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "c0",
+      "c1",
+      "c2"
+    ]
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "parent": "panthrixsgalaxy:mars_red_planet",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_martian_scorpion_spawn_egg"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.mars_first_contact.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.mars_first_contact.description"
+    },
+    "frame": "task"
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

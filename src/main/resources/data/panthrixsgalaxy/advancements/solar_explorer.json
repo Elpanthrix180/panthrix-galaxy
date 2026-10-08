@@ -1,0 +1,62 @@
+{
+  "parent": "panthrixsgalaxy:beyond_earth",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_advanced_space_ship"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.solar_explorer.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.solar_explorer.description"
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "moon": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "panthrixsgalaxy:moon"
+      }
+    },
+    "mars": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "panthrixsgalaxy:mars"
+      }
+    },
+    "asteroids": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "panthrixsgalaxy:asteroids"
+      }
+    },
+    "mercury": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "panthrixsgalaxy:mercury"
+      }
+    },
+    "venus": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "panthrixsgalaxy:venus"
+      }
+    },
+    "pluto": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "panthrixsgalaxy:pluto"
+      }
+    },
+    "xenoria": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "panthrixsgalaxy:xenoria"
+      }
+    }
+  },
+  "rewards": {
+    "experience": 500
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "laser_swords",
+  "category": "equipment",
+  "pattern": [
+    " S ",
+    "GEG",
+    " H "
+  ],
+  "key": {
+    "S": {
+      "item": "panthrixsgalaxy:pg_selenite_crystal"
+    },
+    "G": {
+      "item": "minecraft:emerald"
+    },
+    "E": {
+      "item": "panthrixsgalaxy:pg_laser_emitter"
+    },
+    "H": {
+      "item": "panthrixsgalaxy:pg_laser_sword_hilt"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_green_laser_sword"
+  }
+}

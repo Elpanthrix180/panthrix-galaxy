@@ -1,0 +1,27 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "backpacks",
+  "category": "equipment",
+  "pattern": [
+    "LSL",
+    "FCF",
+    "LFL"
+  ],
+  "key": {
+    "L": {
+      "item": "panthrixsgalaxy:pg_lunarite_ingot"
+    },
+    "S": {
+      "item": "panthrixsgalaxy:pg_selenite_crystal"
+    },
+    "F": {
+      "item": "panthrixsgalaxy:pg_space_fabric"
+    },
+    "C": {
+      "item": "minecraft:chest"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_advanced_space_backpack"
+  }
+}

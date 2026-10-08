@@ -1,0 +1,30 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "lasers",
+  "category": "equipment",
+  "pattern": [
+    "CCE",
+    "TBN",
+    "  N"
+  ],
+  "key": {
+    "C": {
+      "item": "panthrixsgalaxy:pg_cosmic_crystal"
+    },
+    "E": {
+      "item": "panthrixsgalaxy:pg_laser_emitter"
+    },
+    "T": {
+      "item": "panthrixsgalaxy:pg_alien_tech"
+    },
+    "B": {
+      "item": "panthrixsgalaxy:pg_advanced_battery"
+    },
+    "N": {
+      "item": "panthrixsgalaxy:pg_necronite_ingot"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_white_laser_pistol"
+  }
+}

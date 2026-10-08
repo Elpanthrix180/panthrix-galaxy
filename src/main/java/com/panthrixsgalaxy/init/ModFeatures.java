@@ -1,0 +1,59 @@
+package com.panthrixsgalaxy.init;
+
+import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.world.feature.PGAlienHiveFeature;
+import com.panthrixsgalaxy.world.feature.PGAlienOutpostFeature;
+import com.panthrixsgalaxy.world.feature.PGAlienVillageFeature;
+import com.panthrixsgalaxy.world.feature.PGAsteroidFeature;
+import com.panthrixsgalaxy.world.feature.PGCraterFeature;
+import com.panthrixsgalaxy.world.feature.PGLunarRuinFeature;
+import com.panthrixsgalaxy.world.feature.PGShipwreckFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+
+/**
+ * "Features" de generación del mundo hechos en Java (lo que no se puede hacer solo con JSON).
+ * Dónde y cuántas veces aparecen se decide en data/panthrixsgalaxy/worldgen/placed_feature/.
+ */
+public final class ModFeatures {
+
+    public static final DeferredRegister<Feature<?>> FEATURES =
+            DeferredRegister.create(ForgeRegistries.FEATURES, PanthrixsGalaxy.MOD_ID);
+
+    /** Cráter de impacto ("type": "panthrixsgalaxy:crater"). */
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> CRATER = FEATURES.register("crater",
+            () -> new PGCraterFeature(NoneFeatureConfiguration.CODEC));
+
+    // ===== Cinturón de asteroides (Fase 20) =====
+
+    /** Asteroide con minerales ("type": "panthrixsgalaxy:asteroid"). */
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> ASTEROID = FEATURES.register("asteroid",
+            () -> new PGAsteroidFeature(NoneFeatureConfiguration.CODEC));
+    /** Restos de una nave con un cofre. */
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> SHIPWRECK = FEATURES.register("shipwreck",
+            () -> new PGShipwreckFeature(NoneFeatureConfiguration.CODEC));
+    /** Puesto alienígena: asteroide hueco con tecnología y guardianes. */
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> ALIEN_OUTPOST = FEATURES.register("alien_outpost",
+            () -> new PGAlienOutpostFeature(NoneFeatureConfiguration.CODEC));
+
+    // ===== Planetas adicionales (Fase 21) =====
+
+    /** Colmena de la Reina alienígena (Xenoria). */
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> ALIEN_HIVE = FEATURES.register("alien_hive",
+            () -> new PGAlienHiveFeature(NoneFeatureConfiguration.CODEC));
+
+    // ===== Secretos (Fase 22) =====
+
+    /** Base lunar abandonada (a veces con el monolito). */
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> LUNAR_RUIN = FEATURES.register("lunar_ruin",
+            () -> new PGLunarRuinFeature(NoneFeatureConfiguration.CODEC));
+    /** Aldea alienígena con el archivo alienígena (Xenoria). */
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> ALIEN_VILLAGE = FEATURES.register("alien_village",
+            () -> new PGAlienVillageFeature(NoneFeatureConfiguration.CODEC));
+
+    private ModFeatures() {
+    }
+}

@@ -1,0 +1,31 @@
+{
+  "parent": "panthrixsgalaxy:first_shot",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_alien_tech"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.hostile_encounter.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.hostile_encounter.description"
+    },
+    "frame": "task"
+  },
+  "criteria": {
+    "kill": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "#panthrixsgalaxy:aliens"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

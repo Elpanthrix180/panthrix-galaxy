@@ -1,0 +1,24 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "ships",
+  "category": "misc",
+  "pattern": [
+    "MPM",
+    "PHP",
+    "MPM"
+  ],
+  "key": {
+    "M": {
+      "item": "panthrixsgalaxy:pg_martianite_ingot"
+    },
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    },
+    "H": {
+      "item": "panthrixsgalaxy:pg_rocket_hull"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_ship_hull"
+  }
+}

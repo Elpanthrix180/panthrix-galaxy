@@ -1,0 +1,27 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "alien",
+  "category": "misc",
+  "pattern": [
+    "TCT",
+    "RBR",
+    "TTT"
+  ],
+  "key": {
+    "T": {
+      "item": "panthrixsgalaxy:pg_alien_tech"
+    },
+    "C": {
+      "item": "panthrixsgalaxy:pg_martian_crystal"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    },
+    "B": {
+      "item": "panthrixsgalaxy:pg_basic_battery"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_alien_beacon"
+  }
+}

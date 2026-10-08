@@ -1,0 +1,44 @@
+{
+  "parent": "panthrixsgalaxy:breathe_easy",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_space_helmet"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.space_ready.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.space_ready.description"
+    },
+    "frame": "task"
+  },
+  "criteria": {
+    "suit": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_space_helmet"
+            ]
+          },
+          {
+            "items": [
+              "panthrixsgalaxy:pg_space_chestplate"
+            ]
+          },
+          {
+            "items": [
+              "panthrixsgalaxy:pg_space_leggings"
+            ]
+          },
+          {
+            "items": [
+              "panthrixsgalaxy:pg_space_boots"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

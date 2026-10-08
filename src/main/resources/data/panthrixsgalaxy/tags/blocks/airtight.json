@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#forge:glass_panes",
+      "required": false
+    },
+    "panthrixsgalaxy:pg_solar_panel"
+  ]
+}

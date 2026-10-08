@@ -1,0 +1,30 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "rockets",
+  "category": "misc",
+  "pattern": [
+    " N ",
+    "HTH",
+    "FEF"
+  ],
+  "key": {
+    "N": {
+      "item": "panthrixsgalaxy:pg_rocket_nose_cone"
+    },
+    "H": {
+      "item": "panthrixsgalaxy:pg_rocket_hull"
+    },
+    "T": {
+      "item": "panthrixsgalaxy:pg_rocket_fuel_tank"
+    },
+    "F": {
+      "item": "panthrixsgalaxy:pg_rocket_fins"
+    },
+    "E": {
+      "item": "panthrixsgalaxy:pg_rocket_engine"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_basic_rocket"
+  }
+}

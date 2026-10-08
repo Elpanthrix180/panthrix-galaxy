@@ -1,0 +1,27 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "energy",
+  "category": "building",
+  "pattern": [
+    "GGG",
+    "SSS",
+    "PRP"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "S": {
+      "item": "panthrixsgalaxy:pg_selenite_crystal"
+    },
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_solar_panel"
+  }
+}

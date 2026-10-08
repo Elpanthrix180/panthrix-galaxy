@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "panthrixsgalaxy:pg_lunar_regolith",
+    "panthrixsgalaxy:pg_martian_soil",
+    "panthrixsgalaxy:pg_alien_soil"
+  ]
+}

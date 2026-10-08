@@ -1,0 +1,73 @@
+{
+  "parent": "panthrixsgalaxy:space_ready",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_space_backpack"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.space_luggage.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.space_luggage.description"
+    },
+    "frame": "task"
+  },
+  "criteria": {
+    "c0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_space_backpack"
+            ]
+          }
+        ]
+      }
+    },
+    "c1": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_advanced_space_backpack"
+            ]
+          }
+        ]
+      }
+    },
+    "c2": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_tech_space_backpack"
+            ]
+          }
+        ]
+      }
+    },
+    "c3": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_experimental_space_backpack"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "c0",
+      "c1",
+      "c2",
+      "c3"
+    ]
+  ]
+}

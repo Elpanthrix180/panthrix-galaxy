@@ -1,0 +1,60 @@
+{
+  "parent": "panthrixsgalaxy:moon_first_step",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_raw_lunarite"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.lunar_mining.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.lunar_mining.description"
+    },
+    "frame": "task"
+  },
+  "criteria": {
+    "c0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_raw_lunarite"
+            ]
+          }
+        ]
+      }
+    },
+    "c1": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_selenite_crystal"
+            ]
+          }
+        ]
+      }
+    },
+    "c2": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_helium_3"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "c0",
+      "c1",
+      "c2"
+    ]
+  ]
+}

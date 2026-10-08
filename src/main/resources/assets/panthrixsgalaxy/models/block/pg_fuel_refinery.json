@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "side": "panthrixsgalaxy:block/pg_fuel_refinery_side",
+    "top": "panthrixsgalaxy:block/pg_fuel_refinery_top",
+    "bottom": "panthrixsgalaxy:block/pg_machine_bottom"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "parent": "panthrixsgalaxy:advanced_laser",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_green_laser_pistol"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.color_spectrum.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.color_spectrum.description"
+    },
+    "frame": "goal"
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

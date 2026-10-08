@@ -1,0 +1,11 @@
+{
+  "type": "panthrixsgalaxy:venus",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "panthrixsgalaxy:venus",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "panthrixsgalaxy:venus"
+    }
+  }
+}

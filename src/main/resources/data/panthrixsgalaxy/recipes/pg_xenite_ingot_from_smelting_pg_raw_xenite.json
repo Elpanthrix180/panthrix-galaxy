@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": {
+    "item": "panthrixsgalaxy:pg_raw_xenite"
+  },
+  "result": "panthrixsgalaxy:pg_xenite_ingot",
+  "experience": 1.2,
+  "cookingtime": 200
+}

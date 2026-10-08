@@ -1,0 +1,32 @@
+{
+  "parent": "panthrixsgalaxy:energy_sword",
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_black_laser_sword"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.forbidden_tech.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.forbidden_tech.description"
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "sword": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "panthrixsgalaxy:pg_black_laser_sword"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 300
+  }
+}

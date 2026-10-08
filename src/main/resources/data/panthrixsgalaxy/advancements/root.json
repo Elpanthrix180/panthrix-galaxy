@@ -1,0 +1,22 @@
+{
+  "display": {
+    "icon": {
+      "item": "panthrixsgalaxy:pg_basic_rocket"
+    },
+    "title": {
+      "translate": "advancements.panthrixsgalaxy.root.title"
+    },
+    "description": {
+      "translate": "advancements.panthrixsgalaxy.root.description"
+    },
+    "background": "minecraft:textures/block/black_concrete.png",
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "tick": {
+      "trigger": "minecraft:tick"
+    }
+  }
+}

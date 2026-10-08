@@ -49,15 +49,28 @@ src/main/java/com/panthrixsgalaxy/
 ├── PanthrixsGalaxy.java     Clase principal (solo conecta los registros)
 ├── init/                    Listas de registro: ModItems, ModBlocks, ModCreativeTabs...
 ├── item/                    Objetos con comportamiento propio
-├── block/                   (Fase 2+) Bloques con comportamiento propio
-├── armor/                   (Fase 4) Traje espacial
-├── tool/                    (Fase 3) Herramientas
+├── armor/                   Traje espacial (material + piezas)
+├── event/                   Reacciones a eventos del juego (traje completo...)
+├── tool/                    Niveles de herramienta (PGToolTiers)
 ├── weapon/                  (Fase 15-16) Láseres y espadas láser
-├── entity/                  (Fase 9, 17-18) Cohetes, naves, mobs, jefes
-├── dimension/               (Fase 11-13) Espacio, Luna, Marte
-├── system/                  (Fase 5-7) Oxígeno, energía, gravedad
-├── menu/ + client/screen/   (Fase 6, 8) GUIs: mochilas, Banco de Ingeniería
-└── planet/                  (Fase 11) Registro de cuerpos celestes
+├── entity/rocket/           Cohete: entidad y niveles (Fase 9)
+├── entity/                  (Fase 14, 17-18) Naves, mobs, jefes
+├── client/model/, renderer/ Modelos 3D y dibujo de entidades
+├── world/feature/           Generación propia (cráteres)
+├── system/gravity/          Gravedad por planeta
+├── system/weather/          Tormentas de polvo de Marte
+├── system/oxygen/           Oxígeno: atmósfera, consumo, avisos, daño
+├── block/                   Bloques con comportamiento propio (recargador, máquinas)
+├── block/entity/            "Cerebros" de las máquinas (block entities)
+├── system/energy/           Energía: almacén, baterías, carga de objetos
+├── network/                 Mensajes servidor <-> pantalla
+├── client/                  Solo pantalla: indicadores (HUD)
+├── command/                 Comandos de prueba (/pgvacuum)
+├── system/backpack/         Hueco de mochila del jugador (capability)
+├── menu/ + client/screen/   Ventanas: mochila (Fase 6), Banco de Ingeniería (Fase 8)
+├── recipe/                  Recetas del Banco de Ingeniería (tipo propio + categorías)
+├── client/sky/              Cielo de la dimensión Espacio
+└── planet/                  Registro de cuerpos celestes (PGPlanets)
 src/main/resources/
 ├── assets/panthrixsgalaxy/  blockstates, models, textures, lang, sounds
 └── data/panthrixsgalaxy/    recipes, loot_tables, advancements, dimension, worldgen, tags
@@ -94,28 +107,30 @@ pleno vuelo, sin portal ni pantalla de "pulsa botón", para que se sienta contin
 | Fase | Sistema | ¿MCreator puede? | Solución aquí |
 |---|---|---|---|
 | 1 | Proyecto base | Sí | ✅ Hecho |
-| 2 | Materiales y minerales | Sí | JSON + registro simple |
-| 3 | Herramientas | Sí | Tiers de herramienta |
-| 4 | Traje espacial | Sí (armadura) | Armadura + mochila como objeto equipable |
-| 5 | Oxígeno | Parcial (procedimientos) | Java: evento por tick, NBT, HUD |
-| 6 | Mochilas | Parcial (sin depósitos separados) | Java: menú + inventario + depósitos |
-| 7 | Energía | Parcial | Java: `IEnergyStorage` de Forge |
-| 8 | Banco de Ingeniería | Parcial (GUI básica) | Java: menú y recetas propias |
-| 9 | Cohete | No (entidad montable con física) | Java: entidad + modelo |
-| 10 | Lanzamiento | No | Java: cuenta atrás, partículas, sonido |
-| 11 | Tierra → Espacio | No | Java: cambio de dimensión en vuelo + cielo |
-| 12 | Luna | Parcial (dimensión) | JSON worldgen + Java gravedad/cielo |
-| 13 | Marte | Parcial | JSON worldgen + Java tormentas |
-| 14 | Naves | No | Java: entidad pilotable |
-| 15 | Armas láser | Parcial | Java: proyectil + energía |
-| 16 | Espadas láser | Parcial | Java: activación, energía, partículas |
-| 17 | Mobs | Sí (básicos) | Java: IA y modelos |
-| 18 | Jefes | Parcial | Java: fases y barra de jefe |
-| 19 | Estaciones espaciales | Parcial | Java + estructuras |
-| 20 | Asteroides | Parcial | Worldgen JSON + Java |
-| 21 | Planetas extra | Sí con la arquitectura 5.1 | Datos + dimensiones |
-| 22 | Logros | Sí | JSON advancements + triggers Java para los especiales |
-| 23-25 | Optimización, pruebas, lanzamiento | — | Perfilado, pruebas, `.jar` final |
+| 2 | Materiales y minerales | Sí | ✅ Hecho (generación en el mundo: Fases 12, 13, 20, 21) |
+| 3 | Herramientas | Sí (tiers simples) | ✅ Hecho: 4 niveles con orden propio (Java mínimo: `TierSortingRegistry`) |
+| 4 | Traje espacial | Sí (armadura) | ✅ Hecho. Guantes integrados en la pechera (no hay ranura de manos); mochila en Fase 6 |
+| 5 | Oxígeno | Parcial (procedimientos) | ✅ Hecho: bombonas con NBT, evento por segundo, HUD con red propia, `/pgvacuum` |
+| 6 | Mochilas | Parcial (sin depósitos separados) | ✅ Hecho: hueco propio (capability), 4 mochilas, depósitos, panel, modelo en la espalda |
+| 7 | Energía | Parcial | ✅ 7A generar y almacenar · 7B cables, recargador eléctrico, oxígeno de emergencia |
+| 8 | Banco de Ingeniería | Parcial (GUI básica) | ✅ Hecho: tipo de receta propio con categorías, guía integrada, 16 recetas movidas |
+| 9 | Cohete | No (entidad montable con física) | ✅ Hecho: componentes, 2 cohetes (entidad + modelo), plataforma 3×3, refinería y combustible |
+| 10 | Lanzamiento | No | ✅ Hecho: máquina de estados, cuenta atrás, ascenso físico, explosión, descenso controlado |
+| 11 | Tierra → Espacio | No | ✅ Hecho: dimensión Espacio, cielo con planetas, transición en vuelo, navegación, registro de planetas |
+| 12 | Luna | Parcial (dimensión) | ✅ Hecho: dimensión JSON, cráteres (Java), menas, gravedad, temperatura, cielo con la Tierra, logro |
+| 13 | Marte | Parcial | ✅ Hecho: dimensión JSON con montañas, menas, hielo, tormentas de polvo (Java), logro |
+| 14 | Naves | No | ✅ Hecho: nave y nave avanzada pilotables (Java), bodega, HUD, viajes entre planetas |
+| 15 | Armas láser | Parcial | ✅ Hecho: 6 pistolas de colores (16B) y rifle láser (Java: proyectil + energía FE del arma o la mochila), tipo de daño |
+| 16 | Espadas láser | Parcial | ✅ Hecho: 7 espadas (16B) con habilidades; encender/apagar, energía, guardia que desvía láseres |
+| 17 | Mobs | Sí (básicos) | ✅ Hecho: 9 criaturas (Luna, Marte, aliens) con IA propia, aparición por planeta, botín |
+| 18 | Jefes | Parcial | ✅ Hecho: Reina alienígena (3 fases, barra de jefe, baliza de invocación, necronita, logro) |
+| 19 | Estaciones espaciales | Parcial | ✅ Hecho: bloques de base, salas selladas con aire, distribuidor y tanque de oxígeno, módulo habitable |
+| 20 | Asteroides | Parcial | ✅ Hecho: cinturón de asteroides (dimensión), asteroides con minerales, restos de naves, puestos alienígenas |
+| 21 | Planetas adicionales | Sí (dimensiones JSON) | ✅ Hecho: Mercurio, Venus, Plutón, Xenoria (alienígena) + 4 gigantes gaseosos; colmena de la Reina |
+| 22 | Logros | Sí | ✅ Hecho: 30 logros en árbol, contadores Java, secretos (monolito, aldea alienígena, planeta Nyx) |
+| 23 | Optimización | — | ✅ Hecho: caché de cables, distribuidores en reposo, estrellas en GPU, menos paquetes; archivo de configuración |
+| 24 | Pruebas finales ✅ | Comandos de prueba | PRUEBAS.md, revisión y arreglos |
+| 25 | Lanzamiento ✅ | — | `.jar` final, logo, CHANGELOG, compilación en GitHub |
 
 ## 7. Progresión
 

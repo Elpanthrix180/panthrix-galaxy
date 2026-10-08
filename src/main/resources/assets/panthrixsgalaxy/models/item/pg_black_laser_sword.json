@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "panthrixsgalaxy:item/pg_black_laser_sword"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "panthrixsgalaxy:active": 1
+      },
+      "model": "panthrixsgalaxy:item/pg_black_laser_sword_active"
+    }
+  ]
+}

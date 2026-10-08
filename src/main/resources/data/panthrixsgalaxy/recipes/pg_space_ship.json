@@ -1,0 +1,30 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "ships",
+  "category": "misc",
+  "pattern": [
+    "PKP",
+    "HTH",
+    "E E"
+  ],
+  "key": {
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    },
+    "K": {
+      "item": "panthrixsgalaxy:pg_ship_cockpit"
+    },
+    "H": {
+      "item": "panthrixsgalaxy:pg_ship_hull"
+    },
+    "T": {
+      "item": "panthrixsgalaxy:pg_rocket_fuel_tank"
+    },
+    "E": {
+      "item": "panthrixsgalaxy:pg_ion_engine"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_space_ship"
+  }
+}

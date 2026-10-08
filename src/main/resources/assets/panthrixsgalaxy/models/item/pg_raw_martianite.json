@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "panthrixsgalaxy:item/pg_raw_martianite"
+  }
+}

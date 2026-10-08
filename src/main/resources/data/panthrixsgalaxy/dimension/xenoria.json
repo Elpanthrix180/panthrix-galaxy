@@ -1,0 +1,11 @@
+{
+  "type": "panthrixsgalaxy:xenoria",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "panthrixsgalaxy:xenoria",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "panthrixsgalaxy:xenoria"
+    }
+  }
+}

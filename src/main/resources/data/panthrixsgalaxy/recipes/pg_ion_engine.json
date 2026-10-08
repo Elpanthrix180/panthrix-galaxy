@@ -1,0 +1,27 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "ships",
+  "category": "misc",
+  "pattern": [
+    "MCM",
+    "PEP",
+    "M M"
+  ],
+  "key": {
+    "M": {
+      "item": "panthrixsgalaxy:pg_martianite_ingot"
+    },
+    "C": {
+      "item": "panthrixsgalaxy:pg_martian_crystal"
+    },
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    },
+    "E": {
+      "item": "panthrixsgalaxy:pg_rocket_engine"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_ion_engine"
+  }
+}

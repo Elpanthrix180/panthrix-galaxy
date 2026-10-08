@@ -1,0 +1,22 @@
+{
+  "type": "panthrixsgalaxy:engineering",
+  "engineering_category": "lasers",
+  "category": "equipment",
+  "pattern": [
+    " G ",
+    "GSG",
+    " G "
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass_pane"
+    },
+    "S": {
+      "item": "panthrixsgalaxy:pg_selenite_crystal"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_focusing_lens",
+    "count": 2
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [
+    "PP",
+    "PG",
+    "PP"
+  ],
+  "key": {
+    "P": {
+      "item": "panthrixsgalaxy:pg_reinforced_plate"
+    },
+    "G": {
+      "item": "panthrixsgalaxy:pg_station_window"
+    }
+  },
+  "result": {
+    "item": "panthrixsgalaxy:pg_airlock_door",
+    "count": 2
+  }
+}
