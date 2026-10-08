@@ -41,6 +41,11 @@ git push origin v1.0.0
 ```
 GitHub compila y crea la Release **v1.0.0** con el `.jar` y el texto de `CHANGELOG.md`.
 
+**Sin terminal:** en GitHub, pestaña **Actions** → *Compilar mod* → **Run workflow** → marca
+*Crear Release* → **Run workflow**. Usa la versión de `gradle.properties` (`v1.0.0`, `v1.0.1`...).
+
+> ✅ **Release v1.0.0 publicada:** https://github.com/Elpanthrix180/panthrix-galaxy/releases/tag/v1.0.0
+
 ## 🧪 Prueba final con el `.jar` (no con `runClient`)
 1. Launcher de Minecraft → instala Forge 1.20.1 (47.x).
 2. Copia el `.jar` en `.minecraft/mods`.
