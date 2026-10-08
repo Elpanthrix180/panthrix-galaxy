@@ -130,7 +130,7 @@ pleno vuelo, sin portal ni pantalla de "pulsa botón", para que se sienta contin
 | 22 | Logros | Sí | ✅ Hecho: 30 logros en árbol, contadores Java, secretos (monolito, aldea alienígena, planeta Nyx) |
 | 23 | Optimización | — | ✅ Hecho: caché de cables, distribuidores en reposo, estrellas en GPU, menos paquetes; archivo de configuración |
 | 24 | Pruebas finales ✅ | Comandos de prueba | PRUEBAS.md, revisión y arreglos |
-| 25 | Lanzamiento | — | `.jar` final |
+| 25 | Lanzamiento ✅ | — | `.jar` final, logo, CHANGELOG, compilación en GitHub |
 
 ## 7. Progresión
 

@@ -4,7 +4,21 @@ Mod de exploración espacial y supervivencia para **Minecraft Java 1.20.1 + Forg
 Construye cohetes, despega desde la Tierra, atraviesa la atmósfera y viaja a la Luna, Marte y más allá.
 
 - Mod ID: `panthrixsgalaxy`
-- Estado: **Fase 24 — Pruebas finales** ✅
+- Versión: **1.0.0** · Estado: **Fase 25 — Versión final** ✅ (novedades en [CHANGELOG](CHANGELOG.md))
+
+## Instalar (jugadores)
+1. Instala **Minecraft Java 1.20.1** con **Forge 47** (o más nuevo de la 1.20.1).
+2. Descarga `panthrixsgalaxy-1.20.1-1.0.0.jar` de la pestaña **Releases** de GitHub.
+3. Cópialo en la carpeta `mods` de Minecraft y abre el juego con el perfil de Forge.
+
+No necesita otros mods. Funciona en un jugador y en servidores (el `.jar` va en el cliente **y** en el servidor).
+
+## Compilar el `.jar`
+```bash
+./gradlew build          # Mac / Linux
+gradlew.bat build        # Windows
+```
+El archivo sale en `build/libs/`. GitHub también lo compila solo en cada subida (pestaña **Actions**).
 
 ## Probar el mod
 ```bash
@@ -40,3 +54,4 @@ Necesitas Java 17. La primera ejecución descarga Minecraft y Forge (tarda un ra
 - [Fase 22](docs/FASE_22.md) — logros
 - [Fase 23](docs/FASE_23.md) — optimización y configuración
 - [Fase 24](docs/FASE_24.md) — pruebas finales ([lista de pruebas](docs/PRUEBAS.md))
+- [Fase 25](docs/FASE_25.md) — versión final y publicación

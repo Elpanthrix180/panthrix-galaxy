@@ -36,6 +36,9 @@ public final class ModCreativeTabs {
                     .icon(() -> new ItemStack(ModItems.PG_LUNARITE_INGOT.get()))
                     .displayItems((parameters, output) -> ModItems.ITEMS.getEntries().forEach(entry -> {
                         Item item = entry.get();
+                        if (isTestItem(item) && !parameters.hasPermissions()) {
+                            return; // objetos de prueba: solo con "Objetos de operador" activado
+                        }
                         if (item instanceof PGOxygenTankItem tank) {
                             output.accept(tank.createFull()); // en creativo, las bombonas salen llenas
                         } else if (item instanceof PGFuelCanisterItem canister) {
@@ -58,7 +61,7 @@ public final class ModCreativeTabs {
                     .withTabsBefore(PG_MAIN_TAB.getKey())
                     .displayItems((parameters, output) -> ModItems.ITEMS.getEntries().forEach(entry -> {
                         Item item = entry.get();
-                        if (item instanceof BlockItem) {
+                        if (item instanceof BlockItem && (!isTestItem(item) || parameters.hasPermissions())) {
                             output.accept(item);
                         }
                     }))
@@ -83,6 +86,11 @@ public final class ModCreativeTabs {
                         }
                     }))
                     .build());
+
+    /** Objetos de la Fase 1 que solo sirven para probar el mod. */
+    private static boolean isTestItem(Item item) {
+        return item == ModItems.PG_TEST_ITEM.get() || item == ModBlocks.PG_TEST_BLOCK.get().asItem();
+    }
 
     /** Equipo = herramientas y armas (tienen "nivel"), piezas de armadura y mochilas. */
     private static boolean isEquipment(Item item) {

@@ -8,7 +8,8 @@ version = mod_version
 group = mod_group_id
 
 base {
-    archivesName = mod_id
+    // El .jar final se llama panthrixsgalaxy-1.20.1-1.0.0.jar
+    archivesName = "${mod_id}-${minecraft_version}"
 }
 
 // Minecraft 1.20.1 usa Java 17
@@ -62,6 +63,9 @@ tasks.named('processResources', ProcessResources).configure {
             mod_license            : mod_license,
             mod_version            : mod_version,
             mod_authors            : mod_authors,
+            mod_credits            : mod_credits,
+            mod_url                : mod_url,
+            mod_issues_url         : mod_issues_url,
             mod_description        : mod_description
     ]
     inputs.properties replaceProperties
