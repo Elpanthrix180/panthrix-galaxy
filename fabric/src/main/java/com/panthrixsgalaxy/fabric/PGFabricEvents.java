@@ -5,6 +5,7 @@ import com.panthrixsgalaxy.command.PGTestCommands;
 import com.panthrixsgalaxy.event.PGGuideBookEvents;
 import com.panthrixsgalaxy.event.PGSuitEvents;
 import com.panthrixsgalaxy.platform.PGPlatform;
+import com.panthrixsgalaxy.system.PGSmokeTest;
 import com.panthrixsgalaxy.system.backpack.PGBackpackEvents;
 import com.panthrixsgalaxy.system.oxygen.PGOxygenEvents;
 import com.panthrixsgalaxy.system.oxygen.PGSealedRooms;
@@ -33,6 +34,7 @@ public final class PGFabricEvents {
 
     public static void register() {
         // ===== Servidor =====
+        ServerLifecycleEvents.SERVER_STARTED.register(PGSmokeTest::onServerStarted);
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> PGSealedRooms.clearAll());
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {

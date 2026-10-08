@@ -5,6 +5,7 @@ import com.panthrixsgalaxy.command.PGCommands;
 import com.panthrixsgalaxy.command.PGTestCommands;
 import com.panthrixsgalaxy.event.PGGuideBookEvents;
 import com.panthrixsgalaxy.event.PGSuitEvents;
+import com.panthrixsgalaxy.system.PGSmokeTest;
 import com.panthrixsgalaxy.system.backpack.PGBackpackEvents;
 import com.panthrixsgalaxy.system.backpack.PGBackpackSlotProvider;
 import com.panthrixsgalaxy.system.oxygen.PGOxygenEvents;
@@ -22,6 +23,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -46,6 +48,11 @@ public final class PGForgeEvents {
     }
 
     // ===== Servidor =====
+
+    @SubscribeEvent
+    public static void onServerStarted(ServerStartedEvent event) {
+        PGSmokeTest.onServerStarted(event.getServer());
+    }
 
     @SubscribeEvent
     public static void onServerStopped(ServerStoppedEvent event) {

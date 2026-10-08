@@ -38,6 +38,10 @@ minecraft {
         // ./gradlew runServer -> abre un servidor de pruebas con el mod
         server {
             args '--nogui'
+            // ./gradlew runServer -Psmoke -> arranca, comprueba y se apaga solo (lo usa GitHub)
+            if (project.hasProperty('smoke')) {
+                property 'panthrixsgalaxy.smokeTest', 'true'
+            }
         }
     }
 }

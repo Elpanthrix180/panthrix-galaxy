@@ -98,7 +98,13 @@ loom {
     runs {
         // ./gradlew -p fabric runClient → abre Minecraft con el mod
         client { runDir = 'run' }
-        server { runDir = 'run-server' }
+        server {
+            runDir = 'run-server'
+            // ./gradlew -p fabric runServer -Psmoke -> arranca, comprueba y se apaga solo (lo usa GitHub)
+            if (project.hasProperty('smoke')) {
+                vmArg '-Dpanthrixsgalaxy.smokeTest=true'
+            }
+        }
     }
 }
 
