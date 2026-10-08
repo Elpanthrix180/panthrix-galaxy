@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#panthrixsgalaxy:needs_lunarite_tool",
+      "required": false
+    }
+  ]
+}
