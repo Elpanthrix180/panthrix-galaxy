@@ -44,7 +44,7 @@ public class PGFuelRefineryBlockEntity extends PGEnergyBlockEntity implements PG
     public static final int ENERGY_PER_TICK = 40;
     public static final int FUEL_PER_TICK = 2;
 
-    private final ItemStackHandler input = new PGItemSlots(1) {
+    private final PGItemSlots input = new PGItemSlots(1) {
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return fuelValue(stack) > 0;

@@ -30,7 +30,7 @@ public class PGGeneratorBlockEntity extends PGEnergyBlockEntity implements PGIte
     /** Máximo que envía a cada máquina vecina por tick. */
     public static final int PUSH = 200;
 
-    private final ItemStackHandler fuel = new PGItemSlots(1) {
+    private final PGItemSlots fuel = new PGItemSlots(1) {
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return isFuel(stack);

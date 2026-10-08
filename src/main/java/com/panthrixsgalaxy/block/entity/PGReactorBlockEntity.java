@@ -30,7 +30,7 @@ public class PGReactorBlockEntity extends PGEnergyBlockEntity implements PGItemS
     /** Ticks que dura cada helio-3 (400 = 20 segundos). */
     public static final int TICKS_PER_FUEL = 400;
 
-    private final ItemStackHandler fuel = new PGItemSlots(1) {
+    private final PGItemSlots fuel = new PGItemSlots(1) {
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return stack.is(ModItems.PG_HELIUM_3.get());
