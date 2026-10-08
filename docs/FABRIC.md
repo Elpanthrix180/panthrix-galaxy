@@ -51,10 +51,10 @@ Para jugar en Fabric hace falta **Fabric Loader** y **Fabric API**.
 | Fase | Qué | Estado |
 |---|---|---|
 | **F1** | Proyecto, código común, registro de todo, ventanas, dibujos, red, energía | ✅ compila |
-| F2 | Máquinas y energía funcionando, tolvas, comandos | ⏳ |
+| **F2** | Máquinas y energía, tolvas, energía de objetos, comandos, libro guía | ✅ compila |
 | F3 | Oxígeno, traje, mochila (tecla B, caer al morir, dibujo), gravedad, indicadores | ⏳ |
 | F4 | Cohetes, naves, cielos de los planetas, tormentas de Marte | ⏳ |
-| F5 | Armas (guardia), criaturas (aparición), Reina, logros, libro guía | ⏳ |
+| F5 | Armas (guardia), criaturas (aparición), Reina, logros | ⏳ |
 | F6 | Pruebas, `.jar` de Fabric en la Release | ⏳ |
 
 ### ✅ Qué tiene ya la versión Fabric (F1)
@@ -66,10 +66,22 @@ Para jugar en Fabric hace falta **Fabric Loader** y **Fabric API**.
 - Hueco de mochila guardado con el jugador.
 - Niveles de minado (`data/fabric/tags/blocks/needs_tool_level_N`).
 
+### ✅ Fase F2
+- **Máquinas**: generador, panel solar, reactor, celda, cables, recargadores y refinería funcionan
+  igual (su lógica es común; en Fabric el combustible se mira en `FuelRegistry`).
+- **Tolvas y tuberías** llenan los huecos de las máquinas (`fabric/PGFabricItems`, Transfer API).
+- **Energía de objetos con otros mods**, en los dos sentidos (`fabric/PGFabricEnergy`):
+  los cargadores de otros mods cargan las baterías y armas del mod, y las máquinas del mod
+  cargan baterías de otros mods.
+- **Comandos** `/pgtp`, `/pgkit`, `/pgrefill`, `/pgvacuum` y `/pgguide`.
+- **Libro guía** al entrar por primera vez.
+- Estos comandos y el libro ahora son **comunes**: Forge los conecta en `forge/PGForgeEvents`
+  y Fabric en `fabric/PanthrixsGalaxyFabric` (una línea cada uno).
+
 ### ⏳ Lo que todavía NO funciona en Fabric
-Todo lo que en Forge depende de **eventos** (se conecta en F2-F5): gastar oxígeno, indicadores
+Lo que en Forge depende de **eventos** (se conecta en F3-F5): gastar oxígeno, indicadores
 en pantalla, tecla B, gravedad baja, aparición natural de criaturas, logros automáticos,
-comandos (`/pgtp`...), libro guía, cielos especiales y tormentas.
+cielos especiales y tormentas.
 
 > ℹ️ En Fabric los niveles de herramienta no se pueden "intercalar" como en Forge
 > (la lunarita va entre hierro y diamante). En Fabric la lunarita pica como el hierro.
