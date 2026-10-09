@@ -8,6 +8,7 @@ import com.panthrixsgalaxy.client.PGClientTick;
 import com.panthrixsgalaxy.client.PGKeyBindings;
 import com.panthrixsgalaxy.client.RocketHudOverlay;
 import com.panthrixsgalaxy.client.ShipHudOverlay;
+import com.panthrixsgalaxy.client.sky.PGSkyEffects;
 import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.init.ModItems;
 import com.panthrixsgalaxy.item.PGBackpackItem;
@@ -30,9 +31,12 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.Level;
 
 /**
  * Parte de PANTALLA del mod en Fabric ("entrypoints → client" de fabric.mod.json).
@@ -67,7 +71,17 @@ public class PGFabricClient implements ClientModInitializer {
 
         // Ventanas y cielos de los planetas
         PGClientRegistrations.menuScreens();
-        PGClientRegistrations.dimensionEffects(DimensionRenderingRegistry::registerDimensionEffects);
+        // Cielos de los planetas: en Fabric se registran por dimensión (su nombre es el mismo que el del efecto)
+        PGClientRegistrations.dimensionEffects((id, effects) -> {
+            DimensionRenderingRegistry.registerDimensionEffects(id, effects);
+            if (effects instanceof PGSkyEffects sky) {
+                ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, id);
+                DimensionRenderingRegistry.registerSkyRenderer(dimension, context ->
+                        sky.renderSky(context.world(), (int) context.world().getGameTime(), context.tickDelta(),
+                                context.matrixStack(), context.camera(), context.projectionMatrix(), false, () -> { }));
+                DimensionRenderingRegistry.registerCloudRenderer(dimension, context -> { }); // sin nubes
+            }
+        });
 
         // Indicadores (oxígeno, cohete, nave): los mismos dibujos que en Forge
         HudRenderCallback.EVENT.register((graphics, partialTick) -> {

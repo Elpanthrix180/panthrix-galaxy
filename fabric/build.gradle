@@ -40,7 +40,6 @@ def forgeOnly = [
         // Eventos de Forge que todavía no tienen su versión común (fases F4-F5)
         'com/panthrixsgalaxy/advancement/PGAdvancementEvents.java',
         'com/panthrixsgalaxy/entity/mob/PGMobEvents.java',
-        'com/panthrixsgalaxy/entity/rocket/PGRocketEvents.java',
         'com/panthrixsgalaxy/weapon/PGLaserSwordEvents.java',
         'com/panthrixsgalaxy/client/PGClientEvents.java',
         'com/panthrixsgalaxy/client/PGClientModEvents.java',

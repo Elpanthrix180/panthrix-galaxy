@@ -12,7 +12,7 @@ import org.joml.Matrix4f;
  * dibujado por SpaceSkyRenderer (estrellas, Sol, Tierra, Luna y Marte).
  * Se une a la dimensión por el nombre "panthrixsgalaxy:space" (campo "effects" del JSON).
  */
-public class PGSpaceEffects extends DimensionSpecialEffects {
+public class PGSpaceEffects extends DimensionSpecialEffects implements PGSkyEffects {
 
     public PGSpaceEffects() {
         // altura de nubes (ninguna), ¿tiene suelo?, tipo de cielo (lo dibujamos nosotros), luz forzada, luz constante
@@ -30,14 +30,14 @@ public class PGSpaceEffects extends DimensionSpecialEffects {
         return false;
     }
 
-    // Forge lo llama directamente; en Fabric lo llama el registro de cielos (sin @Override)
+    @Override
     public boolean renderSky(ClientLevel level, int ticks, float partialTick, PoseStack poseStack, Camera camera,
                              Matrix4f projectionMatrix, boolean isFoggy, Runnable setupFog) {
         SpaceSkyRenderer.render(poseStack, camera);
         return true; // true = no dibujar el cielo normal de Minecraft
     }
 
-    // Forge lo llama directamente; en Fabric lo llama el registro de cielos (sin @Override)
+    @Override
     public boolean renderClouds(ClientLevel level, int ticks, float partialTick, PoseStack poseStack,
                                 double camX, double camY, double camZ, Matrix4f projectionMatrix) {
         return true; // sin nubes

@@ -3,6 +3,7 @@ package com.panthrixsgalaxy.forge;
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.command.PGCommands;
 import com.panthrixsgalaxy.command.PGTestCommands;
+import com.panthrixsgalaxy.entity.rocket.PGRocketEvents;
 import com.panthrixsgalaxy.event.PGGuideBookEvents;
 import com.panthrixsgalaxy.event.PGSuitEvents;
 import com.panthrixsgalaxy.system.PGSmokeTest;
@@ -20,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -99,6 +101,16 @@ public final class PGForgeEvents {
     public static void onStartTracking(PlayerEvent.StartTracking event) {
         if (event.getEntity() instanceof ServerPlayer watcher) {
             PGBackpackEvents.onStartTracking(event.getTarget(), watcher);
+        }
+    }
+
+    // ===== Vehículos =====
+
+    /** No se puede bajar de un cohete o nave en vuelo. */
+    @SubscribeEvent
+    public static void onMount(EntityMountEvent event) {
+        if (event.isDismounting() && !PGRocketEvents.canDismount(event.getEntityMounting(), event.getEntityBeingMounted())) {
+            event.setCanceled(true);
         }
     }
 

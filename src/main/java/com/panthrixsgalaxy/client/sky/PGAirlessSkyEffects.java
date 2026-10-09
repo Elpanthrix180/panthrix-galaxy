@@ -13,7 +13,7 @@ import org.joml.Vector3f;
  * Cielo de un planeta SIN atmósfera (Mercurio, Plutón...): negro con estrellas, el Sol y
  * otro planeta en el cielo. Igual que la Luna, pero se elige el planeta, su dirección y tamaño.
  */
-public class PGAirlessSkyEffects extends DimensionSpecialEffects {
+public class PGAirlessSkyEffects extends DimensionSpecialEffects implements PGSkyEffects {
 
     private final ResourceLocation skyPlanet;
     private final Vector3f direction;
@@ -36,14 +36,14 @@ public class PGAirlessSkyEffects extends DimensionSpecialEffects {
         return false;
     }
 
-    // Forge lo llama directamente; en Fabric lo llama el registro de cielos (sin @Override)
+    @Override
     public boolean renderSky(ClientLevel level, int ticks, float partialTick, PoseStack poseStack, Camera camera,
                              Matrix4f projectionMatrix, boolean isFoggy, Runnable setupFog) {
         SpaceSkyRenderer.renderFromSurface(poseStack, skyPlanet, direction, size);
         return true;
     }
 
-    // Forge lo llama directamente; en Fabric lo llama el registro de cielos (sin @Override)
+    @Override
     public boolean renderClouds(ClientLevel level, int ticks, float partialTick, PoseStack poseStack,
                                 double camX, double camY, double camZ, Matrix4f projectionMatrix) {
         return true;

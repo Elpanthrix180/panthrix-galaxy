@@ -14,7 +14,7 @@ import org.joml.Vector3f;
  * disperse la luz), el Sol y la TIERRA grande en el cielo.
  * Se une a la dimensión por "effects": "panthrixsgalaxy:moon".
  */
-public class PGMoonEffects extends DimensionSpecialEffects {
+public class PGMoonEffects extends DimensionSpecialEffects implements PGSkyEffects {
 
     /** Dirección fija de la Tierra en el cielo lunar (alta, hacia el sur). */
     private static final Vector3f EARTH_DIRECTION = new Vector3f(-0.25f, 0.75f, 0.6f);
@@ -34,14 +34,14 @@ public class PGMoonEffects extends DimensionSpecialEffects {
         return false;
     }
 
-    // Forge lo llama directamente; en Fabric lo llama el registro de cielos (sin @Override)
+    @Override
     public boolean renderSky(ClientLevel level, int ticks, float partialTick, PoseStack poseStack, Camera camera,
                              Matrix4f projectionMatrix, boolean isFoggy, Runnable setupFog) {
         SpaceSkyRenderer.renderFromSurface(poseStack, PGPlanets.EARTH.texture(), EARTH_DIRECTION, EARTH_SIZE);
         return true;
     }
 
-    // Forge lo llama directamente; en Fabric lo llama el registro de cielos (sin @Override)
+    @Override
     public boolean renderClouds(ClientLevel level, int ticks, float partialTick, PoseStack poseStack,
                                 double camX, double camY, double camZ, Matrix4f projectionMatrix) {
         return true;
