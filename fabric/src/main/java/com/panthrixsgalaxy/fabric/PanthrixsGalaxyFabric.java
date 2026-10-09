@@ -2,7 +2,6 @@ package com.panthrixsgalaxy.fabric;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.config.PGConfig;
-import com.panthrixsgalaxy.entity.mob.PGMobSetup;
 import com.panthrixsgalaxy.init.ModBlockEntities;
 import com.panthrixsgalaxy.init.ModBlocks;
 import com.panthrixsgalaxy.init.ModCreativeTabs;
@@ -16,7 +15,6 @@ import com.panthrixsgalaxy.planet.PGPlanets;
 import com.panthrixsgalaxy.system.oxygen.PGAtmosphere;
 import com.panthrixsgalaxy.tool.PGToolTiers;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 
 /**
@@ -46,8 +44,8 @@ public class PanthrixsGalaxyFabric implements ModInitializer {
         ModFeatures.FEATURES.registerAll();
         ModCreativeTabs.CREATIVE_TABS.registerAll();
 
-        // Atributos de las criaturas (vida, daño...)
-        PGMobSetup.attributes(FabricDefaultAttributeRegistry::register);
+        // Criaturas: atributos (vida, daño...) y dónde aparecen solas
+        PGFabricMobs.register();
 
         // Comunicación servidor <-> pantalla y energía compatible con otros mods
         PGNetwork.register();

@@ -2,3 +2,5 @@ accessWidener v2 named
 # Solo Fabric: abre cosas de Minecraft que Forge ya trae abiertas (sus "access transformers").
 # Registrar el tipo de puerta de la esclusa (ModBlocks.AIRLOCK)
 accessible method net/minecraft/world/level/block/state/properties/BlockSetType register (Lnet/minecraft/world/level/block/state/properties/BlockSetType;)Lnet/minecraft/world/level/block/state/properties/BlockSetType;
+# Registrar dónde aparecen las criaturas del mod (PGMobSetup.groundSpawns)
+accessible method net/minecraft/world/entity/SpawnPlacements register (Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/entity/SpawnPlacements$Type;Lnet/minecraft/world/level/levelgen/Heightmap$Types;Lnet/minecraft/world/entity/SpawnPlacements$SpawnPredicate;)V

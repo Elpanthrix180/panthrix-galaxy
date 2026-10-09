@@ -1,5 +1,6 @@
 package com.panthrixsgalaxy.fabric;
 
+import com.panthrixsgalaxy.advancement.PGAdvancementEvents;
 import com.panthrixsgalaxy.command.PGCommands;
 import com.panthrixsgalaxy.command.PGTestCommands;
 import com.panthrixsgalaxy.event.PGGuideBookEvents;
@@ -12,6 +13,7 @@ import com.panthrixsgalaxy.system.oxygen.PGSealedRooms;
 import com.panthrixsgalaxy.system.weather.PGMarsWeather;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -30,6 +32,7 @@ public final class PGFabricEvents {
     public static void onPlayerTickEnd(Player player) {
         PGMarsWeather.onPlayerTickEnd(player);
         PGOxygenEvents.onPlayerTickEnd(player);
+        PGAdvancementEvents.onPlayerTickEnd(player);
     }
 
     public static void register() {
@@ -61,9 +64,14 @@ public final class PGFabricEvents {
             PGBackpackEvents.onPlayerClone(oldPlayer, newPlayer, !alive);
         });
         ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> PGBackpackEvents.sync(newPlayer));
-        ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register((player, origin, destination) ->
-                PGBackpackEvents.sync(player));
+        ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register((player, origin, destination) -> {
+            PGBackpackEvents.sync(player);
+            PGAdvancementEvents.onChangeDimension(player, destination.dimension());
+        });
         EntityTrackingEvents.START_TRACKING.register(PGBackpackEvents::onStartTracking);
+
+        // ===== Combate (la guardia de la espada está en el mixin PlayerMixin) =====
+        ServerLivingEntityEvents.AFTER_DEATH.register(PGAdvancementEvents::onDeath);
 
         // ===== Traje =====
         ServerEntityEvents.EQUIPMENT_CHANGE.register((entity, slot, previous, current) ->

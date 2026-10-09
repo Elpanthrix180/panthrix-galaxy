@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy.forge;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.advancement.PGAdvancementEvents;
 import com.panthrixsgalaxy.command.PGCommands;
 import com.panthrixsgalaxy.command.PGTestCommands;
 import com.panthrixsgalaxy.entity.rocket.PGRocketEvents;
@@ -12,6 +13,7 @@ import com.panthrixsgalaxy.system.backpack.PGBackpackSlotProvider;
 import com.panthrixsgalaxy.system.oxygen.PGOxygenEvents;
 import com.panthrixsgalaxy.system.oxygen.PGSealedRooms;
 import com.panthrixsgalaxy.system.weather.PGMarsWeather;
+import com.panthrixsgalaxy.weapon.PGLaserSwordEvents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -22,8 +24,10 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityMountEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
@@ -46,6 +50,7 @@ public final class PGForgeEvents {
         if (event.phase == TickEvent.Phase.END) {
             PGMarsWeather.onPlayerTickEnd(event.player);
             PGOxygenEvents.onPlayerTickEnd(event.player);
+            PGAdvancementEvents.onPlayerTickEnd(event.player);
         }
     }
 
@@ -94,7 +99,22 @@ public final class PGForgeEvents {
     public static void onChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             PGBackpackEvents.sync(player);
+            PGAdvancementEvents.onChangeDimension(player, event.getTo());
         }
+    }
+
+    // ===== Combate =====
+
+    /** Guardia con la espada láser: menos daño de frente. */
+    @SubscribeEvent
+    public static void onHurt(LivingHurtEvent event) {
+        event.setAmount(PGLaserSwordEvents.onHurt(event.getEntity(), event.getSource(), event.getAmount()));
+    }
+
+    /** Logros por cazar criaturas. */
+    @SubscribeEvent
+    public static void onDeath(LivingDeathEvent event) {
+        PGAdvancementEvents.onDeath(event.getEntity(), event.getSource());
     }
 
     @SubscribeEvent

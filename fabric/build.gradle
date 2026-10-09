@@ -37,10 +37,8 @@ def forgeOnly = [
         'com/panthrixsgalaxy/system/backpack/PGBackpackSlot.java',
         'com/panthrixsgalaxy/system/backpack/PGBackpackSlotProvider.java',
         'com/panthrixsgalaxy/system/gravity/PGGravity.java',
-        // Eventos de Forge que todavía no tienen su versión común (fases F4-F5)
-        'com/panthrixsgalaxy/advancement/PGAdvancementEvents.java',
+        // "Pegamento" de Forge: solo conectan sus eventos con la lógica común (Fabric tiene el suyo en fabric/)
         'com/panthrixsgalaxy/entity/mob/PGMobEvents.java',
-        'com/panthrixsgalaxy/weapon/PGLaserSwordEvents.java',
         'com/panthrixsgalaxy/client/PGClientEvents.java',
         'com/panthrixsgalaxy/client/PGClientModEvents.java',
 ]

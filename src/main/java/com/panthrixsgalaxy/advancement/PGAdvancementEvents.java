@@ -1,6 +1,5 @@
 package com.panthrixsgalaxy.advancement;
 
-import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.entity.boss.PGAlienQueenEntity;
 import com.panthrixsgalaxy.entity.mob.PGAliens;
 import com.panthrixsgalaxy.entity.mob.PGCrawlerEntity;
@@ -14,16 +13,14 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraft.world.level.Level;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -40,7 +37,6 @@ import java.util.Set;
  *
  * Los contadores se guardan en el jugador, en la parte que NO se pierde al morir ("PlayerPersisted").
  */
-@Mod.EventBusSubscriber(modid = PanthrixsGalaxy.MOD_ID)
 public final class PGAdvancementEvents {
 
     private static final int MOON_TICKS_NEEDED = 5 * 60 * 20;
@@ -54,10 +50,9 @@ public final class PGAdvancementEvents {
         return PGPlatform.getPersistedData(player);
     }
 
-    @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || !(event.player instanceof ServerPlayer player)
-                || player.tickCount % 40 != 0) {
+    /** Al final de cada tick del jugador (lo llaman Forge y Fabric). */
+    public static void onPlayerTickEnd(Player tickingPlayer) {
+        if (!(tickingPlayer instanceof ServerPlayer player) || player.tickCount % 40 != 0) {
             return;
         }
         // Astronauta: tiempo en la Luna
@@ -103,12 +98,11 @@ public final class PGAdvancementEvents {
                 || entity instanceof PGMartianWormEntity || PGAliens.isAlien(entity) || entity instanceof PGAlienQueenEntity;
     }
 
-    @SubscribeEvent
-    public static void onKill(LivingDeathEvent event) {
-        if (!(event.getSource().getEntity() instanceof ServerPlayer player)) {
+    /** Cuando muere una criatura (lo llaman Forge y Fabric). */
+    public static void onDeath(LivingEntity victim, DamageSource source) {
+        if (!(source.getEntity() instanceof ServerPlayer player)) {
             return;
         }
-        Entity victim = event.getEntity();
         CompoundTag data = persisted(player);
         if (isMartianCreature(victim) || (victim instanceof PGMartianWormEntity)) {
             int kills = data.getInt(MARTIAN_KILLS) + 1;
@@ -127,12 +121,9 @@ public final class PGAdvancementEvents {
     }
 
     /** Más allá de la Tierra: 3 cuerpos celestes distintos (cualquier planeta, luna o el cinturón). */
-    @SubscribeEvent
-    public static void onChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
-        if (!(event.getEntity() instanceof ServerPlayer player)) {
-            return;
-        }
-        PGPlanet planet = PGPlanets.fromDimension(event.getTo());
+    /** Cuando un jugador cambia de dimensión (lo llaman Forge y Fabric). */
+    public static void onChangeDimension(ServerPlayer player, ResourceKey<Level> to) {
+        PGPlanet planet = PGPlanets.fromDimension(to);
         if (planet == null || planet == PGPlanets.EARTH) {
             return;
         }

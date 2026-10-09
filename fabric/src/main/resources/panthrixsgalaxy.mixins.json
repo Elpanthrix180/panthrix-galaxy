@@ -9,6 +9,7 @@
     "PlayerMixin"
   ],
   "client": [
+    "client.ClientRecipeBookMixin",
     "client.FogRendererMixin",
     "client.GameRendererMixin",
     "client.PlayerRendererMixin"

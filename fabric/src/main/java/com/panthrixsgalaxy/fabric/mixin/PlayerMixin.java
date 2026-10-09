@@ -3,13 +3,16 @@ package com.panthrixsgalaxy.fabric.mixin;
 import com.panthrixsgalaxy.fabric.PGFabricEvents;
 import com.panthrixsgalaxy.fabric.PGPlayerData;
 import com.panthrixsgalaxy.system.backpack.PGBackpackEvents;
+import com.panthrixsgalaxy.weapon.PGLaserSwordEvents;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
@@ -51,6 +54,14 @@ public abstract class PlayerMixin implements PGPlayerData {
     @Inject(method = "tick", at = @At("TAIL"))
     private void panthrixsgalaxy$afterTick(CallbackInfo info) {
         PGFabricEvents.onPlayerTickEnd((Player) (Object) this);
+    }
+
+    /** Guardia con la espada láser: menos daño de frente (en Forge: LivingHurtEvent). */
+    @ModifyArg(method = "actuallyHurt", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/player/Player;getDamageAfterArmorAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F"),
+            index = 1)
+    private float panthrixsgalaxy$laserGuard(DamageSource source, float amount) {
+        return PGLaserSwordEvents.onHurt((Player) (Object) this, source, amount);
     }
 
     /** Al morir: sin keepInventory la mochila cae al suelo (en Forge: LivingDropsEvent). */
