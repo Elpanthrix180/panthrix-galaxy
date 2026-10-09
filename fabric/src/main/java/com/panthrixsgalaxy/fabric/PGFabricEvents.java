@@ -21,6 +21,7 @@ import net.fabricmc.fabric.api.networking.v1.EntityTrackingEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
+import org.spongepowered.asm.mixin.MixinEnvironment;
 
 /**
  * Solo Fabric: conecta los eventos de Fabric con la lógica común del mod.
@@ -37,7 +38,13 @@ public final class PGFabricEvents {
 
     public static void register() {
         // ===== Servidor =====
-        ServerLifecycleEvents.SERVER_STARTED.register(PGSmokeTest::onServerStarted);
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            if (PGSmokeTest.isEnabled()) {
+                // Prueba de arranque: aplica YA todos los mixins del servidor (si alguno falla, se detiene aquí)
+                MixinEnvironment.getCurrentEnvironment().audit();
+            }
+            PGSmokeTest.onServerStarted(server);
+        });
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> PGSealedRooms.clearAll());
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
