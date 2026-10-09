@@ -88,6 +88,10 @@ jobs:
         run: |
           grep -E -A3 "error:" fabric-build.log | head -400 || true
 
+      - name: Avisos de compilación (mixins de Fabric)
+        run: |
+          grep -iE "warning|Cannot find|Unable to locate|No refMap" fabric-build.log | grep -viE "deprecat|unchecked|removal" | head -60 || true
+
       - name: Prueba de arranque (servidor Fabric)
         run: |
           mkdir -p fabric/run-server && echo "eula=true" > fabric/run-server/eula.txt
