@@ -54,7 +54,7 @@ Para jugar en Fabric hace falta **Fabric Loader** y **Fabric API**.
 | **F2** | Máquinas y energía, tolvas, energía de objetos, comandos, libro guía | ✅ compila |
 | **F3** | Oxígeno, traje, mochila (tecla B, caer al morir, dibujo), gravedad, indicadores | ✅ compila y arranca |
 | **F4** | Cohetes, naves, cielos de los planetas, nieblas, cámara | ✅ compila y arranca |
-| F5 | Armas (guardia), criaturas (aparición), Reina, logros | ⏳ |
+| **F5** | Armas (guardia), criaturas (aparición), Reina, logros | ✅ compila y arranca |
 | F6 | Pruebas, `.jar` de Fabric en la Release | ⏳ |
 
 ### ✅ Qué tiene ya la versión Fabric (F1)
@@ -106,8 +106,16 @@ En cada subida, GitHub arranca **un servidor de Forge y otro de Fabric** con el 
 y apaga el servidor (`system/PGSmokeTest`). Si un mixin, un registro o un archivo de datos
 falla al arrancar, la ejecución sale en rojo. Así se detectan errores sin abrir el juego.
 
-### ⏳ Lo que todavía NO funciona en Fabric
-Se conecta en F5: guardia de la espada, aparición natural de criaturas y logros automáticos.
+### ✅ Fase F5
+- **Guardia de la espada láser**: al bloquear, el daño se reduce (mixin en `actuallyHurt`).
+- **Aparición natural** de las criaturas en sus planetas (`PGFabricMobs`, BiomeModifications).
+- **Logros automáticos** (llegar a planetas, morir en el espacio, etc.) desde `PGFabricEvents`.
+- Arreglo del **libro de recetas** (`ClientRecipeBookMixin`) para las recetas del mod.
+- La prueba de arranque ahora **audita todos los mixins** (`MixinEnvironment.audit()`): si alguno
+  no encaja con Minecraft, sale en rojo.
+
+### ⏳ Lo que falta
+F6: pruebas finales, PR y release con los dos jars (Forge y Fabric).
 
 > ℹ️ En Fabric los niveles de herramienta no se pueden "intercalar" como en Forge
 > (la lunarita va entre hierro y diamante). En Fabric la lunarita pica como el hierro.
