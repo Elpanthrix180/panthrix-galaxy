@@ -46,7 +46,7 @@ jobs:
       - name: Prueba de arranque (servidor Forge)
         run: |
           mkdir -p run && echo "eula=true" > run/eula.txt
-          timeout 900 ./gradlew runServer -Psmoke --no-daemon 2>&1 | tee forge-server.log || true
+          timeout 900 ./gradlew runServer -Psmoke --no-daemon > forge-server.log 2>&1 || true
           grep "SMOKE TEST OK" forge-server.log || { grep -E -B2 -A25 "Exception|Error|FATAL|Mixin" forge-server.log | head -300; exit 1; }
 
       - name: Avisos del arranque (Forge)
@@ -95,7 +95,7 @@ jobs:
       - name: Prueba de arranque (servidor Fabric)
         run: |
           mkdir -p fabric/run-server && echo "eula=true" > fabric/run-server/eula.txt
-          timeout 900 ./gradlew -p fabric runServer -Psmoke --no-daemon 2>&1 | tee fabric-server.log || true
+          timeout 900 ./gradlew -p fabric runServer -Psmoke --no-daemon > fabric-server.log 2>&1 || true
           grep "SMOKE TEST OK" fabric-server.log || { grep -E -B2 -A25 "Exception|Error|FATAL|Mixin" fabric-server.log | head -300; exit 1; }
 
       - name: Avisos del arranque (Fabric)
