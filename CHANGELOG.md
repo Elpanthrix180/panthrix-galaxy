@@ -1,10 +1,10 @@
 # Panthrixs Galaxy 1.2.0 — Minecraft 1.20.1 (Forge 47 + Fabric)
 
 ## 🧵 Novedades / New
-- **Versión para Fabric 1.20.1** (`panthrixsgalaxy-fabric-1.2.0.jar`). Necesita Fabric Loader 0.16+ y Fabric API.
+- **Versión para Fabric 1.20.1** (`panthrixsgalaxy-fabric-1.20.1-1.2.0.jar`). Necesita Fabric Loader 0.16+ y Fabric API.
   Tiene todo el contenido: planetas, máquinas, energía, oxígeno, traje, mochila, gravedad, cohetes,
   cielos, criaturas, la Reina, armas y logros.
-- La versión de Forge (`panthrixsgalaxy-1.2.0.jar`) sigue igual.
+- La versión de Forge (`panthrixsgalaxy-1.20.1-1.2.0.jar`) sigue igual.
 - ℹ️ En Fabric la lunarita pica como el hierro (en Forge, entre hierro y diamante).
 - La energía en Fabric usa *Team Reborn Energy* (ya va dentro del jar), compatible con otros mods técnicos.
 
