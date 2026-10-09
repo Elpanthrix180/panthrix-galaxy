@@ -1,28 +1,30 @@
 package com.panthrixsgalaxy.init;
 
 import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.platform.PGHolder;
+import com.panthrixsgalaxy.platform.PGRegistry;
 import com.panthrixsgalaxy.recipe.PGEngineeringRecipe;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 
 /** Tipos de receta propios del mod. */
 public final class ModRecipes {
 
-    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES =
-            DeferredRegister.create(ForgeRegistries.RECIPE_TYPES, PanthrixsGalaxy.MOD_ID);
-    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
-            DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, PanthrixsGalaxy.MOD_ID);
+    public static final PGRegistry<RecipeType<?>> RECIPE_TYPES = PGRegistry.create(Registries.RECIPE_TYPE);
+    public static final PGRegistry<RecipeSerializer<?>> RECIPE_SERIALIZERS = PGRegistry.create(Registries.RECIPE_SERIALIZER);
 
     /** Recetas del Banco de Ingeniería Espacial ("type": "panthrixsgalaxy:engineering"). */
-    public static final RegistryObject<RecipeType<PGEngineeringRecipe>> ENGINEERING_TYPE =
+    public static final PGHolder<RecipeType<PGEngineeringRecipe>> ENGINEERING_TYPE =
             RECIPE_TYPES.register("engineering",
-                    () -> RecipeType.simple(new ResourceLocation(PanthrixsGalaxy.MOD_ID, "engineering")));
+                    () -> new RecipeType<PGEngineeringRecipe>() {
+                        @Override
+                        public String toString() {
+                            return PanthrixsGalaxy.MOD_ID + ":engineering";
+                        }
+                    });
 
-    public static final RegistryObject<RecipeSerializer<PGEngineeringRecipe>> ENGINEERING_SERIALIZER =
+    public static final PGHolder<RecipeSerializer<PGEngineeringRecipe>> ENGINEERING_SERIALIZER =
             RECIPE_SERIALIZERS.register("engineering", PGEngineeringRecipe.Serializer::new);
 
     private ModRecipes() {

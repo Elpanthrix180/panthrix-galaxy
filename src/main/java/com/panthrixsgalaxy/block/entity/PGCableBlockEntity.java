@@ -2,15 +2,13 @@ package com.panthrixsgalaxy.block.entity;
 
 import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.init.ModBlockEntities;
+import com.panthrixsgalaxy.system.energy.EnergyHelper;
+import com.panthrixsgalaxy.system.energy.PGEnergyHandler;
+import com.panthrixsgalaxy.system.energy.PGEnergyProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayDeque;
@@ -33,7 +31,7 @@ import java.util.Set;
  *   - Si la energía viene de una celda, no se la da a otras celdas (así no rebota entre ellas).
  *   - Como mucho MAX_TRANSFER FE por cada envío.
  */
-public class PGCableBlockEntity extends BlockEntity {
+public class PGCableBlockEntity extends BlockEntity implements PGEnergyProvider {
 
     /** Máximo de energía que pasa por el cable en cada envío (por tick). */
     public static final int MAX_TRANSFER = 2_000;
@@ -41,13 +39,13 @@ public class PGCableBlockEntity extends BlockEntity {
     private static final int MAX_CABLES = 512;
 
     /** Un "enchufe" distinto por cada cara, para saber de dónde viene la energía. */
-    private final Map<Direction, LazyOptional<IEnergyStorage>> sideCapabilities = new LinkedHashMap<>();
-    private final LazyOptional<IEnergyStorage> unknownSideCapability = LazyOptional.of(() -> new CableInput(null));
+    private final Map<Direction, PGEnergyHandler> sideInputs = new LinkedHashMap<>();
+    private final PGEnergyHandler unknownSideInput = new CableInput(null);
 
     public PGCableBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.CABLE.get(), pos, state);
         for (Direction direction : Direction.values()) {
-            sideCapabilities.put(direction, LazyOptional.of(() -> new CableInput(direction)));
+            sideInputs.put(direction, new CableInput(direction));
         }
     }
 
@@ -104,7 +102,7 @@ public class PGCableBlockEntity extends BlockEntity {
                     visited.add(next);
                     toVisit.add(next);
                 } else if (neighbor != null && !endpoints.containsKey(next)
-                        && neighbor.getCapability(ForgeCapabilities.ENERGY, direction.getOpposite()).isPresent()) {
+                        && EnergyHelper.findBlockEnergy(level, next, direction.getOpposite()) != null) {
                     endpoints.put(next, new Endpoint(next, direction));
                 }
             }
@@ -134,8 +132,8 @@ public class PGCableBlockEntity extends BlockEntity {
             if (target == null || (fromCell && target instanceof PGEnergyCellBlockEntity)) {
                 continue;
             }
-            IEnergyStorage storage = target.getCapability(ForgeCapabilities.ENERGY,
-                    endpoint.direction().getOpposite()).orElse(null);
+            PGEnergyHandler storage = EnergyHelper.findBlockEnergy(level, endpoint.pos(),
+                    endpoint.direction().getOpposite());
             if (storage == null || !storage.canReceive()) {
                 continue;
             }
@@ -148,7 +146,7 @@ public class PGCableBlockEntity extends BlockEntity {
     }
 
     /** El "enchufe" de una cara del cable: solo acepta energía y la reparte por la red. */
-    private class CableInput implements IEnergyStorage {
+    private class CableInput implements PGEnergyHandler {
         @Nullable
         private final Direction side;
 
@@ -187,18 +185,9 @@ public class PGCableBlockEntity extends BlockEntity {
         }
     }
 
+    /** Cada cara tiene su "enchufe", para saber de dónde viene la energía. */
     @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction side) {
-        if (capability == ForgeCapabilities.ENERGY) {
-            return side == null ? unknownSideCapability.cast() : sideCapabilities.get(side).cast();
-        }
-        return super.getCapability(capability, side);
-    }
-
-    @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        sideCapabilities.values().forEach(LazyOptional::invalidate);
-        unknownSideCapability.invalidate();
+    public @Nullable PGEnergyHandler getEnergyHandler(@Nullable Direction side) {
+        return side == null ? unknownSideInput : sideInputs.get(side);
     }
 }

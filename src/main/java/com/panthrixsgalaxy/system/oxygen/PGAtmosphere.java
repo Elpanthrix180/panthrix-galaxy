@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy.system.oxygen;
 
 import com.panthrixsgalaxy.entity.PGSpaceVehicle;
+import com.panthrixsgalaxy.platform.PGPlatform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
@@ -52,7 +53,7 @@ public final class PGAtmosphere {
         if (PGSealedRooms.isPressurized(player.level(), BlockPos.containing(player.getEyePosition()))) {
             return false;
         }
-        return isAirlessDimension(player.level()) || player.getPersistentData().getBoolean(VACUUM_TEST_TAG);
+        return isAirlessDimension(player.level()) || PGPlatform.getPersistentData(player).getBoolean(VACUUM_TEST_TAG);
     }
 
     private PGAtmosphere() {

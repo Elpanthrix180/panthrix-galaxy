@@ -1,19 +1,16 @@
 package com.panthrixsgalaxy.system.oxygen;
 
-import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.armor.PGSpaceSuitItem;
 import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.init.ModDamageTypes;
 import com.panthrixsgalaxy.network.OxygenSyncPacket;
 import com.panthrixsgalaxy.network.PGNetwork;
+import com.panthrixsgalaxy.platform.PGPlatform;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +28,6 @@ import java.util.UUID;
  * Además (Fase 12): sin aire tampoco hay protección térmica. Sin las 4 piezas del traje
  * espacial, la temperatura extrema hace ½ corazón de daño cada 2 segundos.
  */
-@Mod.EventBusSubscriber(modid = PanthrixsGalaxy.MOD_ID)
 public final class PGOxygenEvents {
 
     /** Por debajo de esto se avisa de "oxígeno bajo" (60 = 1 minuto). */
@@ -46,17 +42,17 @@ public final class PGOxygenEvents {
     /** Dato guardado en el jugador: segundos que lleva sin poder respirar. */
     private static final String NO_AIR_SECONDS_TAG = "pg_no_air_seconds";
 
-    @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        // Solo en el servidor, al final del tick y una vez por segundo (20 ticks)
-        if (event.phase != TickEvent.Phase.END || !(event.player instanceof ServerPlayer player)) {
+    /** Al final de cada tick de un jugador (lo llaman Forge y Fabric). Solo trabaja en el servidor. */
+    public static void onPlayerTickEnd(Player tickingPlayer) {
+        // Solo en el servidor y una vez por segundo (20 ticks)
+        if (!(tickingPlayer instanceof ServerPlayer player)) {
             return;
         }
         if (player.tickCount % 20 != 0) {
             return;
         }
 
-        CompoundTag data = player.getPersistentData();
+        CompoundTag data = PGPlatform.getPersistentData(player);
         boolean airless = PGAtmosphere.isAirlessFor(player);
         int noAirSeconds = data.getInt(NO_AIR_SECONDS_TAG);
         OxygenState state;
@@ -116,9 +112,8 @@ public final class PGOxygenEvents {
     }
 
     /** Al salir del servidor se olvida lo último que se le envió. */
-    @SubscribeEvent
-    public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
-        LAST_SENT.remove(event.getEntity().getUUID());
+    public static void onLogout(Player player) {
+        LAST_SENT.remove(player.getUUID());
     }
 
     private PGOxygenEvents() {

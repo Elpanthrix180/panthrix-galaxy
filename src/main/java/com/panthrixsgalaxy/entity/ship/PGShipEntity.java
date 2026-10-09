@@ -10,7 +10,10 @@ import com.panthrixsgalaxy.item.PGShipItem;
 import com.panthrixsgalaxy.menu.PGShipMenu;
 import com.panthrixsgalaxy.planet.PGPlanet;
 import com.panthrixsgalaxy.planet.PGPlanets;
+import com.panthrixsgalaxy.platform.PGPlatform;
 import com.panthrixsgalaxy.system.backpack.PGBackpackSlot;
+import com.panthrixsgalaxy.system.energy.EnergyHelper;
+import com.panthrixsgalaxy.system.energy.PGEnergyHandler;
 import com.panthrixsgalaxy.system.gravity.PGGravity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -44,9 +47,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
@@ -501,7 +501,7 @@ public class PGShipEntity extends Entity implements PGSpaceVehicle {
             return InteractionResult.CONSUME;
         }
         // Batería (u otro objeto con energía): descargarla en la nave
-        IEnergyStorage itemEnergy = held.getCapability(ForgeCapabilities.ENERGY).orElse(null);
+        PGEnergyHandler itemEnergy = EnergyHelper.itemStorage(held).orElse(null);
         if (itemEnergy != null) {
             int space = getTier().getEnergyCapacity() - getEnergy();
             int moved = itemEnergy.extractEnergy(space, false);
@@ -512,7 +512,7 @@ public class PGShipEntity extends Entity implements PGSpaceVehicle {
         // Mayús + mano vacía: panel de control y bodega
         if (player.isShiftKeyDown() && held.isEmpty() && player instanceof ServerPlayer serverPlayer) {
             int rows = getTier().getCargoRows();
-            NetworkHooks.openScreen(serverPlayer, new SimpleMenuProvider(
+            PGPlatform.openMenu(serverPlayer, new SimpleMenuProvider(
                             (id, inventory, p) -> new PGShipMenu(id, inventory, this, rows),
                             Component.translatable("container.panthrixsgalaxy.ship_" + getTier().getSerializedName())),
                     buf -> buf.writeVarInt(rows));

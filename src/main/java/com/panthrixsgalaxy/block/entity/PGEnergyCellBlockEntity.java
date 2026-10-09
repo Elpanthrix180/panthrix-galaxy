@@ -1,12 +1,12 @@
 package com.panthrixsgalaxy.block.entity;
 
 import com.panthrixsgalaxy.init.ModBlockEntities;
+import com.panthrixsgalaxy.system.energy.PGEnergyHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
 /**
  * Celda energética: gran almacén de energía (1 000 000 FE).
@@ -33,10 +33,11 @@ public class PGEnergyCellBlockEntity extends PGEnergyBlockEntity {
         for (Direction direction : Direction.values()) {
             BlockEntity neighbor = level.getBlockEntity(worldPosition.relative(direction));
             if (neighbor instanceof PGCableBlockEntity cable) {
-                cable.getCapability(ForgeCapabilities.ENERGY, direction.getOpposite()).ifPresent(input -> {
+                PGEnergyHandler input = cable.getEnergyHandler(direction.getOpposite());
+                if (input != null && energy.getEnergyStored() > 0) {
                     int sent = input.receiveEnergy(Math.min(TRANSFER, energy.getEnergyStored()), false);
                     energy.take(sent);
-                });
+                }
             }
         }
     }

@@ -24,3 +24,9 @@ eclipse/
 # Sistema
 .DS_Store
 Thumbs.db
+
+# Fabric
+fabric/run/
+fabric/run-server/
+fabric/build/
+fabric/.gradle/

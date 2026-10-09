@@ -4,9 +4,7 @@ import com.panthrixsgalaxy.entity.ship.PGShipEntity;
 import com.panthrixsgalaxy.menu.PGShipMenu;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkEvent;
-
-import java.util.function.Supplier;
+import org.jetbrains.annotations.Nullable;
 
 /** Paquete jugador -> servidor: botones del panel de control de la nave. */
 public class ShipActionPacket {
@@ -29,8 +27,8 @@ public class ShipActionPacket {
         buf.writeEnum(action);
     }
 
-    public void handle(Supplier<NetworkEvent.Context> context) {
-        ServerPlayer player = context.get().getSender();
+    /** Al llegar al servidor (player = quien lo envía). */
+    public void handleOnServer(@Nullable ServerPlayer player) {
         // Solo vale si el jugador tiene abierto el panel de una nave (y sigue cerca)
         if (player != null && player.containerMenu instanceof PGShipMenu menu && menu.stillValid(player)) {
             PGShipEntity ship = menu.getShip();
@@ -39,6 +37,5 @@ public class ShipActionPacket {
                 ship.pickUp(player);
             }
         }
-        context.get().setPacketHandled(true);
     }
 }

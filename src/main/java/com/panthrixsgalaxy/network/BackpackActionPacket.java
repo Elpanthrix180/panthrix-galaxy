@@ -3,9 +3,7 @@ package com.panthrixsgalaxy.network;
 import com.panthrixsgalaxy.item.PGBackpackItem;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkEvent;
-
-import java.util.function.Supplier;
+import org.jetbrains.annotations.Nullable;
 
 /** Paquete jugador -> servidor: se ha pulsado B (abrir) o Mayús+B (quitar la mochila). */
 public class BackpackActionPacket {
@@ -29,14 +27,13 @@ public class BackpackActionPacket {
         buf.writeEnum(action);
     }
 
-    public void handle(Supplier<NetworkEvent.Context> context) {
-        ServerPlayer player = context.get().getSender();
+    /** Al llegar al servidor (player = quien lo envía). */
+    public void handleOnServer(@Nullable ServerPlayer player) {
         if (player != null) {
             switch (action) {
                 case OPEN -> PGBackpackItem.openEquipped(player);
                 case UNEQUIP -> PGBackpackItem.unequip(player);
             }
         }
-        context.get().setPacketHandled(true);
     }
 }

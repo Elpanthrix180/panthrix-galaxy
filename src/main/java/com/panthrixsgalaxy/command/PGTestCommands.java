@@ -1,8 +1,8 @@
 package com.panthrixsgalaxy.command;
 
+import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
-import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.entity.ship.ShipTier;
 import com.panthrixsgalaxy.init.ModBlocks;
 import com.panthrixsgalaxy.init.ModItems;
@@ -29,9 +29,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
 
@@ -42,25 +39,24 @@ import java.util.List;
  *   /pgkit <kit>         → te da un equipo: starter (Tierra→Luna), explorer (Marte y nave), endgame (todo lo mejor)
  *   /pgrefill            → llena de oxígeno, energía y combustible todo lo que llevas
  */
-@Mod.EventBusSubscriber(modid = PanthrixsGalaxy.MOD_ID)
 public final class PGTestCommands {
 
     private static final List<String> KITS = List.of("starter", "explorer", "endgame");
 
-    @SubscribeEvent
-    public static void onRegisterCommands(RegisterCommandsEvent event) {
-        event.getDispatcher().register(Commands.literal("pgtp")
+    /** Registra los comandos (lo llaman Forge y Fabric al arrancar el servidor). */
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
+        dispatcher.register(Commands.literal("pgtp")
                 .requires(source -> source.hasPermission(2))
                 .then(Commands.argument("planet", StringArgumentType.word())
                         .suggests((context, builder) -> SharedSuggestionProvider.suggest(
                                 PGPlanets.ALL.stream().filter(PGPlanet::isLandable).map(PGPlanet::id), builder))
                         .executes(PGTestCommands::teleport)));
-        event.getDispatcher().register(Commands.literal("pgkit")
+        dispatcher.register(Commands.literal("pgkit")
                 .requires(source -> source.hasPermission(2))
                 .then(Commands.argument("kit", StringArgumentType.word())
                         .suggests((context, builder) -> SharedSuggestionProvider.suggest(KITS, builder))
                         .executes(PGTestCommands::kit)));
-        event.getDispatcher().register(Commands.literal("pgrefill")
+        dispatcher.register(Commands.literal("pgrefill")
                 .requires(source -> source.hasPermission(2))
                 .executes(PGTestCommands::refill));
     }

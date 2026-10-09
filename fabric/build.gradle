@@ -1,0 +1,129 @@
+plugins {
+    id 'fabric-loom' version '1.7-SNAPSHOT'
+}
+
+// ===== Datos comunes con la versión Forge (../gradle.properties) =====
+def common = new Properties()
+file('../gradle.properties').withInputStream { common.load(it) }
+
+version = common.mod_version
+group = common.mod_group_id
+
+base {
+    // El .jar final se llama panthrixsgalaxy-fabric-1.20.1-X.Y.Z.jar
+    archivesName = "${common.mod_id}-fabric-${minecraft_version}"
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
+    withSourcesJar()
+}
+
+repositories {
+    mavenCentral()
+}
+
+// ===== Código y recursos COMUNES con la versión Forge =====
+// Casi todo el mod está en ../src/main (una sola copia para los dos cargadores).
+// Aquí se quitan los archivos que son SOLO de Forge: Fabric tiene los suyos en fabric/src
+// con el mismo nombre y los mismos métodos (registro, red, configuración, mochila...).
+def forgeOnly = [
+        'com/panthrixsgalaxy/PanthrixsGalaxy.java',
+        'com/panthrixsgalaxy/forge/**',
+        'com/panthrixsgalaxy/platform/PGPlatform.java',
+        'com/panthrixsgalaxy/platform/PGRegistry.java',
+        'com/panthrixsgalaxy/network/PGNetwork.java',
+        'com/panthrixsgalaxy/config/PGConfig.java',   // se copia aparte, adaptado (abajo)
+        'com/panthrixsgalaxy/system/backpack/PGBackpackSlot.java',
+        'com/panthrixsgalaxy/system/backpack/PGBackpackSlotProvider.java',
+        'com/panthrixsgalaxy/system/gravity/PGGravity.java',
+        // "Pegamento" de Forge: solo conectan sus eventos con la lógica común (Fabric tiene el suyo en fabric/)
+        'com/panthrixsgalaxy/entity/mob/PGMobEvents.java',
+        'com/panthrixsgalaxy/client/PGClientEvents.java',
+        'com/panthrixsgalaxy/client/PGClientModEvents.java',
+]
+
+// Se copia el código común a build/generated/sources/common SIN los archivos solo de Forge.
+// (Hay que copiarlo: si se quitaran con "exclude", también se quitarían los de Fabric que se llaman igual.)
+// La configuración se escribe UNA vez (config/PGConfig.java de Forge): para Fabric se copia
+// cambiando ForgeConfigSpec por PGConfigSpec, que tiene los mismos métodos.
+def commonSources = layout.buildDirectory.dir('generated/sources/common')
+tasks.register('prepareCommonSources', Sync) {
+    from('../src/main/java') {
+        exclude forgeOnly
+    }
+    from('../src/main/java') {
+        include 'com/panthrixsgalaxy/config/PGConfig.java'
+        filter { String line ->
+            line.replace('import net.minecraftforge.common.ForgeConfigSpec;',
+                    'import com.panthrixsgalaxy.fabric.config.PGConfigSpec;')
+                .replace('ForgeConfigSpec', 'PGConfigSpec')
+        }
+    }
+    into commonSources
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir commonSources
+        }
+        resources {
+            srcDir '../src/main/resources'
+            exclude 'META-INF/mods.toml', 'pack.mcmeta'
+        }
+    }
+}
+
+tasks.named('compileJava') { dependsOn 'prepareCommonSources' }
+tasks.named('sourcesJar') { dependsOn 'prepareCommonSources' }
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    // Mismos nombres que en Forge (mapeos oficiales de Mojang): así el código común sirve para los dos
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
+    // Energía: se incluye dentro del .jar (el jugador no tiene que instalar nada más)
+    modImplementation include("teamreborn:energy:${energy_version}")
+}
+
+loom {
+    // Abre algunas cosas de Minecraft que Forge ya trae abiertas
+    accessWidenerPath = file('src/main/resources/panthrixsgalaxy.accesswidener')
+
+    runs {
+        // ./gradlew -p fabric runClient → abre Minecraft con el mod
+        client { runDir = 'run' }
+        server {
+            runDir = 'run-server'
+            // ./gradlew -p fabric runServer -Psmoke -> arranca, comprueba y se apaga solo (lo usa GitHub)
+            if (project.hasProperty('smoke')) {
+                vmArg '-Dpanthrixsgalaxy.smokeTest=true'
+            }
+        }
+    }
+}
+
+processResources {
+    var replaceProperties = [
+            mod_id         : common.mod_id,
+            mod_name       : common.mod_name,
+            mod_version    : common.mod_version,
+            mod_license    : common.mod_license,
+            mod_authors    : common.mod_authors,
+            mod_url        : common.mod_url,
+            mod_issues_url : common.mod_issues_url,
+            loader_version : loader_version,
+            minecraft_version: minecraft_version
+    ]
+    inputs.properties replaceProperties
+    filesMatching('fabric.mod.json') {
+        expand replaceProperties
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 17
+}

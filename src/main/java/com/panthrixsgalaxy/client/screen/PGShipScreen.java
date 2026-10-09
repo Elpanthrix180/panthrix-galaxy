@@ -41,7 +41,7 @@ public class PGShipScreen extends ContainerScreen {
             panelX = leftPos - PANEL_WIDTH - 4;
         }
         addRenderableWidget(Button.builder(Component.translatable("gui.panthrixsgalaxy.ship_pickup"),
-                        button -> PGNetwork.CHANNEL.sendToServer(new ShipActionPacket(ShipActionPacket.Action.PICKUP)))
+                        button -> PGNetwork.sendToServer(new ShipActionPacket(ShipActionPacket.Action.PICKUP)))
                 .bounds(panelX + 6, topPos + 18 + 3 * ROW_HEIGHT + 4, BAR_WIDTH, 20)
                 .build());
     }

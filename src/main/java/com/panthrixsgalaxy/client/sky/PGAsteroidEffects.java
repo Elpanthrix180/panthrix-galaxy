@@ -13,7 +13,7 @@ import org.joml.Vector3f;
  * Aspecto del cinturón de asteroides: el vacío negro con estrellas, el Sol y Marte
  * pequeñito a lo lejos. Se une a la dimensión por "effects": "panthrixsgalaxy:asteroids".
  */
-public class PGAsteroidEffects extends DimensionSpecialEffects {
+public class PGAsteroidEffects extends DimensionSpecialEffects implements PGSkyEffects {
 
     private static final Vector3f MARS_DIRECTION = new Vector3f(0.8f, 0.25f, 0.5f);
     private static final float MARS_SIZE = 5.0f;

@@ -14,7 +14,7 @@ import org.joml.Vector3f;
  * disperse la luz), el Sol y la TIERRA grande en el cielo.
  * Se une a la dimensión por "effects": "panthrixsgalaxy:moon".
  */
-public class PGMoonEffects extends DimensionSpecialEffects {
+public class PGMoonEffects extends DimensionSpecialEffects implements PGSkyEffects {
 
     /** Dirección fija de la Tierra en el cielo lunar (alta, hacia el sur). */
     private static final Vector3f EARTH_DIRECTION = new Vector3f(-0.25f, 0.75f, 0.6f);

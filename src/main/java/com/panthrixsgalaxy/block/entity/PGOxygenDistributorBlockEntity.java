@@ -143,9 +143,8 @@ public class PGOxygenDistributorBlockEntity extends PGEnergyBlockEntity {
         }
     }
 
-    @Override
+    /** Forge lo llama al descargarse el trozo de mundo (en Fabric basta con setRemoved, por eso no lleva @Override). */
     public void onChunkUnloaded() {
-        super.onChunkUnloaded();
         if (level != null && !level.isClientSide()) { // solo el servidor guarda salas
             PGSealedRooms.setRoom(level, worldPosition, null);
         }

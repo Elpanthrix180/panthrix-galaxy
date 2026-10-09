@@ -12,7 +12,7 @@ import org.joml.Matrix4f;
  * dibujado por SpaceSkyRenderer (estrellas, Sol, Tierra, Luna y Marte).
  * Se une a la dimensión por el nombre "panthrixsgalaxy:space" (campo "effects" del JSON).
  */
-public class PGSpaceEffects extends DimensionSpecialEffects {
+public class PGSpaceEffects extends DimensionSpecialEffects implements PGSkyEffects {
 
     public PGSpaceEffects() {
         // altura de nubes (ninguna), ¿tiene suelo?, tipo de cielo (lo dibujamos nosotros), luz forzada, luz constante

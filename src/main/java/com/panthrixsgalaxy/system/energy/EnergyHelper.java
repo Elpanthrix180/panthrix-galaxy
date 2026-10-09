@@ -1,9 +1,13 @@
 package com.panthrixsgalaxy.system.energy;
 
 import com.panthrixsgalaxy.item.PGBackpackItem;
+import com.panthrixsgalaxy.platform.PGPlatform;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -30,7 +34,7 @@ public final class EnergyHelper {
             PGBackpackItem.setTank(target, PGBackpackItem.Tank.ENERGY, current + moved);
             return moved;
         }
-        Optional<IEnergyStorage> storage = itemStorage(target);
+        Optional<PGEnergyHandler> storage = itemStorage(target);
         if (storage.isEmpty()) {
             return 0;
         }
@@ -51,7 +55,7 @@ public final class EnergyHelper {
             PGBackpackItem.setTank(source, PGBackpackItem.Tank.ENERGY, current - moved);
             return moved;
         }
-        Optional<IEnergyStorage> storage = itemStorage(source);
+        Optional<PGEnergyHandler> storage = itemStorage(source);
         if (storage.isEmpty()) {
             return 0;
         }
@@ -61,8 +65,30 @@ public final class EnergyHelper {
         return moved;
     }
 
-    private static Optional<IEnergyStorage> itemStorage(ItemStack stack) {
-        return stack.getCapability(ForgeCapabilities.ENERGY).resolve();
+    /**
+     * La energía de un bloque por un lado: las máquinas del mod directamente,
+     * y las de otros mods a través de Forge/Fabric. null = no tiene energía por ese lado.
+     */
+    public static @Nullable PGEnergyHandler findBlockEnergy(Level level, BlockPos pos, @Nullable Direction side) {
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity == null) {
+            return null;
+        }
+        if (blockEntity instanceof PGEnergyProvider provider) {
+            return provider.getEnergyHandler(side);
+        }
+        return PGPlatform.findBlockEnergy(level, pos, blockEntity, side);
+    }
+
+    /** La energía de un objeto: las del mod directamente, y las de otros mods a través de Forge/Fabric. */
+    public static Optional<PGEnergyHandler> itemStorage(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return Optional.empty();
+        }
+        if (stack.getItem() instanceof PGEnergyItem item) {
+            return Optional.of(item.createEnergyHandler(stack));
+        }
+        return Optional.ofNullable(PGPlatform.findItemEnergy(stack));
     }
 
     private EnergyHelper() {

@@ -1,16 +1,11 @@
 package com.panthrixsgalaxy.client;
 
-import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.system.oxygen.OxygenState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
-import net.minecraftforge.client.gui.overlay.IGuiOverlay;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 /**
  * Indicador de oxígeno en pantalla.
@@ -21,7 +16,6 @@ import net.minecraftforge.fml.common.Mod;
  * "value = Dist.CLIENT" significa que esta clase solo existe en el juego del jugador,
  * nunca en un servidor dedicado (los servidores no tienen pantalla).
  */
-@Mod.EventBusSubscriber(modid = PanthrixsGalaxy.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class OxygenHudOverlay {
 
     private static final int BAR_WIDTH = 60;
@@ -30,7 +24,8 @@ public final class OxygenHudOverlay {
     private static final int COLOR_EMPTY = 0xFFFF4444;
     private static final int COLOR_BACKGROUND = 0xAA000000;
 
-    public static final IGuiOverlay OXYGEN_HUD = (gui, graphics, partialTick, screenWidth, screenHeight) -> {
+    /** Dibuja el indicador (lo llaman Forge y Fabric cada fotograma). */
+    public static void render(GuiGraphics graphics, float partialTick, int screenWidth, int screenHeight) {
         Minecraft minecraft = Minecraft.getInstance();
         OxygenState state = ClientOxygenData.getState();
         if (minecraft.player == null || minecraft.options.hideGui || state == OxygenState.BREATHABLE
@@ -81,11 +76,6 @@ public final class OxygenHudOverlay {
                     : Component.translatable("hud.panthrixsgalaxy.suffocating");
             graphics.drawCenteredString(font, detail, screenWidth / 2, screenHeight / 2 + 32, COLOR_EMPTY);
         }
-    };
-
-    @SubscribeEvent
-    public static void registerOverlays(RegisterGuiOverlaysEvent event) {
-        event.registerAboveAll("oxygen", OXYGEN_HUD);
     }
 
     private OxygenHudOverlay() {

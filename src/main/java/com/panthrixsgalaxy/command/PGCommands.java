@@ -1,14 +1,13 @@
 package com.panthrixsgalaxy.command;
 
+import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
-import com.panthrixsgalaxy.PanthrixsGalaxy;
+import com.panthrixsgalaxy.platform.PGPlatform;
 import com.panthrixsgalaxy.system.oxygen.PGAtmosphere;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 /**
  * Comandos del mod para pruebas.
@@ -18,18 +17,17 @@ import net.minecraftforge.fml.common.Mod;
  *
  * Necesita permisos de operador (trucos activados en un mundo de un jugador).
  */
-@Mod.EventBusSubscriber(modid = PanthrixsGalaxy.MOD_ID)
 public final class PGCommands {
 
-    @SubscribeEvent
-    public static void onRegisterCommands(RegisterCommandsEvent event) {
-        event.getDispatcher().register(Commands.literal("pgvacuum")
+    /** Registra los comandos (lo llaman Forge y Fabric al arrancar el servidor). */
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
+        dispatcher.register(Commands.literal("pgvacuum")
                 .requires(source -> source.hasPermission(2))
                 .then(Commands.argument("enabled", BoolArgumentType.bool())
                         .executes(context -> {
                             ServerPlayer player = context.getSource().getPlayerOrException();
                             boolean enabled = BoolArgumentType.getBool(context, "enabled");
-                            player.getPersistentData().putBoolean(PGAtmosphere.VACUUM_TEST_TAG, enabled);
+                            PGPlatform.getPersistentData(player).putBoolean(PGAtmosphere.VACUUM_TEST_TAG, enabled);
                             context.getSource().sendSuccess(() -> Component.translatable(enabled
                                     ? "command.panthrixsgalaxy.vacuum_on"
                                     : "command.panthrixsgalaxy.vacuum_off"), false);

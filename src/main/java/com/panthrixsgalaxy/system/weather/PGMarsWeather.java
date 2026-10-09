@@ -1,13 +1,9 @@
 package com.panthrixsgalaxy.system.weather;
 
-import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.planet.PGPlanets;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 /**
  * Tormentas de polvo de Marte.
@@ -22,7 +18,6 @@ import net.minecraftforge.fml.common.Mod;
  *   - Los paneles solares producen menos (PGSolarPanelBlockEntity).
  *   - En la pantalla: polvo rojo, niebla y poca visibilidad (client/PGClientEvents).
  */
-@Mod.EventBusSubscriber(modid = PanthrixsGalaxy.MOD_ID)
 public final class PGMarsWeather {
 
     /** Duración de un ciclo completo: 15 minutos (18 000 ticks). */
@@ -65,11 +60,10 @@ public final class PGMarsWeather {
     /**
      * El viento empuja a los jugadores al aire libre.
      * Se hace en el servidor y en la pantalla del jugador (porque el movimiento propio lo calcula su juego).
+     * Lo llaman Forge y Fabric al final de cada tick del jugador.
      */
-    @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        Player player = event.player;
-        if (event.phase != TickEvent.Phase.END || player.isPassenger() || player.isSpectator()
+    public static void onPlayerTickEnd(Player player) {
+        if (player.isPassenger() || player.isSpectator()
                 || player.getAbilities().flying) {
             return;
         }

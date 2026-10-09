@@ -3,9 +3,6 @@ package com.panthrixsgalaxy.network;
 import com.panthrixsgalaxy.client.ClientOxygenData;
 import com.panthrixsgalaxy.system.oxygen.OxygenState;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
-
-import java.util.function.Supplier;
 
 /** Paquete servidor -> jugador con el estado del oxígeno (se envía cada segundo). */
 public class OxygenSyncPacket {
@@ -40,8 +37,7 @@ public class OxygenSyncPacket {
     }
 
     /** Al llegar al cliente: guardar los datos para que el indicador los dibuje. */
-    public void handle(Supplier<NetworkEvent.Context> context) {
+    public void handleOnClient() {
         ClientOxygenData.update(state, oxygen, capacity, graceSecondsLeft, temperatureDanger);
-        context.get().setPacketHandled(true);
     }
 }

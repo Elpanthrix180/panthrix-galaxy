@@ -4,9 +4,7 @@ import com.panthrixsgalaxy.entity.rocket.PGRocketEntity;
 import com.panthrixsgalaxy.entity.ship.PGShipEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkEvent;
-
-import java.util.function.Supplier;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Paquete jugador -> servidor: "he pulsado ESPACIO dentro de un vehículo".
@@ -24,13 +22,12 @@ public class RocketLaunchPacket {
     public void encode(FriendlyByteBuf buf) {
     }
 
-    public void handle(Supplier<NetworkEvent.Context> context) {
-        ServerPlayer player = context.get().getSender();
+    /** Al llegar al servidor (player = quien lo envía). */
+    public void handleOnServer(@Nullable ServerPlayer player) {
         if (player != null && player.getVehicle() instanceof PGRocketEntity rocket) {
             rocket.toggleLaunch(player);
         } else if (player != null && player.getVehicle() instanceof PGShipEntity ship) {
             ship.toggleEngines(player);
         }
-        context.get().setPacketHandled(true);
     }
 }

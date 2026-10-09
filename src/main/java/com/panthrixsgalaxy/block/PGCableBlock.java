@@ -1,6 +1,7 @@
 package com.panthrixsgalaxy.block;
 
 import com.panthrixsgalaxy.block.entity.PGCableBlockEntity;
+import com.panthrixsgalaxy.system.energy.EnergyHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -18,7 +19,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -75,7 +75,8 @@ public class PGCableBlock extends BaseEntityBlock {
     private static boolean canConnect(LevelAccessor level, BlockPos neighborPos, Direction direction) {
         BlockEntity neighbor = level.getBlockEntity(neighborPos);
         return neighbor instanceof PGCableBlockEntity
-                || (neighbor != null && neighbor.getCapability(ForgeCapabilities.ENERGY, direction.getOpposite()).isPresent());
+                || (neighbor != null && level instanceof Level realLevel
+                && EnergyHelper.findBlockEnergy(realLevel, neighborPos, direction.getOpposite()) != null);
     }
 
     @Override

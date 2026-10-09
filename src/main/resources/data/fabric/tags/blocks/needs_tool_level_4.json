@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#panthrixsgalaxy:needs_osmium_tool",
+      "required": false
+    }
+  ]
+}

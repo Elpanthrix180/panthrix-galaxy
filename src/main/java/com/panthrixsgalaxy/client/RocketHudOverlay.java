@@ -1,6 +1,5 @@
 package com.panthrixsgalaxy.client;
 
-import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.entity.rocket.LaunchState;
 import com.panthrixsgalaxy.entity.rocket.PGRocketEntity;
@@ -12,11 +11,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
-import net.minecraftforge.client.gui.overlay.IGuiOverlay;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 /**
  * Panel del cohete (solo cuando vas dentro):
@@ -27,7 +21,6 @@ import net.minecraftforge.fml.common.Mod;
  *
  *   y en el centro, en grande: T-5 ... ¡DESPEGUE!
  */
-@Mod.EventBusSubscriber(modid = PanthrixsGalaxy.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class RocketHudOverlay {
 
     private static final int BAR_WIDTH = 120;
@@ -50,7 +43,8 @@ public final class RocketHudOverlay {
         }
     }
 
-    public static final IGuiOverlay ROCKET_HUD = (gui, graphics, partialTick, screenWidth, screenHeight) -> {
+    /** Dibuja el indicador (lo llaman Forge y Fabric cada fotograma). */
+    public static void render(GuiGraphics graphics, float partialTick, int screenWidth, int screenHeight) {
         Minecraft minecraft = Minecraft.getInstance();
         // Fundido a negro (también mientras el piloto vuelve a sentarse)
         if (fadeTicks > 0) {
@@ -103,7 +97,7 @@ public final class RocketHudOverlay {
             drawBig(graphics, font, Component.translatable("hud.panthrixsgalaxy.no_fuel_alert"), centerX,
                     screenHeight / 2 - 40, COLOR_ALERT);
         }
-    };
+    }
 
     /**
      * Panel de navegación en el Espacio:
@@ -204,11 +198,6 @@ public final class RocketHudOverlay {
         graphics.pose().scale(3.0f, 3.0f, 1.0f);
         graphics.drawCenteredString(font, text, 0, 0, color);
         graphics.pose().popPose();
-    }
-
-    @SubscribeEvent
-    public static void registerOverlays(RegisterGuiOverlaysEvent event) {
-        event.registerAboveAll("rocket", ROCKET_HUD);
     }
 
     private RocketHudOverlay() {

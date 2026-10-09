@@ -1,6 +1,5 @@
 package com.panthrixsgalaxy.client;
 
-import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.config.PGConfig;
 import com.panthrixsgalaxy.entity.ship.PGShipEntity;
 import com.panthrixsgalaxy.planet.PGPlanet;
@@ -12,11 +11,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
-import net.minecraftforge.client.gui.overlay.IGuiOverlay;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -32,7 +26,6 @@ import java.util.List;
  *
  * En el Espacio, en vez de la altitud, muestra la distancia y dirección a la Tierra y a los 5 planetas más cercanos.
  */
-@Mod.EventBusSubscriber(modid = PanthrixsGalaxy.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class ShipHudOverlay {
 
     private static final int BAR_WIDTH = 70;
@@ -44,7 +37,8 @@ public final class ShipHudOverlay {
     private static final int COLOR_ALERT = 0xFFFF4444;
     private static final int MAX_PLANET_LINES = 5;
 
-    public static final IGuiOverlay SHIP_HUD = (gui, graphics, partialTick, screenWidth, screenHeight) -> {
+    /** Dibuja el indicador (lo llaman Forge y Fabric cada fotograma). */
+    public static void render(GuiGraphics graphics, float partialTick, int screenWidth, int screenHeight) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.player == null || minecraft.options.hideGui || !PGConfig.showVehicleHud.get()
                 || !(minecraft.player.getVehicle() instanceof PGShipEntity ship)) {
@@ -111,7 +105,7 @@ public final class ShipHudOverlay {
         if (hintColor != COLOR_ALERT || (minecraft.player.tickCount / 10) % 2 == 0) {
             graphics.drawCenteredString(font, hint, centerX, lineY + 2, hintColor);
         }
-    };
+    }
 
     /** La Tierra y los 5 cuerpos celestes más cercanos (con 12 planetas no caben todos en la pantalla). */
     private static List<PGPlanet> nearestPlanets(PGShipEntity ship) {
@@ -153,11 +147,6 @@ public final class ShipHudOverlay {
         String turnKey = Math.abs(turn) < 12.0f ? "ahead" : turn < 0 ? "left" : "right";
         return Component.translatable("hud.panthrixsgalaxy.ship_planet", name, distance,
                 Component.translatable("hud.panthrixsgalaxy.turn." + turnKey));
-    }
-
-    @SubscribeEvent
-    public static void registerOverlays(RegisterGuiOverlaysEvent event) {
-        event.registerAboveAll("ship", SHIP_HUD);
     }
 
     private ShipHudOverlay() {

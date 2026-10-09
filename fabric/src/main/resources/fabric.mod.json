@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "Exploración espacial y supervivencia: cohetes, naves, la Luna, Marte y planetas lejanos. / Space exploration and survival: rockets, ships, the Moon, Mars and distant planets.",
+  "authors": ["${mod_authors}"],
+  "contact": {
+    "homepage": "${mod_url}",
+    "sources": "${mod_url}",
+    "issues": "${mod_issues_url}"
+  },
+  "license": "${mod_license}",
+  "icon": "panthrixsgalaxy_logo.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.panthrixsgalaxy.fabric.PanthrixsGalaxyFabric"],
+    "client": ["com.panthrixsgalaxy.fabric.client.PGFabricClient"]
+  },
+  "mixins": ["panthrixsgalaxy.mixins.json"],
+  "accessWidener": "panthrixsgalaxy.accesswidener",
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=17",
+    "fabric-api": "*"
+  }
+}

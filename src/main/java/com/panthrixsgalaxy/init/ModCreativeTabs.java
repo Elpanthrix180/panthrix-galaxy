@@ -1,14 +1,16 @@
 package com.panthrixsgalaxy.init;
 
-import com.panthrixsgalaxy.PanthrixsGalaxy;
 import com.panthrixsgalaxy.item.PGBackpackItem;
 import com.panthrixsgalaxy.item.PGBatteryItem;
 import com.panthrixsgalaxy.item.PGFuelCanisterItem;
+import com.panthrixsgalaxy.item.PGOxygenTankItem;
 import com.panthrixsgalaxy.item.PGRocketItem;
 import com.panthrixsgalaxy.item.PGShipItem;
+import com.panthrixsgalaxy.platform.PGHolder;
+import com.panthrixsgalaxy.platform.PGPlatform;
+import com.panthrixsgalaxy.platform.PGRegistry;
 import com.panthrixsgalaxy.weapon.PGLaserItem;
 import com.panthrixsgalaxy.weapon.PGLaserSwordItem;
-import com.panthrixsgalaxy.item.PGOxygenTankItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ArmorItem;
@@ -17,8 +19,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TieredItem;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
 
 /**
  * Pestañas del modo creativo de Panthrixs Galaxy.
@@ -26,12 +26,11 @@ import net.minecraftforge.registries.RegistryObject;
  */
 public final class ModCreativeTabs {
 
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS =
-            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, PanthrixsGalaxy.MOD_ID);
+    public static final PGRegistry<CreativeModeTab> CREATIVE_TABS = PGRegistry.create(Registries.CREATIVE_MODE_TAB);
 
     /** Pestaña principal: objetos y materiales (todo lo que NO es un bloque ni equipo). */
-    public static final RegistryObject<CreativeModeTab> PG_MAIN_TAB = CREATIVE_TABS.register("pg_main_tab",
-            () -> CreativeModeTab.builder()
+    public static final PGHolder<CreativeModeTab> PG_MAIN_TAB = CREATIVE_TABS.register("pg_main_tab",
+            () -> PGPlatform.creativeTabBuilder(null)
                     .title(Component.translatable("itemGroup.panthrixsgalaxy.pg_main_tab"))
                     .icon(() -> new ItemStack(ModItems.PG_LUNARITE_INGOT.get()))
                     .displayItems((parameters, output) -> ModItems.ITEMS.getEntries().forEach(entry -> {
@@ -54,11 +53,10 @@ public final class ModCreativeTabs {
                     .build());
 
     /** Pestaña de bloques: piedras, menas y bloques de almacenamiento. */
-    public static final RegistryObject<CreativeModeTab> PG_BLOCKS_TAB = CREATIVE_TABS.register("pg_blocks_tab",
-            () -> CreativeModeTab.builder()
+    public static final PGHolder<CreativeModeTab> PG_BLOCKS_TAB = CREATIVE_TABS.register("pg_blocks_tab",
+            () -> PGPlatform.creativeTabBuilder(PG_MAIN_TAB)
                     .title(Component.translatable("itemGroup.panthrixsgalaxy.pg_blocks_tab"))
                     .icon(() -> new ItemStack(ModBlocks.PG_LUNARITE_ORE.get()))
-                    .withTabsBefore(PG_MAIN_TAB.getKey())
                     .displayItems((parameters, output) -> ModItems.ITEMS.getEntries().forEach(entry -> {
                         Item item = entry.get();
                         if (item instanceof BlockItem && (!isTestItem(item) || parameters.hasPermissions())) {
@@ -68,11 +66,10 @@ public final class ModCreativeTabs {
                     .build());
 
     /** Pestaña de equipo: herramientas, armas y trajes. */
-    public static final RegistryObject<CreativeModeTab> PG_TOOLS_TAB = CREATIVE_TABS.register("pg_tools_tab",
-            () -> CreativeModeTab.builder()
+    public static final PGHolder<CreativeModeTab> PG_TOOLS_TAB = CREATIVE_TABS.register("pg_tools_tab",
+            () -> PGPlatform.creativeTabBuilder(PG_BLOCKS_TAB)
                     .title(Component.translatable("itemGroup.panthrixsgalaxy.pg_tools_tab"))
                     .icon(() -> new ItemStack(ModItems.PG_LUNARITE_PICKAXE.get()))
-                    .withTabsBefore(PG_BLOCKS_TAB.getKey())
                     .displayItems((parameters, output) -> ModItems.ITEMS.getEntries().forEach(entry -> {
                         Item item = entry.get();
                         if (item instanceof PGLaserItem laser) {

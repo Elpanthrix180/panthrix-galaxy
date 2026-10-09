@@ -13,7 +13,7 @@ import org.joml.Vector3f;
  * Cielo de un planeta SIN atmósfera (Mercurio, Plutón...): negro con estrellas, el Sol y
  * otro planeta en el cielo. Igual que la Luna, pero se elige el planeta, su dirección y tamaño.
  */
-public class PGAirlessSkyEffects extends DimensionSpecialEffects {
+public class PGAirlessSkyEffects extends DimensionSpecialEffects implements PGSkyEffects {
 
     private final ResourceLocation skyPlanet;
     private final Vector3f direction;

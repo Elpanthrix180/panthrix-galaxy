@@ -2,6 +2,7 @@ package com.panthrixsgalaxy.item;
 
 import com.panthrixsgalaxy.menu.BackpackContainer;
 import com.panthrixsgalaxy.menu.PGBackpackMenu;
+import com.panthrixsgalaxy.platform.PGPlatform;
 import com.panthrixsgalaxy.system.backpack.PGBackpackSlot;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.Tag;
@@ -17,7 +18,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -149,7 +149,7 @@ public class PGBackpackItem extends Item {
                     .withStyle(ChatFormatting.RED), true);
             return;
         }
-        NetworkHooks.openScreen(player,
+        PGPlatform.openMenu(player,
                 new SimpleMenuProvider((containerId, playerInventory, p) ->
                         new PGBackpackMenu(containerId, playerInventory, stack, backpack.getRows()),
                         stack.getHoverName()),
