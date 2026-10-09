@@ -4,7 +4,7 @@ Mod de exploración espacial y supervivencia para **Minecraft Java 1.20.1 + Forg
 Construye cohetes, despega desde la Tierra, atraviesa la atmósfera y viaja a la Luna, Marte y más allá.
 
 - Mod ID: `panthrixsgalaxy`
-- Versión: **1.1.0** · Estado: **Fase 25 — Versión final** ✅ (novedades en [CHANGELOG](CHANGELOG.md))
+- Versión: **1.2.0** · Estado: **Fase 25 — Versión final** ✅ (novedades en [CHANGELOG](CHANGELOG.md))
 
 ## Instalar (jugadores)
 1. Instala **Minecraft Java 1.20.1** con **Forge 47** (o más nuevo de la 1.20.1).
@@ -16,8 +16,8 @@ Al entrar al mundo recibirás un **libro guía** con las instrucciones (si lo pi
 No necesita otros mods. Funciona en un jugador y en servidores (el `.jar` va en el cliente **y** en el servidor).
 
 ## Fabric (en desarrollo)
-Hay una versión para **Fabric 1.20.1** en `fabric/` que usa el mismo código. Va por la fase F5:
-ya tiene todo (máquinas, oxígeno, mochila, gravedad, cohetes, cielos, criaturas y logros); falta la release. Mira [docs/FABRIC.md](docs/FABRIC.md).
+Hay una versión para **Fabric 1.20.1** en `fabric/` que usa el mismo código. Fases F1–F6 completadas ✅:
+ya tiene todo (máquinas, oxígeno, mochila, gravedad, cohetes, cielos, criaturas y logros). Descárgala en Releases. Mira [docs/FABRIC.md](docs/FABRIC.md).
 
 ## Compilar el `.jar`
 ```bash

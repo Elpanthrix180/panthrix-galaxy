@@ -55,7 +55,7 @@ Para jugar en Fabric hace falta **Fabric Loader** y **Fabric API**.
 | **F3** | Oxígeno, traje, mochila (tecla B, caer al morir, dibujo), gravedad, indicadores | ✅ compila y arranca |
 | **F4** | Cohetes, naves, cielos de los planetas, nieblas, cámara | ✅ compila y arranca |
 | **F5** | Armas (guardia), criaturas (aparición), Reina, logros | ✅ compila y arranca |
-| F6 | Pruebas, `.jar` de Fabric en la Release | ⏳ |
+| **F6** | Pruebas, `.jar` de Fabric en la Release | ✅ |
 
 ### ✅ Qué tiene ya la versión Fabric (F1)
 - Todos los bloques, objetos, entidades, máquinas, menús, recetas y estructuras registrados.
@@ -114,8 +114,8 @@ falla al arrancar, la ejecución sale en rojo. Así se detectan errores sin abri
 - La prueba de arranque ahora **audita todos los mixins** (`MixinEnvironment.audit()`): si alguno
   no encaja con Minecraft, sale en rojo.
 
-### ⏳ Lo que falta
-F6: pruebas finales, PR y release con los dos jars (Forge y Fabric).
+### ✅ Fase F6
+Versión 1.2.0: la release incluye los dos jars, uno para Forge y otro para Fabric.
 
 > ℹ️ En Fabric los niveles de herramienta no se pueden "intercalar" como en Forge
 > (la lunarita va entre hierro y diamante). En Fabric la lunarita pica como el hierro.
