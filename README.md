@@ -16,8 +16,8 @@ Al entrar al mundo recibirás un **libro guía** con las instrucciones (si lo pi
 No necesita otros mods. Funciona en un jugador y en servidores (el `.jar` va en el cliente **y** en el servidor).
 
 ## Fabric (en desarrollo)
-Hay una versión para **Fabric 1.20.1** en `fabric/` que usa el mismo código. Va por la fase F3:
-ya tiene máquinas, oxígeno, mochila y gravedad; faltan los cielos, cohetes y criaturas. Mira [docs/FABRIC.md](docs/FABRIC.md).
+Hay una versión para **Fabric 1.20.1** en `fabric/` que usa el mismo código. Va por la fase F4:
+ya tiene máquinas, oxígeno, mochila, gravedad, cohetes y cielos; faltan criaturas y logros. Mira [docs/FABRIC.md](docs/FABRIC.md).
 
 ## Compilar el `.jar`
 ```bash

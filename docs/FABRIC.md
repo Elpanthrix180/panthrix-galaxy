@@ -53,7 +53,7 @@ Para jugar en Fabric hace falta **Fabric Loader** y **Fabric API**.
 | **F1** | Proyecto, código común, registro de todo, ventanas, dibujos, red, energía | ✅ compila |
 | **F2** | Máquinas y energía, tolvas, energía de objetos, comandos, libro guía | ✅ compila |
 | **F3** | Oxígeno, traje, mochila (tecla B, caer al morir, dibujo), gravedad, indicadores | ✅ compila y arranca |
-| F4 | Cohetes, naves, cielos de los planetas, tormentas de Marte | ⏳ |
+| **F4** | Cohetes, naves, cielos de los planetas, nieblas, cámara | ✅ compila y arranca |
 | F5 | Armas (guardia), criaturas (aparición), Reina, logros | ⏳ |
 | F6 | Pruebas, `.jar` de Fabric en la Release | ⏳ |
 
@@ -88,6 +88,18 @@ Para jugar en Fabric hace falta **Fabric Loader** y **Fabric API**.
 - Lo que pasa cada tick en la pantalla (tecla B, ESPACIO en el cohete, polvo de Marte): `client/PGClientTick`, común.
 - Los "pegamentos" de eventos son `forge/PGForgeEvents` y `fabric/PGFabricEvents`.
 
+### ✅ Fase F4
+- **Cohetes y naves**: no se puede bajar en pleno vuelo (`PGRocketEvents.canDismount`, común;
+  en Fabric con el mixin `EntityMixin`) y el astronauta no se dibuja dentro del vehículo.
+- **Cielos** del Espacio, la Luna, los asteroides, Mercurio, Plutón y Nyx: cada cielo implementa
+  `client/sky/PGSkyEffects`. Forge los llama directamente; Fabric los registra por dimensión.
+- **Nieblas**: tormentas de Marte, Venus y el horizonte que se oscurece al subir (`PGClientVisuals`).
+- **Temblor de cámara** al despegar.
+- Mixins de pantalla en `fabric/mixin/client` (niebla, cámara, dibujo del jugador).
+
+> ⚠️ La prueba de arranque usa un **servidor**: los mixins de pantalla solo se comprueban al
+> compilar (sin avisos importantes). Hay que probarlos abriendo el juego (`runClient`).
+
 ### 🧪 Prueba de arranque automática
 En cada subida, GitHub arranca **un servidor de Forge y otro de Fabric** con el mod
 (`./gradlew runServer -Psmoke`). El mod escribe `SMOKE TEST OK` con las dimensiones cargadas
@@ -95,9 +107,7 @@ y apaga el servidor (`system/PGSmokeTest`). Si un mixin, un registro o un archiv
 falla al arrancar, la ejecución sale en rojo. Así se detectan errores sin abrir el juego.
 
 ### ⏳ Lo que todavía NO funciona en Fabric
-Se conecta en F4-F5: esconder al astronauta dentro del vehículo, niebla de Venus y de las
-tormentas, temblor de cámara, cielos especiales de los planetas, montar en vehículos,
-guardia de la espada, aparición natural de criaturas y logros automáticos.
+Se conecta en F5: guardia de la espada, aparición natural de criaturas y logros automáticos.
 
 > ℹ️ En Fabric los niveles de herramienta no se pueden "intercalar" como en Forge
 > (la lunarita va entre hierro y diamante). En Fabric la lunarita pica como el hierro.
