@@ -62,14 +62,19 @@ public final class PlazaManager {
         }
         candidates.sort(Comparator.comparingInt(p -> (p[0] - spawn.getX()) * (p[0] - spawn.getX()) + (p[1] - spawn.getZ()) * (p[1] - spawn.getZ())));
         String last = null;
-        for (int[] p : candidates) {
-            PlazaSite.Result r = PlazaSite.check(overworld, p[0], p[1]);
-            if (r.ok()) {
-                build(overworld, data, r.center());
-                return;
+        java.util.Map<String, Integer> reasons = new java.util.TreeMap<>();
+        for (int step : new int[]{PlazaSite.STRICT_STEP, PlazaSite.RELAXED_STEP}) {
+            for (int[] p : candidates) {
+                PlazaSite.Result r = PlazaSite.check(overworld, p[0], p[1], step);
+                if (r.ok()) {
+                    build(overworld, data, r.center());
+                    return;
+                }
+                last = r.problem();
+                reasons.merge(last.replaceAll(" en -?\\d.*| cerca de .*| \\(.*", ""), 1, Integer::sum);
             }
-            last = r.problem();
         }
+        PanthrixsEconomy.LOGGER.warn("[Panthrix's Economy] Sitios descartados: {}", reasons);
         PanthrixsEconomy.LOGGER.warn("[Panthrix's Economy] No se encontró un sitio seguro para la Gran Plaza (último motivo: {}). "
                 + "Un administrador puede construirla con /pe plaza generate.", last);
     }

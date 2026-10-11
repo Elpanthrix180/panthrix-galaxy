@@ -22,7 +22,9 @@ public final class PlazaSite {
 
     public static final int R = PlazaBuilder.R;
     public static final int CLEAR_HEIGHT = 16;
-    private static final int MAX_STEP = 3;
+    /** Desnivel máximo permitido: primero se busca un sitio casi llano y, si no hay, uno con más desnivel. */
+    public static final int STRICT_STEP = 3;
+    public static final int RELAXED_STEP = 7;
 
     /** Resultado: base (altura del suelo) o motivo del rechazo. */
     public record Result(BlockPos center, String problem) {
@@ -32,6 +34,10 @@ public final class PlazaSite {
     }
 
     public static Result check(ServerLevel level, int cx, int cz) {
+        return check(level, cx, cz, STRICT_STEP);
+    }
+
+    public static Result check(ServerLevel level, int cx, int cz, int maxStep) {
         // Cargar (y generar si hace falta) los chunks de la zona
         for (int x = (cx - R) >> 4; x <= (cx + R) >> 4; x++) {
             for (int z = (cz - R) >> 4; z <= (cz + R) >> 4; z++) {
@@ -62,7 +68,7 @@ public final class PlazaSite {
                 int top = heights[i++];
                 int x = cx + dx;
                 int z = cz + dz;
-                if (Math.abs(top - base) > MAX_STEP) {
+                if (Math.abs(top - base) > maxStep) {
                     return new Result(null, "terreno demasiado irregular");
                 }
                 BlockState surface = level.getBlockState(m.set(x, top, z));

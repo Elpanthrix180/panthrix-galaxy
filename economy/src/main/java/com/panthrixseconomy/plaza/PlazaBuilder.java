@@ -142,7 +142,7 @@ public final class PlazaBuilder {
                         set(dx, dy, dz, st(Blocks.AIR));
                     }
                 }
-                for (int dy = -1; dy >= -6; dy--) {
+                for (int dy = -1; dy >= -(PlazaSite.RELAXED_STEP + 2); dy--) {
                     BlockState below = level.getBlockState(c.offset(dx, dy, dz));
                     if (below.isAir() || below.canBeReplaced() || !below.getFluidState().isEmpty()) {
                         set(dx, dy, dz, st(Blocks.STONE));

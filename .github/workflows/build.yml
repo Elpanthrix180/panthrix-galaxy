@@ -143,7 +143,7 @@ jobs:
         run: |
           mkdir -p economy/run && echo "eula=true" > economy/run/eula.txt
           timeout 1200 ./gradlew -p economy runServer -Psmoke --no-daemon > economy-server.log 2>&1 || true
-          grep "Panthrix's Economy\]" economy-server.log | head -100 || true
+          grep "Panthrix's Economy\]" economy-server.log | grep -v " OK: " | head -60 || true
           grep "ECONOMY SMOKE TEST OK" economy-server.log || { grep -E -B2 -A25 "FALLO|Exception|Error|FATAL" economy-server.log | head -300; exit 1; }
 
       - name: Guardar el .jar
