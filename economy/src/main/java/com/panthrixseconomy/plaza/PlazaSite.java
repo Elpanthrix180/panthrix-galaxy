@@ -49,7 +49,13 @@ public final class PlazaSite {
         int i = 0;
         for (int dx = -R; dx <= R; dx++) {
             for (int dz = -R; dz <= R; dz++) {
-                heights[i++] = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, cx + dx, cz + dz) - 1;
+                // Bajar por troncos, plantas, nieve... hasta el suelo de verdad
+                int h = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, cx + dx, cz + dz) - 1;
+                BlockPos.MutableBlockPos probe = new BlockPos.MutableBlockPos(cx + dx, h, cz + dz);
+                while (h > level.getMinBuildHeight() + 1 && isNaturalAbove(level.getBlockState(probe)) && level.getBlockState(probe).getFluidState().isEmpty()) {
+                    probe.setY(--h);
+                }
+                heights[i++] = h;
             }
         }
         int[] sorted = heights.clone();

@@ -63,8 +63,20 @@ public final class PlazaManager {
         candidates.sort(Comparator.comparingInt(p -> (p[0] - spawn.getX()) * (p[0] - spawn.getX()) + (p[1] - spawn.getZ()) * (p[1] - spawn.getZ())));
         String last = null;
         java.util.Map<String, Integer> reasons = new java.util.TreeMap<>();
-        for (int step : new int[]{PlazaSite.STRICT_STEP, PlazaSite.RELAXED_STEP}) {
-            for (int[] p : candidates) {
+        // Tercera pasada: el doble de lejos (mundos con mucho océano cerca del spawn)
+        List<int[]> far = new ArrayList<>();
+        for (int ox = -2 * radius; ox <= 2 * radius; ox += 48) {
+            for (int oz = -2 * radius; oz <= 2 * radius; oz += 48) {
+                int d2 = ox * ox + oz * oz;
+                if (d2 > radius * radius && d2 <= 4 * radius * radius) {
+                    far.add(new int[]{spawn.getX() + ox, spawn.getZ() + oz});
+                }
+            }
+        }
+        far.sort(Comparator.comparingInt(p -> (p[0] - spawn.getX()) * (p[0] - spawn.getX()) + (p[1] - spawn.getZ()) * (p[1] - spawn.getZ())));
+        for (int pass = 0; pass < 3; pass++) {
+            int step = pass == 0 ? PlazaSite.STRICT_STEP : PlazaSite.RELAXED_STEP;
+            for (int[] p : pass == 2 ? far : candidates) {
                 PlazaSite.Result r = PlazaSite.check(overworld, p[0], p[1], step);
                 if (r.ok()) {
                     build(overworld, data, r.center());
