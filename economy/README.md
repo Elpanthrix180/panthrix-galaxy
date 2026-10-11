@@ -69,14 +69,26 @@ Banco (este), Mercado con toldo (oeste), tablón de anuncios y cartel de direcci
   reconectar, y no se mueve a quien ya llevaba jugando más de 2 minutos en ese mundo.
 - El spawn del mundo no se cambia (opcional en la configuración).
 
+## Versión 0.2.0: compra y venta en comercios oficiales
+- Un admin añade ofertas con el objeto **en la mano** (la cantidad también cuenta):
+  `/pe shop offer <comercio> sell <precio>` (el comercio lo vende) · `buy <precio>` (lo compra) ·
+  `remove <n>` · `/pe shop offer <comercio>` muestra la lista con botones.
+- Los jugadores, a menos de 8 bloques del comercio: `/tienda` (lista con botones [Comprar]/[Vender]),
+  `/tienda comprar <n>`, `/tienda vender <n>`.
+- Se paga con la cuenta del banco del país donde está el comercio. Lo que se compra va a la tesorería
+  del pueblo; lo que se vende lo paga esa tesorería (si no tiene fondos, no compra). Un comercio fuera
+  de pueblos paga sin límite.
+- El Mercado de la Gran Plaza empieza vendiendo pan y antorchas y comprando trigo y piedra.
+- El `.jar` de Economy se añade también a las Releases de GitHub.
+
 ## Comandos
-**Jugadores:** `/banco` (saldo, depositar, retirar, transferir, historial) · `/economia aqui|paises`
+**Jugadores:** `/banco` (saldo, depositar, retirar, transferir, historial) · `/tienda` · `/economia aqui|paises`
 
 **Admins:** `/pe` abre el menú con botones. Además:
 `/pe country create|rename|article|tax|treasury|info|delete|list` ·
 `/pe city create <nombre>` · `/pe town create <nombre>` (en tu posición) ·
 `/pe settlement info|rename|country|move|radius|type|manager|treasury|delete|list` ·
-`/pe shop create|manager|delete|list` · `/pe bank list|assign|auto` ·
+`/pe shop create|manager|offer|delete|list` · `/pe bank list|assign|auto` ·
 `/pe money give <jugador> <cantidad>` · `/pe plaza info|tp|generate`
 
 Configuración: `config/panthrixseconomy-common.toml`.

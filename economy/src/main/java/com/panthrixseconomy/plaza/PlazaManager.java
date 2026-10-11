@@ -91,7 +91,12 @@ public final class PlazaManager {
             core.setSettlementId(s.id);
         }
         BankBlock.register(level, b.bankPos);
-        data.createShop("Mercado de la Gran Plaza", EconomyData.loc(dim, b.marketPos));
+        com.panthrixseconomy.data.Shop market = data.createShop("Mercado de la Gran Plaza", EconomyData.loc(dim, b.marketPos));
+        // Ofertas iniciales (un admin puede cambiarlas con /pe shop offer)
+        market.offers.add(new com.panthrixseconomy.data.Shop.Offer(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.BREAD, 4), 3, true));
+        market.offers.add(new com.panthrixseconomy.data.Shop.Offer(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.TORCH, 16), 2, true));
+        market.offers.add(new com.panthrixseconomy.data.Shop.Offer(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.WHEAT, 16), 2, false));
+        market.offers.add(new com.panthrixseconomy.data.Shop.Offer(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.COBBLESTONE, 64), 1, false));
         data.plazaCenter = center.immutable();
         data.plazaSpawn = b.spawnPos.immutable();
         data.setDirty();

@@ -51,6 +51,7 @@ public final class PESmokeTest {
             townCore(server);
             plaza(server);
             welcome();
+            shopTrade();
         } catch (Throwable t) {
             failures.add("excepción: " + t);
             PanthrixsEconomy.LOGGER.error("Smoke test", t);
@@ -252,6 +253,7 @@ public final class PESmokeTest {
         Set<BlockPos> unique = new HashSet<>();
         d.banks.values().forEach(x -> unique.add(x.loc.pos()));
         eq(d.banks.size(), unique.size(), "sin bancos duplicados");
+        check(d.shops.values().stream().anyMatch(x -> x.name.equals("Mercado de la Gran Plaza") && x.offers.size() == 4), "el mercado de la plaza tiene ofertas");
     }
 
     // 7. Jugadores nuevos van a la plaza una vez; los veteranos nunca
@@ -261,6 +263,31 @@ public final class PESmokeTest {
         eq(PlazaManager.Welcome.MARK_ONLY, PlazaManager.decide(true, true, 20 * 60 * 60, false), "jugador que ya empezó no es teletransportado");
         eq(PlazaManager.Welcome.MARK_ONLY, PlazaManager.decide(true, false, 0, false), "desactivado en la configuración");
         eq(PlazaManager.Welcome.NONE, PlazaManager.decide(false, true, 0, false), "sin plaza no pasa nada");
+    }
+
+    // 8. Comercios: comprar, vender, tesorería y guardado de ofertas
+    private static void shopTrade() {
+        EconomyData d = sample();
+        Settlement capital = d.findSettlement("Capital");
+        com.panthrixseconomy.data.Shop shop = d.createShop("Tienda", at(5, 5));
+        com.panthrixseconomy.data.Shop.Offer sell = new com.panthrixseconomy.data.Shop.Offer(
+                new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.BREAD, 4), 30, true);
+        com.panthrixseconomy.data.Shop.Offer buy = new com.panthrixseconomy.data.Shop.Offer(
+                new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.WHEAT, 16), 50, false);
+        shop.offers.add(sell);
+        shop.offers.add(buy);
+        UUID player = UUID.randomUUID();
+        String id = d.shopIdentity(shop);
+        check(id.startsWith("country:"), "el comercio cobra con el banco de su país");
+        check(d.trade(shop, sell, player) != null, "sin saldo no se puede comprar");
+        check(d.trade(shop, buy, player) != null, "la tesorería sin fondos no paga");
+        capital.treasury = 100;
+        check(d.trade(shop, buy, player) == null && d.balance(id, player) == 50 && capital.treasury == 50, "vender cobra de la tesorería");
+        check(d.trade(shop, sell, player) == null && d.balance(id, player) == 20 && capital.treasury == 80, "comprar paga a la tesorería");
+        EconomyData r = EconomyData.load(d.save(new CompoundTag()));
+        com.panthrixseconomy.data.Shop rs = r.shops.get(shop.id);
+        check(rs != null && rs.offers.size() == 2 && rs.offers.get(0).item().getCount() == 4 && rs.offers.get(1).price() == 50
+                && !rs.offers.get(1).sells(), "las ofertas sobreviven a guardar y cargar");
     }
 
     private PESmokeTest() {

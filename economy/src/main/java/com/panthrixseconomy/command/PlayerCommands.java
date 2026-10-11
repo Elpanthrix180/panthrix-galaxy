@@ -9,12 +9,14 @@ import com.panthrixseconomy.data.Country;
 import com.panthrixseconomy.data.EconomyData;
 import com.panthrixseconomy.data.Loc;
 import com.panthrixseconomy.data.Settlement;
+import com.panthrixseconomy.data.Shop;
 import com.panthrixseconomy.data.Transaction;
 import com.panthrixseconomy.registry.PERegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
@@ -50,6 +52,13 @@ public final class PlayerCommands {
                         }))))
                 .then(literal("historial").executes(ctx -> withBank(ctx, PlayerCommands::history))));
 
+        d.register(literal("tienda")
+                .executes(ctx -> withShop(ctx, (p, data, shop) -> showOffers(ctx.getSource(), data, shop, false)))
+                .then(literal("comprar").then(argument("oferta", IntegerArgumentType.integer(1))
+                        .executes(ctx -> withShop(ctx, (p, data, shop) -> trade(p, data, shop, IntegerArgumentType.getInteger(ctx, "oferta"), true)))))
+                .then(literal("vender").then(argument("oferta", IntegerArgumentType.integer(1))
+                        .executes(ctx -> withShop(ctx, (p, data, shop) -> trade(p, data, shop, IntegerArgumentType.getInteger(ctx, "oferta"), false))))));
+
         d.register(literal("economia")
                 .executes(ctx -> where(ctx.getSource()))
                 .then(literal("aqui").executes(ctx -> where(ctx.getSource())))
@@ -71,6 +80,104 @@ public final class PlayerCommands {
         }
         action.run(p, data, b);
         return 1;
+    }
+
+    // ===================== Comercios =====================
+
+    /** Hay que estar cerca de un comercio oficial para comprar o vender. */
+    public static final double SHOP_REACH = 8.0;
+
+    interface ShopAction {
+        void run(ServerPlayer player, EconomyData data, Shop shop) throws CommandSyntaxException;
+    }
+
+    private static int withShop(CommandContext<CommandSourceStack> ctx, ShopAction action) throws CommandSyntaxException {
+        ServerPlayer p = ctx.getSource().getPlayerOrException();
+        EconomyData data = EconomyData.get(p.server);
+        Shop shop = data.nearestShop(EconomyData.loc(p.level().dimension().location(), p.blockPosition()), SHOP_REACH);
+        if (shop == null) {
+            ctx.getSource().sendFailure(Component.literal("No hay ningún comercio oficial cerca."));
+            return 0;
+        }
+        action.run(p, data, shop);
+        return 1;
+    }
+
+    public static void showOffers(CommandSourceStack src, EconomyData data, Shop shop, boolean admin) {
+        src.sendSystemMessage(Menus.title(shop.name));
+        src.sendSystemMessage(Menus.line("Se paga con", data.identityName(data.shopIdentity(shop))));
+        if (shop.offers.isEmpty()) {
+            src.sendSystemMessage(Component.literal("Este comercio aún no tiene ofertas.").withStyle(ChatFormatting.GRAY));
+        }
+        for (int i = 0; i < shop.offers.size(); i++) {
+            Shop.Offer o = shop.offers.get(i);
+            int n = i + 1;
+            String what = o.item().getCount() + "× " + o.item().getHoverName().getString();
+            MutableComponent row = Component.literal(n + ". " + (o.sells() ? "Vende " : "Compra ") + what + " — " + o.price() + " ₱ ")
+                    .withStyle(o.sells() ? ChatFormatting.WHITE : ChatFormatting.YELLOW);
+            row.append(o.sells() ? Menus.run("Comprar", "/tienda comprar " + n, "Pagar " + o.price() + " ₱")
+                    : Menus.run("Vender", "/tienda vender " + n, "Recibir " + o.price() + " ₱"));
+            if (admin) {
+                row.append(" ").append(Menus.danger("Quitar", "/pe shop offer " + shop.id + " remove " + n, "Eliminar la oferta"));
+            }
+            src.sendSystemMessage(row);
+        }
+        if (admin) {
+            src.sendSystemMessage(Menus.row(
+                    Menus.suggest("Añadir venta", "/pe shop offer " + shop.id + " sell ", "Con el objeto en la mano: precio"),
+                    Menus.suggest("Añadir compra", "/pe shop offer " + shop.id + " buy ", "Con el objeto en la mano: precio")));
+        }
+    }
+
+    private static void trade(ServerPlayer p, EconomyData data, Shop shop, int n, boolean buying) {
+        if (n > shop.offers.size() || shop.offers.get(n - 1).sells() != buying) {
+            p.sendSystemMessage(Component.literal("Esa oferta no existe.").withStyle(ChatFormatting.RED));
+            return;
+        }
+        Shop.Offer o = shop.offers.get(n - 1);
+        ItemStack want = o.item();
+        if (!buying && countMatching(p, want) < want.getCount()) {
+            p.sendSystemMessage(Component.literal("Necesitas " + want.getCount() + "× " + want.getHoverName().getString() + ".").withStyle(ChatFormatting.RED));
+            return;
+        }
+        String error = data.trade(shop, o, p.getUUID());
+        if (error != null) {
+            p.sendSystemMessage(Component.literal(error).withStyle(ChatFormatting.RED));
+            return;
+        }
+        if (buying) {
+            ItemStack give = want.copy();
+            if (!p.getInventory().add(give)) {
+                p.drop(give, false);
+            }
+        } else {
+            removeMatching(p, want, want.getCount());
+        }
+        String id = data.shopIdentity(shop);
+        p.sendSystemMessage(Component.literal((buying ? "Compraste " : "Vendiste ") + want.getCount() + "× " + want.getHoverName().getString()
+                + " por " + o.price() + " ₱. Saldo: " + data.balance(id, p.getUUID()) + " ₱").withStyle(ChatFormatting.GREEN));
+    }
+
+    private static int countMatching(ServerPlayer p, ItemStack want) {
+        int n = 0;
+        for (int i = 0; i < p.getInventory().getContainerSize(); i++) {
+            ItemStack st = p.getInventory().getItem(i);
+            if (ItemStack.isSameItemSameTags(st, want)) {
+                n += st.getCount();
+            }
+        }
+        return n;
+    }
+
+    private static void removeMatching(ServerPlayer p, ItemStack want, int amount) {
+        for (int i = 0; i < p.getInventory().getContainerSize() && amount > 0; i++) {
+            ItemStack st = p.getInventory().getItem(i);
+            if (ItemStack.isSameItemSameTags(st, want)) {
+                int take = Math.min(amount, st.getCount());
+                st.shrink(take);
+                amount -= take;
+            }
+        }
     }
 
     // ===================== Operaciones =====================
