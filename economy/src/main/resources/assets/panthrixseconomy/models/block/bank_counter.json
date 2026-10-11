@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "panthrixseconomy:block/bank_counter_top",
+    "bottom": "panthrixseconomy:block/bank_counter_bottom",
+    "side": "panthrixseconomy:block/bank_counter_side"
+  }
+}

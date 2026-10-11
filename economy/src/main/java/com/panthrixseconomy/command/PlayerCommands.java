@@ -1,0 +1,196 @@
+package com.panthrixseconomy.command;
+
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.panthrixseconomy.data.Bank;
+import com.panthrixseconomy.data.Country;
+import com.panthrixseconomy.data.EconomyData;
+import com.panthrixseconomy.data.Loc;
+import com.panthrixseconomy.data.Settlement;
+import com.panthrixseconomy.data.Transaction;
+import com.panthrixseconomy.registry.PERegistry;
+import net.minecraft.ChatFormatting;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import static net.minecraft.commands.Commands.argument;
+import static net.minecraft.commands.Commands.literal;
+
+/**
+ * Comandos para todos los jugadores: usar el banco y consultar información pública.
+ * No permiten crear ninguna entidad oficial.
+ */
+public final class PlayerCommands {
+
+    /** Hay que estar cerca de un mostrador de banco para operar. */
+    public static final double BANK_REACH = 6.0;
+
+    public static void register(CommandDispatcher<CommandSourceStack> d) {
+        d.register(literal("banco")
+                .executes(ctx -> withBank(ctx, (p, data, b) -> Menus.bank(p, data, b)))
+                .then(literal("saldo").executes(ctx -> withBank(ctx, (p, data, b) -> Menus.bank(p, data, b))))
+                .then(literal("depositar").then(argument("cantidad", IntegerArgumentType.integer(1)).executes(ctx ->
+                        withBank(ctx, (p, data, b) -> deposit(p, data, b, IntegerArgumentType.getInteger(ctx, "cantidad"))))))
+                .then(literal("retirar").then(argument("cantidad", IntegerArgumentType.integer(1, 100000)).executes(ctx ->
+                        withBank(ctx, (p, data, b) -> withdraw(p, data, b, IntegerArgumentType.getInteger(ctx, "cantidad"))))))
+                .then(literal("transferir").then(argument("jugador", EntityArgument.player())
+                        .then(argument("cantidad", IntegerArgumentType.integer(1)).executes(ctx -> {
+                            ServerPlayer target = EntityArgument.getPlayer(ctx, "jugador");
+                            int amount = IntegerArgumentType.getInteger(ctx, "cantidad");
+                            return withBank(ctx, (p, data, b) -> transfer(p, data, b, target, amount));
+                        }))))
+                .then(literal("historial").executes(ctx -> withBank(ctx, PlayerCommands::history))));
+
+        d.register(literal("economia")
+                .executes(ctx -> where(ctx.getSource()))
+                .then(literal("aqui").executes(ctx -> where(ctx.getSource())))
+                .then(literal("paises").executes(ctx -> countries(ctx.getSource()))));
+    }
+
+    interface BankAction {
+        void run(ServerPlayer player, EconomyData data, Bank bank) throws CommandSyntaxException;
+    }
+
+    private static int withBank(CommandContext<CommandSourceStack> ctx, BankAction action) throws CommandSyntaxException {
+        ServerPlayer p = ctx.getSource().getPlayerOrException();
+        EconomyData data = EconomyData.get(p.server);
+        Loc here = EconomyData.loc(p.level().dimension().location(), p.blockPosition());
+        Bank b = data.nearestBank(here, BANK_REACH);
+        if (b == null || !p.level().getBlockState(b.loc.pos()).is(PERegistry.BANK.get())) {
+            ctx.getSource().sendFailure(Component.literal("Tienes que estar junto a un mostrador de banco oficial."));
+            return 0;
+        }
+        action.run(p, data, b);
+        return 1;
+    }
+
+    // ===================== Operaciones =====================
+
+    private static void deposit(ServerPlayer p, EconomyData data, Bank b, int amount) {
+        int have = p.getInventory().countItem(PERegistry.COIN.get());
+        if (have < amount) {
+            p.sendSystemMessage(Component.literal("Solo llevas " + have + " monedas.").withStyle(ChatFormatting.RED));
+            return;
+        }
+        int left = amount;
+        for (int i = 0; i < p.getInventory().getContainerSize() && left > 0; i++) {
+            ItemStack st = p.getInventory().getItem(i);
+            if (st.is(PERegistry.COIN.get())) {
+                int take = Math.min(left, st.getCount());
+                st.shrink(take);
+                left -= take;
+            }
+        }
+        String id = data.identityOf(b);
+        data.setBalance(id, p.getUUID(), data.balance(id, p.getUUID()) + amount);
+        data.log("DEPOSITO", null, p.getUUID(), amount, id, data.bankName(b));
+        p.sendSystemMessage(Component.literal("Depositadas " + amount + " ₱. Saldo: " + data.balance(id, p.getUUID()) + " ₱").withStyle(ChatFormatting.GREEN));
+    }
+
+    private static void withdraw(ServerPlayer p, EconomyData data, Bank b, int amount) {
+        String id = data.identityOf(b);
+        long bal = data.balance(id, p.getUUID());
+        if (bal < amount) {
+            p.sendSystemMessage(Component.literal("Saldo insuficiente (" + bal + " ₱).").withStyle(ChatFormatting.RED));
+            return;
+        }
+        data.setBalance(id, p.getUUID(), bal - amount);
+        data.log("RETIRO", p.getUUID(), null, amount, id, data.bankName(b));
+        giveCoins(p, amount);
+        p.sendSystemMessage(Component.literal("Retiradas " + amount + " ₱. Saldo: " + (bal - amount) + " ₱").withStyle(ChatFormatting.GREEN));
+    }
+
+    private static void transfer(ServerPlayer p, EconomyData data, Bank b, ServerPlayer target, int amount) {
+        if (target.getUUID().equals(p.getUUID())) {
+            p.sendSystemMessage(Component.literal("No puedes transferirte dinero a ti mismo.").withStyle(ChatFormatting.RED));
+            return;
+        }
+        String id = data.identityOf(b);
+        long bal = data.balance(id, p.getUUID());
+        if (bal < amount) {
+            p.sendSystemMessage(Component.literal("Saldo insuficiente (" + bal + " ₱).").withStyle(ChatFormatting.RED));
+            return;
+        }
+        Country c = data.countryOf(b);
+        long tax = c == null ? 0 : (long) amount * c.taxPercent / 100;
+        data.setBalance(id, p.getUUID(), bal - amount);
+        data.setBalance(id, target.getUUID(), data.balance(id, target.getUUID()) + amount - tax);
+        data.log("TRANSFERENCIA", p.getUUID(), target.getUUID(), amount - tax, id, data.bankName(b));
+        if (tax > 0) {
+            c.treasury += tax;
+            data.log("IMPUESTO", p.getUUID(), null, tax, id, "Tesorería de " + c.name);
+        }
+        p.sendSystemMessage(Component.literal("Transferidas " + amount + " ₱ a " + target.getGameProfile().getName()
+                + (tax > 0 ? " (impuesto " + tax + " ₱)" : "") + ".").withStyle(ChatFormatting.GREEN));
+        target.sendSystemMessage(Component.literal(p.getGameProfile().getName() + " te ha transferido " + (amount - tax) + " ₱ en "
+                + data.identityName(id) + ".").withStyle(ChatFormatting.GOLD));
+    }
+
+    private static void history(ServerPlayer p, EconomyData data, Bank b) {
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM HH:mm");
+        List<Transaction> mine = data.history.stream().filter(t -> t.involves(p.getUUID())).toList();
+        p.sendSystemMessage(Menus.title("Tus movimientos"));
+        if (mine.isEmpty()) {
+            p.sendSystemMessage(Component.literal("Aún no hay movimientos.").withStyle(ChatFormatting.GRAY));
+        }
+        for (Transaction t : mine.subList(Math.max(0, mine.size() - 10), mine.size())) {
+            String sign = p.getUUID().equals(t.to()) ? "+" : "−";
+            p.sendSystemMessage(Component.literal(fmt.format(new Date(t.time())) + "  " + t.type() + "  " + sign + t.amount() + " ₱  "
+                    + data.identityName(t.identity())).withStyle(ChatFormatting.GRAY));
+        }
+    }
+
+    public static void giveCoins(ServerPlayer p, int amount) {
+        int left = amount;
+        while (left > 0) {
+            int n = Math.min(64, left);
+            ItemStack st = new ItemStack(PERegistry.COIN.get(), n);
+            if (!p.getInventory().add(st)) {
+                p.drop(st, false);
+            }
+            left -= n;
+        }
+    }
+
+    // ===================== Información pública =====================
+
+    private static int where(CommandSourceStack src) {
+        EconomyData data = EconomyData.get(src.getServer());
+        Loc here = AdminCommands.here(src);
+        Settlement s = data.settlementAt(here);
+        Country c = data.countryAt(here);
+        src.sendSystemMessage(Menus.title("Dónde estás"));
+        src.sendSystemMessage(Menus.line("País", c == null ? "Ninguno (territorio libre)" : c.name));
+        src.sendSystemMessage(Menus.line("Ciudad o pueblo", s == null ? "Ninguno" : s.type.label + " " + s.name));
+        Bank b = data.nearestBank(here, 64);
+        if (b != null) {
+            src.sendSystemMessage(Menus.line("Banco cercano", data.bankName(b) + " (" + b.loc.shortText() + ")"));
+        }
+        return 1;
+    }
+
+    private static int countries(CommandSourceStack src) {
+        EconomyData data = EconomyData.get(src.getServer());
+        src.sendSystemMessage(Menus.title("Países del mundo"));
+        if (data.countries.isEmpty()) {
+            src.sendSystemMessage(Component.literal("Todavía no hay países oficiales.").withStyle(ChatFormatting.GRAY));
+        }
+        for (Country c : data.countries.values()) {
+            long n = data.settlements.values().stream().filter(s -> c.id.equals(s.countryId)).count();
+            src.sendSystemMessage(Component.literal("• " + c.name + " — " + n + " ciudad(es)/pueblo(s)"));
+        }
+        return 1;
+    }
+
+    private PlayerCommands() {
+    }
+}

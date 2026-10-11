@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "panthrixseconomy:block/town_core_top",
+    "bottom": "panthrixseconomy:block/town_core_bottom",
+    "side": "panthrixseconomy:block/town_core_side"
+  }
+}
