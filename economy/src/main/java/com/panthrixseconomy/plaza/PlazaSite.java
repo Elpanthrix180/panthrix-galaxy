@@ -120,13 +120,13 @@ public final class PlazaSite {
         return new Result(new BlockPos(cx, base, cz), null);
     }
 
-    static boolean isNaturalGround(BlockState s) {
+    public static boolean isNaturalGround(BlockState s) {
         return s.is(BlockTags.DIRT) || s.is(BlockTags.SAND) || s.is(BlockTags.BASE_STONE_OVERWORLD) || s.is(BlockTags.TERRACOTTA)
                 || s.is(Blocks.GRAVEL) || s.is(Blocks.SNOW_BLOCK) || s.is(Blocks.CLAY) || s.is(Blocks.SANDSTONE)
                 || s.is(Blocks.RED_SANDSTONE) || s.is(Blocks.POWDER_SNOW) || s.is(Blocks.CALCITE) || s.is(Blocks.MOSS_BLOCK);
     }
 
-    static boolean isNaturalAbove(BlockState s) {
+    public static boolean isNaturalAbove(BlockState s) {
         return s.isAir() || s.is(BlockTags.LEAVES) || s.is(BlockTags.LOGS) || s.is(BlockTags.REPLACEABLE)
                 || s.is(BlockTags.FLOWERS) || s.is(BlockTags.SAPLINGS) || s.is(Blocks.SNOW) || s.is(Blocks.VINE)
                 || s.is(Blocks.SUGAR_CANE) || s.is(Blocks.CACTUS) || s.is(Blocks.BAMBOO) || s.is(Blocks.PUMPKIN)
