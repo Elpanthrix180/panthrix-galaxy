@@ -324,6 +324,36 @@ public final class AdminCommands {
                 .then(literal("treasury").then(settlementArg()
                         .then(literal("add").then(argument("amount", LongArgumentType.longArg(1)).executes(ctx -> settlementTreasury(ctx, 1))))
                         .then(literal("remove").then(argument("amount", LongArgumentType.longArg(1)).executes(ctx -> settlementTreasury(ctx, -1))))))
+                .then(literal("job").then(settlementArg()
+                        .then(literal("add").then(argument("salary", LongArgumentType.longArg(1))
+                                .then(argument("slots", IntegerArgumentType.integer(1, 1000))
+                                        .then(argument("name", StringArgumentType.greedyString()).executes(ctx -> {
+                                            Settlement s = settlement(ctx);
+                                            String name = StringArgumentType.getString(ctx, "name").trim();
+                                            if (name.isEmpty() || name.length() > 32) {
+                                                return fail(ctx, "El nombre del empleo debe tener entre 1 y 32 caracteres.");
+                                            }
+                                            if (s.jobs.stream().anyMatch(j -> j.name().equalsIgnoreCase(name))) {
+                                                return fail(ctx, "Ya existe ese empleo en " + s.name + ".");
+                                            }
+                                            long salary = LongArgumentType.getLong(ctx, "salary");
+                                            int slots = IntegerArgumentType.getInteger(ctx, "slots");
+                                            s.jobs.add(new Settlement.Job(name, salary, slots));
+                                            data(ctx).setDirty();
+                                            ok(ctx, "Empleo «" + name + "» en " + s.name + ": " + salary + " ₱/día, " + slots + " puesto(s).");
+                                            return 1;
+                                        })))))
+                        .then(literal("remove").then(argument("name", StringArgumentType.greedyString()).executes(ctx -> {
+                            Settlement s = settlement(ctx);
+                            String name = StringArgumentType.getString(ctx, "name").trim();
+                            if (!s.jobs.removeIf(j -> j.name().equalsIgnoreCase(name))) {
+                                return fail(ctx, "No existe el empleo «" + name + "» en " + s.name + ".");
+                            }
+                            data(ctx).employment.values().removeIf(e -> e.settlementId().equals(s.id) && e.job().equalsIgnoreCase(name));
+                            data(ctx).setDirty();
+                            ok(ctx, "Empleo «" + name + "» eliminado (sus trabajadores quedan libres).");
+                            return 1;
+                        })))))
                 .then(literal("delete").then(settlementArg()
                         .executes(ctx -> {
                             Settlement s = settlement(ctx);

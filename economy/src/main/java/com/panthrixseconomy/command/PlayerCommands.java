@@ -59,6 +59,22 @@ public final class PlayerCommands {
                 .then(literal("vender").then(argument("oferta", IntegerArgumentType.integer(1))
                         .executes(ctx -> withShop(ctx, (p, data, shop) -> trade(p, data, shop, IntegerArgumentType.getInteger(ctx, "oferta"), false))))));
 
+        d.register(literal("trabajo")
+                .executes(ctx -> jobs(ctx.getSource()))
+                .then(literal("unirse").then(argument("empleo", IntegerArgumentType.integer(1)).executes(ctx ->
+                        joinJob(ctx.getSource(), IntegerArgumentType.getInteger(ctx, "empleo")))))
+                .then(literal("dejar").executes(ctx -> {
+                    ServerPlayer p = ctx.getSource().getPlayerOrException();
+                    EconomyData data = EconomyData.get(p.server);
+                    if (!data.employment.containsKey(p.getUUID())) {
+                        ctx.getSource().sendFailure(Component.literal("No tienes empleo."));
+                        return 0;
+                    }
+                    data.quit(p.getUUID());
+                    p.sendSystemMessage(Component.literal("Has dejado tu empleo.").withStyle(ChatFormatting.YELLOW));
+                    return 1;
+                })));
+
         d.register(literal("economia")
                 .executes(ctx -> where(ctx.getSource()))
                 .then(literal("aqui").executes(ctx -> where(ctx.getSource())))
@@ -79,6 +95,64 @@ public final class PlayerCommands {
             return 0;
         }
         action.run(p, data, b);
+        return 1;
+    }
+
+    // ===================== Empleos =====================
+
+    private static int jobs(CommandSourceStack src) throws CommandSyntaxException {
+        ServerPlayer p = src.getPlayerOrException();
+        EconomyData data = EconomyData.get(p.server);
+        EconomyData.Employment mine = data.employment.get(p.getUUID());
+        if (mine != null) {
+            Settlement where = data.settlements.get(mine.settlementId());
+            src.sendSystemMessage(Menus.row(Menus.line("Tu empleo", mine.job() + (where == null ? "" : " en " + where.name)),
+                    Menus.danger("Dejarlo", "/trabajo dejar", "Dejar tu empleo")));
+        }
+        Settlement s = data.settlementAt(AdminCommands.here(src));
+        if (s == null) {
+            src.sendSystemMessage(Component.literal("Ve a un pueblo o ciudad oficial para buscar trabajo.").withStyle(ChatFormatting.GRAY));
+            return 1;
+        }
+        src.sendSystemMessage(Menus.title("Empleos en " + s.name));
+        if (s.jobs.isEmpty()) {
+            src.sendSystemMessage(Component.literal("Este pueblo no ofrece empleos todavía.").withStyle(ChatFormatting.GRAY));
+        }
+        for (int i = 0; i < s.jobs.size(); i++) {
+            Settlement.Job j = s.jobs.get(i);
+            long w = data.workers(s, j.name());
+            MutableComponent row = Component.literal((i + 1) + ". " + j.name() + " — " + j.salary() + " ₱ por día (" + w + "/" + j.slots() + ") ");
+            if (w < j.slots()) {
+                row.append(Menus.run("Unirse", "/trabajo unirse " + (i + 1), "Cobras cada día de Minecraft mientras estés conectado"));
+            }
+            src.sendSystemMessage(row);
+        }
+        src.sendSystemMessage(Component.literal("El salario se ingresa cada día de Minecraft en tu cuenta del banco del país, "
+                + "si estás conectado y el pueblo tiene fondos.").withStyle(ChatFormatting.DARK_GRAY));
+        return 1;
+    }
+
+    private static int joinJob(CommandSourceStack src, int n) throws CommandSyntaxException {
+        ServerPlayer p = src.getPlayerOrException();
+        EconomyData data = EconomyData.get(p.server);
+        Settlement s = data.settlementAt(AdminCommands.here(src));
+        if (s == null || n > s.jobs.size()) {
+            src.sendFailure(Component.literal("Ese empleo no existe aquí."));
+            return 0;
+        }
+        Settlement.Job j = s.jobs.get(n - 1);
+        EconomyData.Employment mine = data.employment.get(p.getUUID());
+        if (mine != null && mine.settlementId().equals(s.id) && mine.job().equalsIgnoreCase(j.name())) {
+            src.sendFailure(Component.literal("Ya trabajas de " + j.name() + "."));
+            return 0;
+        }
+        String error = data.hire(p.getUUID(), s, j);
+        if (error != null) {
+            src.sendFailure(Component.literal(error));
+            return 0;
+        }
+        p.sendSystemMessage(Component.literal("¡Ahora trabajas de " + j.name() + " en " + s.name + "! Cobrarás " + j.salary() + " ₱ cada día.")
+                .withStyle(ChatFormatting.GREEN));
         return 1;
     }
 

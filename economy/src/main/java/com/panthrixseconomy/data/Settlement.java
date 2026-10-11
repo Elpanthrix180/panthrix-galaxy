@@ -2,6 +2,11 @@ package com.panthrixseconomy.data;
 
 import net.minecraft.nbt.CompoundTag;
 
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /** Una ciudad o un pueblo oficial. Su territorio es un círculo alrededor del centro. */
@@ -19,6 +24,12 @@ public final class Settlement {
     /** Dónde está su Núcleo del Pueblo (o null). */
     public Loc core;
     public final long serial;
+    /** Empleos oficiales del pueblo (los crea un administrador). */
+    public final List<Job> jobs = new ArrayList<>();
+
+    /** Un empleo: salario por día de Minecraft, pagado desde la tesorería del pueblo. */
+    public record Job(String name, long salary, int slots) {
+    }
 
     public Settlement(UUID id, String name, SettlementType type, Loc center, int radius, long serial) {
         this.id = id;
@@ -52,6 +63,15 @@ public final class Settlement {
             tag.put("Core", core.save());
         }
         tag.putLong("Serial", serial);
+        ListTag jl = new ListTag();
+        for (Job j : jobs) {
+            CompoundTag t = new CompoundTag();
+            t.putString("Name", j.name());
+            t.putLong("Salary", j.salary());
+            t.putInt("Slots", j.slots());
+            jl.add(t);
+        }
+        tag.put("Jobs", jl);
         return tag;
     }
 
@@ -71,6 +91,10 @@ public final class Settlement {
             s.managerName = tag.getString("ManagerName");
         }
         s.core = tag.contains("Core") ? Loc.load(tag.getCompound("Core")) : null;
+        for (Tag t : tag.getList("Jobs", Tag.TAG_COMPOUND)) {
+            CompoundTag j = (CompoundTag) t;
+            s.jobs.add(new Job(j.getString("Name"), j.getLong("Salary"), j.getInt("Slots")));
+        }
         return s;
     }
 }

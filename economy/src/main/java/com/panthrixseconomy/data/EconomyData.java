@@ -43,6 +43,13 @@ public final class EconomyData extends SavedData {
     public final List<Transaction> history = new ArrayList<>();
     public final Set<UUID> welcomed = new HashSet<>();
     public int maxHistory = 5000;
+    /** jugador -> empleo (pueblo + nombre del puesto) */
+    public final Map<UUID, Employment> employment = new HashMap<>();
+    /** Último día de Minecraft en el que se pagaron salarios. */
+    public long lastPayday = -1;
+
+    public record Employment(UUID settlementId, String job) {
+    }
     private long nextSerial = 1;
 
     // ===== Gran Plaza =====
@@ -133,6 +140,7 @@ public final class EconomyData extends SavedData {
     }
 
     public void deleteSettlement(Settlement s) {
+        employment.values().removeIf(e -> e.settlementId().equals(s.id));
         shops.values().removeIf(sh -> s.contains(sh.loc));
         settlements.remove(s.id);
         setDirty();
@@ -303,6 +311,59 @@ public final class EconomyData extends SavedData {
         return null;
     }
 
+    // ===================== Empleos =====================
+
+    public long workers(Settlement s, String job) {
+        return employment.values().stream().filter(e -> e.settlementId().equals(s.id) && e.job().equalsIgnoreCase(job)).count();
+    }
+
+    /** Apunta a un jugador a un empleo. Devuelve null si se pudo o el motivo si no. */
+    public String hire(UUID player, Settlement s, Settlement.Job job) {
+        if (workers(s, job.name()) >= job.slots()) {
+            return "No quedan puestos de " + job.name() + " en " + s.name + ".";
+        }
+        employment.put(player, new Employment(s.id, job.name()));
+        setDirty();
+        return null;
+    }
+
+    public void quit(UUID player) {
+        if (employment.remove(player) != null) {
+            setDirty();
+        }
+    }
+
+    /**
+     * Paga un día de salario a los empleados indicados (los que están conectados), desde la tesorería
+     * de su pueblo a su cuenta en el banco del país del pueblo. Si la tesorería no alcanza, ese
+     * empleado no cobra ese día. Devuelve cuántos cobraron.
+     */
+    public int payroll(java.util.Collection<UUID> players) {
+        int paid = 0;
+        for (UUID p : players) {
+            Employment e = employment.get(p);
+            if (e == null) {
+                continue;
+            }
+            Settlement s = settlements.get(e.settlementId());
+            Settlement.Job job = s == null ? null : s.jobs.stream().filter(j -> j.name().equalsIgnoreCase(e.job())).findFirst().orElse(null);
+            if (job == null) {
+                employment.remove(p);  // el pueblo o el puesto ya no existen
+                continue;
+            }
+            if (s.treasury < job.salary()) {
+                continue;
+            }
+            s.treasury -= job.salary();
+            String id = identity(s.countryId == null ? null : countries.get(s.countryId));
+            setBalance(id, p, balance(id, p) + job.salary());
+            log("SALARIO", null, p, job.salary(), id, job.name() + " en " + s.name);
+            paid++;
+        }
+        setDirty();
+        return paid;
+    }
+
     // ===================== Búsqueda por nombre o id =====================
 
     public Country findCountry(String text) {
@@ -373,6 +434,16 @@ public final class EconomyData extends SavedData {
             tag.putLong("PlazaSpawn", plazaSpawn.asLong());
         }
         tag.putBoolean("PlazaAttempted", plazaAttempted);
+        ListTag emp = new ListTag();
+        employment.forEach((player, e) -> {
+            CompoundTag t = new CompoundTag();
+            t.putUUID("Player", player);
+            t.putUUID("Settlement", e.settlementId());
+            t.putString("Job", e.job());
+            emp.add(t);
+        });
+        tag.put("Employment", emp);
+        tag.putLong("LastPayday", lastPayday);
         return tag;
     }
 
@@ -410,6 +481,11 @@ public final class EconomyData extends SavedData {
             d.plazaSpawn = BlockPos.of(tag.getLong("PlazaSpawn"));
         }
         d.plazaAttempted = tag.getBoolean("PlazaAttempted");
+        for (Tag t : tag.getList("Employment", Tag.TAG_COMPOUND)) {
+            CompoundTag e = (CompoundTag) t;
+            d.employment.put(e.getUUID("Player"), new Employment(e.getUUID("Settlement"), e.getString("Job")));
+        }
+        d.lastPayday = tag.contains("LastPayday") ? tag.getLong("LastPayday") : -1;
         return d;
     }
 
