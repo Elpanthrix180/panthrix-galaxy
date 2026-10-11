@@ -89,6 +89,15 @@ Banco (este), Mercado con toldo (oeste), tablón de anuncios y cartel de direcci
   en su cuenta del banco del país. Si la tesorería no alcanza, ese día no cobran (se les avisa).
 - Borrar un empleo o un pueblo deja libres a sus trabajadores.
 
+## Versión 0.4.0: pantallas del banco y de la tienda
+- **Banco:** clic derecho en un Mostrador de Banco (o `/banco`) abre una pantalla con el saldo, las monedas
+  que llevas, campos para depositar, retirar y transferir, y los últimos movimientos.
+- **Tienda:** `/tienda` cerca de un comercio abre una pantalla con cada oferta (icono del objeto, cantidad,
+  precio) y su botón Comprar o Vender; con más de 7 ofertas hay páginas.
+- Las pantallas solo **piden** acciones: el servidor comprueba distancia, saldo y objetos en cada clic.
+- El menú en el chat sigue disponible: `/banco chat` y `/tienda lista`. Los administradores también ven
+  sus botones de administración en el chat.
+
 ## Comandos
 **Jugadores:** `/banco` (saldo, depositar, retirar, transferir, historial) · `/tienda` · `/trabajo` · `/economia aqui|paises`
 

@@ -38,8 +38,9 @@ public final class PlayerCommands {
 
     public static void register(CommandDispatcher<CommandSourceStack> d) {
         d.register(literal("banco")
-                .executes(ctx -> withBank(ctx, (p, data, b) -> Menus.bank(p, data, b)))
-                .then(literal("saldo").executes(ctx -> withBank(ctx, (p, data, b) -> Menus.bank(p, data, b))))
+                .executes(ctx -> withBank(ctx, PlayerCommands::openBank))
+                .then(literal("saldo").executes(ctx -> withBank(ctx, PlayerCommands::openBank)))
+                .then(literal("chat").executes(ctx -> withBank(ctx, (p, data, b) -> Menus.bank(p, data, b))))
                 .then(literal("depositar").then(argument("cantidad", IntegerArgumentType.integer(1)).executes(ctx ->
                         withBank(ctx, (p, data, b) -> deposit(p, data, b, IntegerArgumentType.getInteger(ctx, "cantidad"))))))
                 .then(literal("retirar").then(argument("cantidad", IntegerArgumentType.integer(1, 100000)).executes(ctx ->
@@ -53,7 +54,9 @@ public final class PlayerCommands {
                 .then(literal("historial").executes(ctx -> withBank(ctx, PlayerCommands::history))));
 
         d.register(literal("tienda")
-                .executes(ctx -> withShop(ctx, (p, data, shop) -> showOffers(ctx.getSource(), data, shop, false)))
+                .executes(ctx -> withShop(ctx, (p, data, shop) -> com.panthrixseconomy.network.PENetwork.toPlayer(p,
+                        com.panthrixseconomy.network.ShopView.of(p, data, shop, Component.empty()))))
+                .then(literal("lista").executes(ctx -> withShop(ctx, (p, data, shop) -> showOffers(ctx.getSource(), data, shop, false))))
                 .then(literal("comprar").then(argument("oferta", IntegerArgumentType.integer(1))
                         .executes(ctx -> withShop(ctx, (p, data, shop) -> trade(p, data, shop, IntegerArgumentType.getInteger(ctx, "oferta"), true)))))
                 .then(literal("vender").then(argument("oferta", IntegerArgumentType.integer(1))
@@ -96,6 +99,11 @@ public final class PlayerCommands {
         }
         action.run(p, data, b);
         return 1;
+    }
+
+    /** Abre la pantalla gráfica del banco. */
+    private static void openBank(ServerPlayer p, EconomyData data, Bank b) {
+        com.panthrixseconomy.network.PENetwork.toPlayer(p, com.panthrixseconomy.network.BankView.of(p, data, b, Component.empty()));
     }
 
     // ===================== Empleos =====================
@@ -203,20 +211,20 @@ public final class PlayerCommands {
         }
     }
 
-    private static void trade(ServerPlayer p, EconomyData data, Shop shop, int n, boolean buying) {
+    public static void trade(ServerPlayer p, EconomyData data, Shop shop, int n, boolean buying) {
         if (n > shop.offers.size() || shop.offers.get(n - 1).sells() != buying) {
-            p.sendSystemMessage(Component.literal("Esa oferta no existe.").withStyle(ChatFormatting.RED));
+            reply(p, Component.literal("Esa oferta no existe.").withStyle(ChatFormatting.RED));
             return;
         }
         Shop.Offer o = shop.offers.get(n - 1);
         ItemStack want = o.item();
         if (!buying && countMatching(p, want) < want.getCount()) {
-            p.sendSystemMessage(Component.literal("Necesitas " + want.getCount() + "× " + want.getHoverName().getString() + ".").withStyle(ChatFormatting.RED));
+            reply(p, Component.literal("Necesitas " + want.getCount() + "× " + want.getHoverName().getString() + ".").withStyle(ChatFormatting.RED));
             return;
         }
         String error = data.trade(shop, o, p.getUUID());
         if (error != null) {
-            p.sendSystemMessage(Component.literal(error).withStyle(ChatFormatting.RED));
+            reply(p, Component.literal(error).withStyle(ChatFormatting.RED));
             return;
         }
         if (buying) {
@@ -228,7 +236,7 @@ public final class PlayerCommands {
             removeMatching(p, want, want.getCount());
         }
         String id = data.shopIdentity(shop);
-        p.sendSystemMessage(Component.literal((buying ? "Compraste " : "Vendiste ") + want.getCount() + "× " + want.getHoverName().getString()
+        reply(p, Component.literal((buying ? "Compraste " : "Vendiste ") + want.getCount() + "× " + want.getHoverName().getString()
                 + " por " + o.price() + " ₱. Saldo: " + data.balance(id, p.getUUID()) + " ₱").withStyle(ChatFormatting.GREEN));
     }
 
@@ -256,10 +264,10 @@ public final class PlayerCommands {
 
     // ===================== Operaciones =====================
 
-    private static void deposit(ServerPlayer p, EconomyData data, Bank b, int amount) {
+    public static void deposit(ServerPlayer p, EconomyData data, Bank b, int amount) {
         int have = p.getInventory().countItem(PERegistry.COIN.get());
         if (have < amount) {
-            p.sendSystemMessage(Component.literal("Solo llevas " + have + " monedas.").withStyle(ChatFormatting.RED));
+            reply(p, Component.literal("Solo llevas " + have + " monedas.").withStyle(ChatFormatting.RED));
             return;
         }
         int left = amount;
@@ -274,31 +282,31 @@ public final class PlayerCommands {
         String id = data.identityOf(b);
         data.setBalance(id, p.getUUID(), data.balance(id, p.getUUID()) + amount);
         data.log("DEPOSITO", null, p.getUUID(), amount, id, data.bankName(b));
-        p.sendSystemMessage(Component.literal("Depositadas " + amount + " ₱. Saldo: " + data.balance(id, p.getUUID()) + " ₱").withStyle(ChatFormatting.GREEN));
+        reply(p, Component.literal("Depositadas " + amount + " ₱. Saldo: " + data.balance(id, p.getUUID()) + " ₱").withStyle(ChatFormatting.GREEN));
     }
 
-    private static void withdraw(ServerPlayer p, EconomyData data, Bank b, int amount) {
+    public static void withdraw(ServerPlayer p, EconomyData data, Bank b, int amount) {
         String id = data.identityOf(b);
         long bal = data.balance(id, p.getUUID());
         if (bal < amount) {
-            p.sendSystemMessage(Component.literal("Saldo insuficiente (" + bal + " ₱).").withStyle(ChatFormatting.RED));
+            reply(p, Component.literal("Saldo insuficiente (" + bal + " ₱).").withStyle(ChatFormatting.RED));
             return;
         }
         data.setBalance(id, p.getUUID(), bal - amount);
         data.log("RETIRO", p.getUUID(), null, amount, id, data.bankName(b));
         giveCoins(p, amount);
-        p.sendSystemMessage(Component.literal("Retiradas " + amount + " ₱. Saldo: " + (bal - amount) + " ₱").withStyle(ChatFormatting.GREEN));
+        reply(p, Component.literal("Retiradas " + amount + " ₱. Saldo: " + (bal - amount) + " ₱").withStyle(ChatFormatting.GREEN));
     }
 
-    private static void transfer(ServerPlayer p, EconomyData data, Bank b, ServerPlayer target, int amount) {
+    public static void transfer(ServerPlayer p, EconomyData data, Bank b, ServerPlayer target, int amount) {
         if (target.getUUID().equals(p.getUUID())) {
-            p.sendSystemMessage(Component.literal("No puedes transferirte dinero a ti mismo.").withStyle(ChatFormatting.RED));
+            reply(p, Component.literal("No puedes transferirte dinero a ti mismo.").withStyle(ChatFormatting.RED));
             return;
         }
         String id = data.identityOf(b);
         long bal = data.balance(id, p.getUUID());
         if (bal < amount) {
-            p.sendSystemMessage(Component.literal("Saldo insuficiente (" + bal + " ₱).").withStyle(ChatFormatting.RED));
+            reply(p, Component.literal("Saldo insuficiente (" + bal + " ₱).").withStyle(ChatFormatting.RED));
             return;
         }
         Country c = data.countryOf(b);
@@ -310,7 +318,7 @@ public final class PlayerCommands {
             c.treasury += tax;
             data.log("IMPUESTO", p.getUUID(), null, tax, id, "Tesorería de " + c.name);
         }
-        p.sendSystemMessage(Component.literal("Transferidas " + amount + " ₱ a " + target.getGameProfile().getName()
+        reply(p, Component.literal("Transferidas " + amount + " ₱ a " + target.getGameProfile().getName()
                 + (tax > 0 ? " (impuesto " + tax + " ₱)" : "") + ".").withStyle(ChatFormatting.GREEN));
         target.sendSystemMessage(Component.literal(p.getGameProfile().getName() + " te ha transferido " + (amount - tax) + " ₱ en "
                 + data.identityName(id) + ".").withStyle(ChatFormatting.GOLD));
@@ -328,6 +336,30 @@ public final class PlayerCommands {
             p.sendSystemMessage(Component.literal(fmt.format(new Date(t.time())) + "  " + t.type() + "  " + sign + t.amount() + " ₱  "
                     + data.identityName(t.identity())).withStyle(ChatFormatting.GRAY));
         }
+    }
+
+    /** Último mensaje de cada jugador (lo muestran las pantallas gráficas). */
+    private static final java.util.Map<java.util.UUID, Component> LAST = new java.util.concurrent.ConcurrentHashMap<>();
+
+    private static void reply(ServerPlayer p, Component msg) {
+        LAST.put(p.getUUID(), msg);
+        p.sendSystemMessage(msg);
+    }
+
+    public static Component takeLastMessage(ServerPlayer p) {
+        Component c = LAST.remove(p.getUUID());
+        return c == null ? Component.empty() : c;
+    }
+
+    /** Banco al alcance del jugador (o null). Lo usan los comandos y las pantallas. */
+    public static Bank reachableBank(ServerPlayer p) {
+        EconomyData data = EconomyData.get(p.server);
+        Bank b = data.nearestBank(EconomyData.loc(p.level().dimension().location(), p.blockPosition()), BANK_REACH);
+        return b != null && p.level().getBlockState(b.loc.pos()).is(PERegistry.BANK.get()) ? b : null;
+    }
+
+    public static Shop reachableShop(ServerPlayer p) {
+        return EconomyData.get(p.server).nearestShop(EconomyData.loc(p.level().dimension().location(), p.blockPosition()), SHOP_REACH);
     }
 
     public static void giveCoins(ServerPlayer p, int amount) {

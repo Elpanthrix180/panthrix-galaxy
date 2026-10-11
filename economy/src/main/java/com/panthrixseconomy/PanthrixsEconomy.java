@@ -23,6 +23,7 @@ public class PanthrixsEconomy {
     public PanthrixsEconomy() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         PERegistry.register(modBus);
+        com.panthrixseconomy.network.PENetwork.register();
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, PEConfig.SPEC);
         // Los eventos del juego (PEEvents, PEPermissions) se registran con @Mod.EventBusSubscriber
     }

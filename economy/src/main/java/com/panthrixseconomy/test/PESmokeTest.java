@@ -53,6 +53,7 @@ public final class PESmokeTest {
             welcome();
             shopTrade();
             jobs();
+            screens();
         } catch (Throwable t) {
             failures.add("excepción: " + t);
             PanthrixsEconomy.LOGGER.error("Smoke test", t);
@@ -310,6 +311,33 @@ public final class PESmokeTest {
         check(r.employment.containsKey(a) && r.settlements.get(capital.id).jobs.size() == 1, "empleos y trabajadores sobreviven a guardar y cargar");
         d.deleteSettlement(capital);
         check(!d.employment.containsKey(a), "borrar el pueblo libera a sus trabajadores");
+    }
+
+    // 10. Pantallas: los paquetes se codifican y decodifican sin perder datos
+    private static void screens() throws Exception {
+        java.util.List<com.panthrixseconomy.network.ShopView.Offer> offers = java.util.List.of(
+                new com.panthrixseconomy.network.ShopView.Offer(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.BREAD, 4), 3, true));
+        com.panthrixseconomy.network.ShopView shop = new com.panthrixseconomy.network.ShopView("Mercado", "Banco Independiente", 42, offers,
+                net.minecraft.network.chat.Component.literal("ok"));
+        com.panthrixseconomy.network.BankView bank = new com.panthrixseconomy.network.BankView("Banco Nacional de Panthria", 99, 5, 7,
+                java.util.List.of("linea"), net.minecraft.network.chat.Component.literal("hecho"));
+        com.panthrixseconomy.network.ShopView s2 = roundTrip(shop, "encode", "decode");
+        com.panthrixseconomy.network.BankView b2 = roundTrip(bank, "encode", "decode");
+        check(s2.name().equals("Mercado") && s2.balance() == 42 && s2.offers().size() == 1 && s2.offers().get(0).item().getCount() == 4
+                && s2.offers().get(0).price() == 3 && s2.offers().get(0).sells(), "el paquete de la tienda llega completo");
+        check(b2.name().equals(bank.name()) && b2.balance() == 99 && b2.tax() == 5 && b2.coins() == 7 && b2.history().equals(bank.history())
+                && b2.status().getString().equals("hecho"), "el paquete del banco llega completo");
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> T roundTrip(T msg, String enc, String dec) throws Exception {
+        net.minecraft.network.FriendlyByteBuf buf = new net.minecraft.network.FriendlyByteBuf(io.netty.buffer.Unpooled.buffer());
+        java.lang.reflect.Method e = msg.getClass().getDeclaredMethod(enc, net.minecraft.network.FriendlyByteBuf.class);
+        e.setAccessible(true);
+        e.invoke(msg, buf);
+        java.lang.reflect.Method d = msg.getClass().getDeclaredMethod(dec, net.minecraft.network.FriendlyByteBuf.class);
+        d.setAccessible(true);
+        return (T) d.invoke(null, buf);
     }
 
     private PESmokeTest() {
