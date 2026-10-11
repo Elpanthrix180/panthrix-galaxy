@@ -78,7 +78,14 @@ public class BankBlock extends BaseEntityBlock {
             if (b == null && PEPermissions.isAdmin(sp)) {
                 b = register(level, pos);  // bloque antiguo o colocado con /setblock
             }
-            Menus.bank(sp, data, b);
+            if (b == null) {
+                Menus.bank(sp, data, null);
+            } else {
+                com.panthrixseconomy.network.PENetwork.toPlayer(sp, com.panthrixseconomy.network.BankView.of(sp, data, b, net.minecraft.network.chat.Component.empty()));
+                if (PEPermissions.isAdmin(sp)) {
+                    Menus.bankAdmin(sp);
+                }
+            }
         }
         return InteractionResult.sidedSuccess(level.isClientSide);
     }

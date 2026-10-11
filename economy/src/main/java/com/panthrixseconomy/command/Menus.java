@@ -168,6 +168,13 @@ public final class Menus {
         }
     }
 
+    /** Botones de administración de una sucursal (la pantalla del banco es para todos). */
+    public static void bankAdmin(ServerPlayer player) {
+        player.sendSystemMessage(row(
+                run("Asignar país", "/pe bank assign", "Elige el país de esta sucursal"),
+                run("Según ubicación", "/pe bank auto", "Quitar la asignación manual")));
+    }
+
     public static void bankCreated(ServerPlayer player, EconomyData data, Bank b) {
         player.sendSystemMessage(Component.literal("Sucursal creada: ").withStyle(ChatFormatting.GREEN)
                 .append(Component.literal(data.bankName(b)).withStyle(ChatFormatting.GOLD)));
