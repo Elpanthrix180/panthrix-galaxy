@@ -400,6 +400,7 @@ public final class AdminCommands {
                         Settlement where = data.settlementAt(s.loc);
                         ctx.getSource().sendSystemMessage(Menus.row(Component.literal("• " + s.name + " — "
                                         + (where == null ? "fuera de pueblos" : where.name) + " (" + s.loc.shortText() + ")"),
+                                Menus.run("Ofertas", "/pe shop offer " + s.id, "Ver y gestionar ofertas"),
                                 Menus.danger("Eliminar", "/pe shop delete " + s.id, "Pide confirmación")));
                     }
                     return 1;
@@ -424,6 +425,24 @@ public final class AdminCommands {
                             ok(ctx, s.managerName + " es responsable de " + s.name);
                             return 1;
                         }))))
+                .then(literal("offer").then(argument("shop", StringArgumentType.string()).suggests(SHOPS)
+                        .executes(ctx -> {
+                            PlayerCommands.showOffers(ctx.getSource(), data(ctx), shop(ctx), true);
+                            return 1;
+                        })
+                        .then(literal("sell").then(argument("price", LongArgumentType.longArg(1)).executes(ctx -> addOffer(ctx, true))))
+                        .then(literal("buy").then(argument("price", LongArgumentType.longArg(1)).executes(ctx -> addOffer(ctx, false))))
+                        .then(literal("remove").then(argument("n", IntegerArgumentType.integer(1)).executes(ctx -> {
+                            Shop s = shop(ctx);
+                            int n = IntegerArgumentType.getInteger(ctx, "n");
+                            if (n > s.offers.size()) {
+                                return fail(ctx, "Ese comercio tiene " + s.offers.size() + " oferta(s).");
+                            }
+                            s.offers.remove(n - 1);
+                            data(ctx).setDirty();
+                            ok(ctx, "Oferta " + n + " eliminada de " + s.name);
+                            return 1;
+                        })))))
                 .then(literal("delete").then(argument("shop", StringArgumentType.string()).suggests(SHOPS)
                         .executes(ctx -> {
                             Shop s = shop(ctx);
@@ -439,6 +458,24 @@ public final class AdminCommands {
                             ok(ctx, "Comercio «" + s.name + "» eliminado.");
                             return 1;
                         }))));
+    }
+
+    /** Añade una oferta con el objeto (y la cantidad) que el admin lleva en la mano. */
+    private static int addOffer(CommandContext<CommandSourceStack> ctx, boolean sells) throws CommandSyntaxException {
+        Shop s = shop(ctx);
+        ServerPlayer p = ctx.getSource().getPlayerOrException();
+        net.minecraft.world.item.ItemStack held = p.getMainHandItem();
+        if (held.isEmpty()) {
+            return fail(ctx, "Lleva en la mano el objeto (y la cantidad) de la oferta.");
+        }
+        if (s.offers.size() >= 27) {
+            return fail(ctx, "Máximo 27 ofertas por comercio.");
+        }
+        long price = LongArgumentType.getLong(ctx, "price");
+        s.offers.add(new Shop.Offer(held.copy(), price, sells));
+        data(ctx).setDirty();
+        ok(ctx, s.name + (sells ? " vende " : " compra ") + held.getCount() + "× " + held.getHoverName().getString() + " por " + price + " ₱");
+        return 1;
     }
 
     // ===================== Bancos =====================

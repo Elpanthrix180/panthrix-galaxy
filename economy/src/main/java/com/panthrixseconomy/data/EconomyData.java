@@ -258,6 +258,51 @@ public final class EconomyData extends SavedData {
         return accounts.getOrDefault(identity(c), Map.of()).values().stream().mapToLong(Long::longValue).sum();
     }
 
+    // ===================== Comercio =====================
+
+    /** Cuenta con la que se paga en un comercio: el banco del país donde está (o el independiente). */
+    public String shopIdentity(Shop shop) {
+        return identity(countryAt(shop.loc));
+    }
+
+    public Shop nearestShop(Loc loc, double maxDist) {
+        return shops.values().stream().filter(s -> s.loc.distSqr(loc) <= maxDist * maxDist)
+                .min(Comparator.comparingDouble(s -> s.loc.distSqr(loc))).orElse(null);
+    }
+
+    /**
+     * Parte económica de un intercambio (los objetos los mueve quien llama).
+     * Comprar: el jugador paga y el dinero va a la tesorería del pueblo del comercio.
+     * Vender: lo paga la tesorería del pueblo; un comercio fuera de pueblos paga sin límite (admin).
+     * Devuelve null si se hizo o el motivo si no.
+     */
+    public String trade(Shop shop, Shop.Offer offer, UUID player) {
+        String id = shopIdentity(shop);
+        Settlement town = settlementAt(shop.loc);
+        long bal = balance(id, player);
+        if (offer.sells()) {
+            if (bal < offer.price()) {
+                return "Saldo insuficiente en " + identityName(id) + " (" + bal + " ₱).";
+            }
+            setBalance(id, player, bal - offer.price());
+            if (town != null) {
+                town.treasury += offer.price();
+            }
+            log("COMPRA", player, null, offer.price(), id, shop.name);
+        } else {
+            if (town != null && town.treasury < offer.price()) {
+                return "La tesorería de " + town.name + " no tiene fondos para pagarte.";
+            }
+            if (town != null) {
+                town.treasury -= offer.price();
+            }
+            setBalance(id, player, bal + offer.price());
+            log("VENTA", null, player, offer.price(), id, shop.name);
+        }
+        setDirty();
+        return null;
+    }
+
     // ===================== Búsqueda por nombre o id =====================
 
     public Country findCountry(String text) {

@@ -155,7 +155,7 @@ jobs:
 
   release:
     name: Release
-    needs: [forge, fabric]
+    needs: [forge, fabric, economy]
     if: always() && needs.forge.result == 'success' && (startsWith(github.ref, 'refs/tags/v') || inputs.release)
     runs-on: ubuntu-latest
     steps:
@@ -173,6 +173,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: panthrixsgalaxy-fabric-jar
+          path: jars
+
+      - name: Descargar el .jar de Economy (si se compiló)
+        if: needs.economy.result == 'success'
+        uses: actions/download-artifact@v4
+        with:
+          name: panthrixseconomy-jar
           path: jars
 
       - name: Leer la versión
