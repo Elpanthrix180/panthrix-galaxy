@@ -1,0 +1,1 @@
+{ "parent": "minecraft:item/generated", "textures": { "layer0": "panthrixseconomy:item/panthrix_coin" } }
