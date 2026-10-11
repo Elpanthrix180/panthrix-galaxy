@@ -81,8 +81,16 @@ Banco (este), Mercado con toldo (oeste), tablón de anuncios y cartel de direcci
 - El Mercado de la Gran Plaza empieza vendiendo pan y antorchas y comprando trigo y piedra.
 - El `.jar` de Economy se añade también a las Releases de GitHub.
 
+## Versión 0.3.0: empleos y salarios
+- Un admin crea empleos en un pueblo: `/pe settlement job <pueblo> add <salario> <plazas> <nombre>`
+  (p. ej. `add 20 3 Panadero`) · `remove <nombre>`. También desde los botones del Núcleo del Pueblo.
+- Los jugadores, dentro del pueblo: `/trabajo` (lista con botones), `/trabajo unirse <n>`, `/trabajo dejar`.
+- Cada día de Minecraft, los empleados **conectados** cobran su salario desde la tesorería del pueblo
+  en su cuenta del banco del país. Si la tesorería no alcanza, ese día no cobran (se les avisa).
+- Borrar un empleo o un pueblo deja libres a sus trabajadores.
+
 ## Comandos
-**Jugadores:** `/banco` (saldo, depositar, retirar, transferir, historial) · `/tienda` · `/economia aqui|paises`
+**Jugadores:** `/banco` (saldo, depositar, retirar, transferir, historial) · `/tienda` · `/trabajo` · `/economia aqui|paises`
 
 **Admins:** `/pe` abre el menú con botones. Además:
 `/pe country create|rename|article|tax|treasury|info|delete|list` ·

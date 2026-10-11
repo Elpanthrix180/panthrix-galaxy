@@ -52,6 +52,7 @@ public final class PESmokeTest {
             plaza(server);
             welcome();
             shopTrade();
+            jobs();
         } catch (Throwable t) {
             failures.add("excepción: " + t);
             PanthrixsEconomy.LOGGER.error("Smoke test", t);
@@ -288,6 +289,27 @@ public final class PESmokeTest {
         com.panthrixseconomy.data.Shop rs = r.shops.get(shop.id);
         check(rs != null && rs.offers.size() == 2 && rs.offers.get(0).item().getCount() == 4 && rs.offers.get(1).price() == 50
                 && !rs.offers.get(1).sells(), "las ofertas sobreviven a guardar y cargar");
+    }
+
+    // 9. Empleos y salarios
+    private static void jobs() {
+        EconomyData d = sample();
+        Settlement capital = d.findSettlement("Capital");
+        Settlement.Job baker = new Settlement.Job("Panadero", 20, 1);
+        capital.jobs.add(baker);
+        UUID a = UUID.randomUUID();
+        UUID b = UUID.randomUUID();
+        check(d.hire(a, capital, baker) == null, "un jugador se apunta a un empleo");
+        check(d.hire(b, capital, baker) != null, "no se supera el número de puestos");
+        String id = EconomyData.identity(d.countries.get(capital.countryId));
+        eq(0, d.payroll(java.util.List.of(a)), "sin fondos no se paga");
+        capital.treasury = 50;
+        eq(1, d.payroll(java.util.List.of(a, b)), "solo cobran los empleados");
+        check(d.balance(id, a) == 20 && capital.treasury == 30, "el salario va de la tesorería a la cuenta del país");
+        EconomyData r = EconomyData.load(d.save(new CompoundTag()));
+        check(r.employment.containsKey(a) && r.settlements.get(capital.id).jobs.size() == 1, "empleos y trabajadores sobreviven a guardar y cargar");
+        d.deleteSettlement(capital);
+        check(!d.employment.containsKey(a), "borrar el pueblo libera a sus trabajadores");
     }
 
     private PESmokeTest() {

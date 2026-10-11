@@ -102,6 +102,13 @@ public final class Menus {
         for (Shop sh : shops) {
             player.sendSystemMessage(Component.literal("  • Comercio: " + sh.name + " (" + sh.loc.shortText() + ")").withStyle(ChatFormatting.GRAY));
         }
+        for (Settlement.Job j : s.jobs) {
+            player.sendSystemMessage(Component.literal("  • Empleo: " + j.name() + " — " + j.salary() + " ₱/día (" + data.workers(s, j.name())
+                    + "/" + j.slots() + ")").withStyle(ChatFormatting.GRAY));
+        }
+        if (!s.jobs.isEmpty()) {
+            player.sendSystemMessage(run("Buscar trabajo", "/trabajo", "Ver empleos y apuntarte"));
+        }
         if (admin || manager) {
             player.sendSystemMessage(line("Tesorería local", s.treasury + " ₱"));
             Country c = s.countryId == null ? null : data.countries.get(s.countryId);
@@ -129,6 +136,9 @@ public final class Menus {
                 run(s.type == com.panthrixseconomy.data.SettlementType.TOWN ? "Hacer ciudad" : "Hacer pueblo",
                         "/pe settlement type " + id + " " + (s.type == com.panthrixseconomy.data.SettlementType.TOWN ? "city" : "town"), "Cambiar el tipo"),
                 danger("Eliminar", "/pe settlement delete " + id, "Muestra las consecuencias antes de confirmar")));
+        player.sendSystemMessage(row(
+                suggest("Nuevo empleo", "/pe settlement job " + id + " add ", "salario plazas nombre (p. ej. 20 3 Panadero)"),
+                suggest("Quitar empleo", "/pe settlement job " + id + " remove ", "nombre del empleo")));
     }
 
     // ===================== Banco =====================

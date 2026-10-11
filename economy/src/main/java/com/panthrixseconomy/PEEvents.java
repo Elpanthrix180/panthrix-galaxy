@@ -97,6 +97,37 @@ public final class PEEvents {
         event.getAffectedBlocks().removeIf(pos -> isOfficial(event.getLevel().getBlockState(pos)));
     }
 
+    /** Salarios: una vez por día de Minecraft, a los empleados conectados. */
+    @SubscribeEvent
+    public static void onServerTick(net.minecraftforge.event.TickEvent.ServerTickEvent event) {
+        if (event.phase != net.minecraftforge.event.TickEvent.Phase.END || event.getServer().getTickCount() % 100 != 0) {
+            return;
+        }
+        net.minecraft.server.MinecraftServer server = event.getServer();
+        EconomyData data = EconomyData.get(server);
+        long day = server.overworld().getDayTime() / 24000L;
+        if (day == data.lastPayday) {
+            return;
+        }
+        boolean first = data.lastPayday < 0;
+        data.lastPayday = day;
+        data.setDirty();
+        if (first) {
+            return;
+        }
+        for (ServerPlayer p : server.getPlayerList().getPlayers()) {
+            EconomyData.Employment e = data.employment.get(p.getUUID());
+            if (e == null) {
+                continue;
+            }
+            if (data.payroll(java.util.List.of(p.getUUID())) > 0) {
+                p.sendSystemMessage(Component.literal("Has cobrado tu salario de " + e.job() + ".").withStyle(ChatFormatting.GREEN));
+            } else if (data.employment.containsKey(p.getUUID())) {
+                p.sendSystemMessage(Component.literal("Hoy no has cobrado: la tesorería de tu pueblo no tiene fondos.").withStyle(ChatFormatting.YELLOW));
+            }
+        }
+    }
+
     @SubscribeEvent
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getEntity() instanceof ServerPlayer p) {
