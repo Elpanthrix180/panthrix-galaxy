@@ -1,8 +1,9 @@
-# Compila el mod en GitHub y guarda los .jar (Forge y Fabric).
+# Compila los mods en GitHub y guarda los .jar (Galaxy Forge/Fabric, Economy y Transporte Ibérico).
 #  - En cada push: los .jar aparecen en la pestaña "Actions" → la ejecución → "Artifacts".
 #  - Al crear una etiqueta v1.0.0 (o v1.0.1...): además se crea una "Release" con los .jar.
 #  - También a mano: Actions → "Compilar mod" → "Run workflow" → marcar "Crear Release".
-#    La etiqueta se llama v + mod_version de gradle.properties (p. ej. v1.0.0).
+#    La etiqueta se llama v + mod_version de gradle.properties (p. ej. v1.0.0), o la que se
+#    escriba en "tag" (p. ej. mods-2026.10.12) para publicar todos los mods juntos.
 #  - La Release lleva el .jar de Fabric solo si su compilación salió bien.
 name: Compilar mod
 
@@ -17,6 +18,10 @@ on:
         description: "Crear Release con la versión de gradle.properties"
         type: boolean
         default: false
+      tag:
+        description: "Etiqueta propia para la Release (vacío = v + mod_version de Galaxy). P. ej. mods-2026.10.12"
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -236,13 +241,36 @@ jobs:
 
       - name: Leer la versión
         id: version
-        run: echo "tag=v$(grep '^mod_version=' gradle.properties | cut -d= -f2)" >> "$GITHUB_OUTPUT"
+        env:
+          CUSTOM_TAG: ${{ inputs.tag }}
+        run: |
+          if [ -n "$CUSTOM_TAG" ]; then
+            echo "tag=$CUSTOM_TAG" >> "$GITHUB_OUTPUT"
+            echo "name=Panthrix Mods $CUSTOM_TAG" >> "$GITHUB_OUTPUT"
+          else
+            v="v$(grep '^mod_version=' gradle.properties | cut -d= -f2)"
+            echo "tag=$v" >> "$GITHUB_OUTPUT"
+            echo "name=Panthrixs Galaxy $v" >> "$GITHUB_OUTPUT"
+          fi
+          {
+            echo "## Mods incluidos (Minecraft 1.20.1)"
+            echo
+            for f in jars/*.jar; do echo "- \`$(basename "$f")\`"; done
+            echo
+            echo "- **panthrixsgalaxy**: exploración espacial (Forge; también versión Fabric)."
+            echo "- **panthrixseconomy**: países, bancos, comercios, empleos y la Gran Plaza (Forge)."
+            echo "- **transporteiberico**: el Autobús Urbano Azul conducible (Forge)."
+            echo
+            echo "Instalación: copia el .jar en la carpeta \`mods\` de Minecraft 1.20.1 con Forge 47 (los de Fabric, con Fabric)."
+            echo
+            cat CHANGELOG.md
+          } > release-notes.md
 
       - name: Crear la Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || steps.version.outputs.tag }}
           target_commitish: ${{ github.sha }}
-          name: Panthrixs Galaxy ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || steps.version.outputs.tag }}
+          name: ${{ startsWith(github.ref, 'refs/tags/v') && format('Panthrixs Galaxy {0}', github.ref_name) || steps.version.outputs.name }}
           files: jars/*.jar
-          body_path: CHANGELOG.md
+          body_path: release-notes.md
