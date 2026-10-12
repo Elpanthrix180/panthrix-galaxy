@@ -1,0 +1,7 @@
+{
+  "entity.transporteiberico.autobus_urbano_azul": "Blue City Bus",
+  "item.transporteiberico.autobus_urbano_azul": "Blue City Bus",
+  "item.transporteiberico.autobus_urbano_azul.desc": "City bus inspired by the ones in Madrid.",
+  "item.transporteiberico.autobus_urbano_azul.controls": "Right-click the ground: place · Right-click the bus: get in · W/S/A/D: drive · Shift: get out",
+  "item.transporteiberico.autobus_urbano_azul.no_space": "There is no room for the bus here (it needs 3×3×3 free blocks)."
+}

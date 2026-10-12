@@ -1,0 +1,7 @@
+{
+  "entity.transporteiberico.autobus_urbano_azul": "Autobús Urbano Azul",
+  "item.transporteiberico.autobus_urbano_azul": "Autobús Urbano Azul",
+  "item.transporteiberico.autobus_urbano_azul.desc": "Autobús urbano inspirado en los de Madrid.",
+  "item.transporteiberico.autobus_urbano_azul.controls": "Clic derecho en el suelo: colocar · Clic derecho al autobús: subir · W/S/A/D: conducir · Mayús: bajar",
+  "item.transporteiberico.autobus_urbano_azul.no_space": "No hay sitio para el autobús aquí (necesita 3×3×3 bloques libres)."
+}
