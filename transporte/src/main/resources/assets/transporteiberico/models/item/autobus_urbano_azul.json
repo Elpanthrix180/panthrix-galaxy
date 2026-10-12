@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "transporteiberico:item/autobus_urbano_azul"
+  }
+}
