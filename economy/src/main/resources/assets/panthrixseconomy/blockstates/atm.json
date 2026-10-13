@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "panthrixseconomy:block/atm" },
+    "facing=east":  { "model": "panthrixseconomy:block/atm", "y": 90 },
+    "facing=south": { "model": "panthrixseconomy:block/atm", "y": 180 },
+    "facing=west":  { "model": "panthrixseconomy:block/atm", "y": 270 }
+  }
+}

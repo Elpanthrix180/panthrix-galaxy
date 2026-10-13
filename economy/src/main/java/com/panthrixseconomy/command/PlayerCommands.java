@@ -40,6 +40,7 @@ public final class PlayerCommands {
         d.register(literal("banco")
                 .executes(ctx -> withBank(ctx, PlayerCommands::openBank))
                 .then(literal("saldo").executes(ctx -> withBank(ctx, PlayerCommands::openBank)))
+                .then(literal("tarjeta").executes(ctx -> withBank(ctx, PlayerCommands::giveCard)))
                 .then(literal("chat").executes(ctx -> withBank(ctx, (p, data, b) -> Menus.bank(p, data, b))))
                 .then(literal("depositar").then(argument("cantidad", IntegerArgumentType.integer(1)).executes(ctx ->
                         withBank(ctx, (p, data, b) -> deposit(p, data, b, IntegerArgumentType.getInteger(ctx, "cantidad"))))))
@@ -91,10 +92,9 @@ public final class PlayerCommands {
     private static int withBank(CommandContext<CommandSourceStack> ctx, BankAction action) throws CommandSyntaxException {
         ServerPlayer p = ctx.getSource().getPlayerOrException();
         EconomyData data = EconomyData.get(p.server);
-        Loc here = EconomyData.loc(p.level().dimension().location(), p.blockPosition());
-        Bank b = data.nearestBank(here, BANK_REACH);
-        if (b == null || !p.level().getBlockState(b.loc.pos()).is(PERegistry.BANK.get())) {
-            ctx.getSource().sendFailure(Component.literal("Tienes que estar junto a un mostrador de banco oficial."));
+        Bank b = reachableBank(p);
+        if (b == null) {
+            ctx.getSource().sendFailure(Component.literal("Tienes que estar junto a un mostrador de banco oficial (o a un cajero, con tu tarjeta en la mano)."));
             return 0;
         }
         action.run(p, data, b);
@@ -355,7 +355,33 @@ public final class PlayerCommands {
     public static Bank reachableBank(ServerPlayer p) {
         EconomyData data = EconomyData.get(p.server);
         Bank b = data.nearestBank(EconomyData.loc(p.level().dimension().location(), p.blockPosition()), BANK_REACH);
-        return b != null && p.level().getBlockState(b.loc.pos()).is(PERegistry.BANK.get()) ? b : null;
+        if (b == null) {
+            return null;
+        }
+        net.minecraft.world.level.block.state.BlockState st = p.level().getBlockState(b.loc.pos());
+        if (st.is(PERegistry.BANK.get())) {
+            return b;
+        }
+        // Un cajero solo sirve con la tarjeta del propio jugador en la mano
+        return st.is(PERegistry.ATM.get()) && holdsOwnCard(p) ? b : null;
+    }
+
+    public static boolean holdsOwnCard(ServerPlayer p) {
+        return com.panthrixseconomy.item.BankCardItem.belongsTo(p.getMainHandItem(), p)
+                || com.panthrixseconomy.item.BankCardItem.belongsTo(p.getOffhandItem(), p);
+    }
+
+    /** Da (o repone) la tarjeta bancaria del jugador. Solo en un mostrador de banco, no en un cajero. */
+    private static void giveCard(ServerPlayer p, EconomyData data, Bank b) {
+        if (b.atm) {
+            p.sendSystemMessage(Component.literal("La tarjeta se pide en un mostrador de banco, no en un cajero.").withStyle(ChatFormatting.RED));
+            return;
+        }
+        ItemStack card = com.panthrixseconomy.item.BankCardItem.forPlayer(PERegistry.BANK_CARD.get(), p);
+        if (!p.getInventory().add(card)) {
+            p.drop(card, false);
+        }
+        p.sendSystemMessage(Component.literal("Aquí tienes tu tarjeta bancaria. Úsala en cualquier cajero automático.").withStyle(ChatFormatting.GREEN));
     }
 
     public static Shop reachableShop(ServerPlayer p) {

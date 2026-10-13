@@ -54,6 +54,7 @@ public final class PESmokeTest {
             shopTrade();
             jobs();
             screens();
+            atm();
         } catch (Throwable t) {
             failures.add("excepción: " + t);
             PanthrixsEconomy.LOGGER.error("Smoke test", t);
@@ -256,6 +257,8 @@ public final class PESmokeTest {
         d.banks.values().forEach(x -> unique.add(x.loc.pos()));
         eq(d.banks.size(), unique.size(), "sin bancos duplicados");
         check(d.shops.values().stream().anyMatch(x -> x.name.equals("Mercado de la Gran Plaza") && x.offers.size() == 4), "el mercado de la plaza tiene ofertas");
+        Bank atm = d.banks.values().stream().filter(x -> x.atm).findFirst().orElse(null);
+        check(atm != null && ow.getBlockState(atm.loc.pos()).is(PERegistry.ATM.get()), "la plaza tiene un cajero automático");
     }
 
     // 7. Jugadores nuevos van a la plaza una vez; los veteranos nunca
@@ -338,6 +341,22 @@ public final class PESmokeTest {
         java.lang.reflect.Method d = msg.getClass().getDeclaredMethod(dec, net.minecraft.network.FriendlyByteBuf.class);
         d.setAccessible(true);
         return (T) d.invoke(null, buf);
+    }
+
+    // 11. Cajeros automáticos y tarjeta bancaria
+    private static void atm() {
+        EconomyData d = sample();
+        Bank cajero = d.createBank(at(30, 0));
+        cajero.atm = true;
+        Bank sucursal = d.createBank(at(40, 0));
+        eq("Cajero automático · Banco Nacional de Panthria", d.bankName(cajero), "nombre del cajero");
+        eq("Banco Nacional de Panthria — Sucursal 3", d.bankName(sucursal), "los cajeros no cuentan como sucursal");
+        Bank primera = banks(d).get(0);
+        check(d.identityOf(cajero).equals(d.identityOf(primera)), "el cajero usa las cuentas del banco de su país");
+        EconomyData r = EconomyData.load(d.save(new CompoundTag()));
+        check(r.banks.get(cajero.id).atm && !r.banks.get(sucursal.id).atm, "el cajero se guarda como cajero");
+        net.minecraft.world.item.ItemStack blank = new net.minecraft.world.item.ItemStack(PERegistry.BANK_CARD.get());
+        check(PERegistry.BANK_CARD.get() instanceof com.panthrixseconomy.item.BankCardItem && !blank.hasTag(), "tarjeta bancaria registrada (sin titular al crearla)");
     }
 
     private PESmokeTest() {

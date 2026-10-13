@@ -63,6 +63,8 @@ public class BankBlock extends BaseEntityBlock {
         if (b == null) {
             b = data.createBank(here);
         }
+        b.atm = level.getBlockState(pos).is(com.panthrixseconomy.registry.PERegistry.ATM.get());
+        data.setDirty();
         be.setBankId(b.id);
         return b;
     }
@@ -73,6 +75,11 @@ public class BankBlock extends BaseEntityBlock {
             return InteractionResult.PASS;
         }
         if (!level.isClientSide && player instanceof ServerPlayer sp) {
+            if (state.is(com.panthrixseconomy.registry.PERegistry.ATM.get()) && !com.panthrixseconomy.command.PlayerCommands.holdsOwnCard(sp)) {
+                sp.displayClientMessage(net.minecraft.network.chat.Component.translatable("block.panthrixseconomy.atm.need_card")
+                        .withStyle(net.minecraft.ChatFormatting.RED), true);
+                return InteractionResult.CONSUME;
+            }
             EconomyData data = EconomyData.get(sp.server);
             Bank b = data.bankAt(EconomyData.loc(level.dimension().location(), pos));
             if (b == null && PEPermissions.isAdmin(sp)) {

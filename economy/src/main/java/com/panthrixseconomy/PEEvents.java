@@ -31,7 +31,7 @@ import java.util.List;
 public final class PEEvents {
 
     private static boolean isOfficial(BlockState state) {
-        return state.is(PERegistry.TOWN_CORE.get()) || state.is(PERegistry.BANK.get());
+        return state.is(PERegistry.TOWN_CORE.get()) || state.is(PERegistry.BANK.get()) || state.is(PERegistry.ATM.get());
     }
 
     @SubscribeEvent
@@ -74,7 +74,7 @@ public final class PEEvents {
         EconomyData data = EconomyData.get(p.server);
         Loc here = EconomyData.loc(p.level().dimension().location(), event.getPos());
         List<String> lines = new ArrayList<>();
-        if (state.is(PERegistry.BANK.get())) {
+        if (state.is(PERegistry.BANK.get()) || state.is(PERegistry.ATM.get())) {
             Bank b = data.bankAt(here);
             lines.add("La sucursal «" + (b == null ? "?" : data.bankName(b)) + "» dejará de existir.");
             lines.add("Las cuentas y saldos se conservan: pertenecen al banco del país y se usan en cualquier otra sucursal suya.");

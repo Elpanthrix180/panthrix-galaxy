@@ -14,6 +14,8 @@ public final class Bank {
     public Loc loc;
     /** País asignado a mano (o null = según la ubicación). */
     public UUID countryOverride;
+    /** Cajero automático: usa las cuentas del banco de su país, pero no cuenta como sucursal. */
+    public boolean atm;
     public final long serial;
 
     public Bank(UUID id, Loc loc, long serial) {
@@ -30,12 +32,14 @@ public final class Bank {
             tag.putUUID("Country", countryOverride);
         }
         tag.putLong("Serial", serial);
+        tag.putBoolean("Atm", atm);
         return tag;
     }
 
     static Bank load(CompoundTag tag) {
         Bank b = new Bank(tag.getUUID("Id"), Loc.load(tag.getCompound("Loc")), tag.getLong("Serial"));
         b.countryOverride = tag.hasUUID("Country") ? tag.getUUID("Country") : null;
+        b.atm = tag.getBoolean("Atm");
         return b;
     }
 }

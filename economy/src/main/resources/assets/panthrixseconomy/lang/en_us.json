@@ -1,5 +1,11 @@
 {
   "block.panthrixseconomy.town_core": "Town Core",
   "block.panthrixseconomy.bank_counter": "Bank Counter",
-  "item.panthrixseconomy.panthrix_coin": "Panthrix Coin"
+  "item.panthrixseconomy.panthrix_coin": "Panthrix Coin",
+  "block.panthrixseconomy.atm": "ATM",
+  "item.panthrixseconomy.bank_card": "Bank Card",
+  "item.panthrixseconomy.bank_card.owner": "Holder: %s",
+  "item.panthrixseconomy.bank_card.blank": "No holder: get one at a bank with /banco tarjeta",
+  "item.panthrixseconomy.bank_card.help": "Hold it and right-click an ATM",
+  "block.panthrixseconomy.atm.need_card": "You need your bank card in hand (get one at a bank: /banco tarjeta)"
 }

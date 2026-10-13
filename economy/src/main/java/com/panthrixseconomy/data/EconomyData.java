@@ -218,7 +218,7 @@ public final class EconomyData extends SavedData {
         String id = identityOf(b);
         int n = 1;
         for (Bank other : banks.values()) {
-            if (other.serial < b.serial && identityOf(other).equals(id)) {
+            if (!other.atm && other.serial < b.serial && identityOf(other).equals(id)) {
                 n++;
             }
         }
@@ -226,6 +226,9 @@ public final class EconomyData extends SavedData {
     }
 
     public String bankName(Bank b) {
+        if (b.atm) {
+            return "Cajero automático · " + BankNames.baseName(countryOf(b));
+        }
         return BankNames.displayName(countryOf(b), branchNumber(b));
     }
 

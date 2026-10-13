@@ -50,6 +50,7 @@ public final class PlazaBuilder {
 
     public BlockPos corePos;
     public BlockPos bankPos;
+    public BlockPos atmPos;
     public BlockPos marketPos;
     public BlockPos spawnPos;
 
@@ -353,6 +354,11 @@ public final class PlazaBuilder {
             setR(k, -x, 1, 16, counter);
         }
         setR(k, 3, 2, 16, st(Blocks.LANTERN));
+        // Cajero automático junto a la entrada del banco, mirando hacia la fuente
+        atmPos = pos(k, 6, 1, 13);
+        setR(k, 6, 0, 13, st(Blocks.SMOOTH_STONE));
+        level.setBlock(atmPos, PERegistry.ATM.get().defaultBlockState()
+                .setValue(com.panthrixseconomy.block.AtmBlock.FACING, Direction.NORTH).rotate(ROT[k]), 3);
         setR(k, -3, 2, 16, st(Blocks.LANTERN));
     }
 

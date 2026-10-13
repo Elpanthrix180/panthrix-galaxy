@@ -19,6 +19,10 @@ No necesita otros mods. Funciona en un jugador y en servidores (el `.jar` va en 
 Hay una versión para **Fabric 1.20.1** en `fabric/` que usa el mismo código. Fases F1–F6 completadas ✅:
 ya tiene todo (máquinas, oxígeno, mochila, gravedad, cohetes, cielos, criaturas y logros). Descárgala en Releases. Mira [docs/FABRIC.md](docs/FABRIC.md).
 
+## 📦 Panthrix Pack (modpack)
+Los tres mods de Forge del proyecto (Galaxy, Economy y Transporte Ibérico) juntos en un pack listo para importar
+en CurseForge, Modrinth App o Prism Launcher. Descárgalo de **Releases**. Instrucciones en [modpack/README.md](modpack/README.md).
+
 ## Compilar el `.jar`
 ```bash
 ./gradlew build          # Mac / Linux

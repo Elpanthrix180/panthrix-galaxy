@@ -98,8 +98,18 @@ Banco (este), Mercado con toldo (oeste), tablón de anuncios y cartel de direcci
 - El menú en el chat sigue disponible: `/banco chat` y `/tienda lista`. Los administradores también ven
   sus botones de administración en el chat.
 
+## Versión 0.5.0: cajeros automáticos y tarjeta bancaria
+- **Cajero Automático** (bloque oficial, solo lo colocan administradores): funciona como una sucursal del banco
+  del país donde está, con las mismas cuentas, pero no cuenta como sucursal en los nombres. Se llama
+  «Cajero automático · Banco Nacional de …».
+- **Tarjeta Bancaria**: cada jugador pide la suya en un mostrador de banco con `/banco tarjeta`. Es personal:
+  para usar un cajero hay que llevar **tu** tarjeta en la mano y hacer clic derecho (se abre la pantalla del banco).
+  Sin tarjeta, el cajero no deja operar (tampoco con `/banco` ni desde la pantalla: el servidor lo comprueba).
+- La Gran Plaza de los mundos nuevos tiene un cajero junto a la entrada del banco.
+- Forma parte del **Panthrix Pack** (ver `modpack/`).
+
 ## Comandos
-**Jugadores:** `/banco` (saldo, depositar, retirar, transferir, historial) · `/tienda` · `/trabajo` · `/economia aqui|paises`
+**Jugadores:** `/banco` (saldo, depositar, retirar, transferir, historial, tarjeta) · `/tienda` · `/trabajo` · `/economia aqui|paises`
 
 **Admins:** `/pe` abre el menú con botones. Además:
 `/pe country create|rename|article|tax|treasury|info|delete|list` ·

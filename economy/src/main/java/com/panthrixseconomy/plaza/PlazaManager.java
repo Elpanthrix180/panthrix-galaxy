@@ -103,6 +103,7 @@ public final class PlazaManager {
             core.setSettlementId(s.id);
         }
         BankBlock.register(level, b.bankPos);
+        BankBlock.register(level, b.atmPos);
         com.panthrixseconomy.data.Shop market = data.createShop("Mercado de la Gran Plaza", EconomyData.loc(dim, b.marketPos));
         // Ofertas iniciales (un admin puede cambiarlas con /pe shop offer)
         market.offers.add(new com.panthrixseconomy.data.Shop.Offer(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.BREAD, 4), 3, true));

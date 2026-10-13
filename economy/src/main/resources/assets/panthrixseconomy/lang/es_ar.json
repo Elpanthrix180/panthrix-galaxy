@@ -1,5 +1,11 @@
 {
   "block.panthrixseconomy.town_core": "Núcleo del Pueblo",
   "block.panthrixseconomy.bank_counter": "Mostrador de Banco",
-  "item.panthrixseconomy.panthrix_coin": "Moneda Panthrix"
+  "item.panthrixseconomy.panthrix_coin": "Moneda Panthrix",
+  "block.panthrixseconomy.atm": "Cajero Automático",
+  "item.panthrixseconomy.bank_card": "Tarjeta Bancaria",
+  "item.panthrixseconomy.bank_card.owner": "Titular: %s",
+  "item.panthrixseconomy.bank_card.blank": "Sin titular: pídela en un banco con /banco tarjeta",
+  "item.panthrixseconomy.bank_card.help": "Llévala en la mano y haz clic derecho en un cajero",
+  "block.panthrixseconomy.atm.need_card": "Necesitas tu tarjeta bancaria en la mano (pídela en un banco: /banco tarjeta)"
 }

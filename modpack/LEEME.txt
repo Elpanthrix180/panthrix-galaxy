@@ -1,0 +1,14 @@
+PANTHRIX PACK — Minecraft 1.20.1 con Forge 47
+
+Mods incluidos:
+  - Panthrix's Economy: países, ciudades y pueblos, bancos nacionales, cajeros
+    automáticos con tarjeta bancaria, comercios, empleos y salarios, y la Gran Plaza
+    donde empiezan los jugadores nuevos.
+  - Panthrix's Galaxy: cohetes, oxígeno, planetas, máquinas y alienígenas.
+  - Transporte Ibérico: el Autobús Urbano Azul, que se conduce con W, A, S y D.
+
+Primeros pasos:
+  1. Crea un mundo nuevo: apareces en la Gran Plaza.
+  2. En el banco (al este de la fuente) escribe /banco tarjeta para tener tu tarjeta.
+  3. Con la tarjeta en la mano, haz clic derecho en un cajero automático.
+  4. Los administradores (operadores) gestionan la economía con /pe.

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "top": "panthrixseconomy:block/atm_top",
+    "front": "panthrixseconomy:block/atm_front",
+    "side": "panthrixseconomy:block/atm_side"
+  }
+}

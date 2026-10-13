@@ -203,9 +203,48 @@ jobs:
           path: transporte/build/libs/transporteiberico-*.jar
           if-no-files-found: error
 
+  modpack:
+    name: Modpack (Panthrix Pack)
+    needs: [forge, economy, transporte]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Descargar los .jar
+        uses: actions/download-artifact@v4
+        with:
+          pattern: "{panthrixsgalaxy-jar,panthrixseconomy-jar,transporteiberico-jar}"
+          path: jars
+          merge-multiple: true
+
+      - name: Construir el pack
+        run: python3 modpack/build_pack.py jars pack
+
+      - name: Comprobar el pack
+        run: |
+          python3 - <<'PY'
+          import json, zipfile, glob
+          for f in glob.glob("pack/*"):
+              z = zipfile.ZipFile(f)
+              names = z.namelist()
+              meta = "modrinth.index.json" if f.endswith(".mrpack") else "manifest.json"
+              json.loads(z.read(meta))
+              mods = [n for n in names if n.startswith("overrides/mods/") and n.endswith(".jar")]
+              assert len(mods) == 3, (f, mods)
+              print(f, "OK:", mods)
+          PY
+
+      - name: Guardar el pack
+        uses: actions/upload-artifact@v4
+        with:
+          name: panthrix-pack
+          path: pack/*
+          if-no-files-found: error
+
   release:
     name: Release
-    needs: [forge, fabric, economy, transporte]
+    needs: [forge, fabric, economy, transporte, modpack]
     if: always() && needs.forge.result == 'success' && (startsWith(github.ref, 'refs/tags/v') || inputs.release)
     runs-on: ubuntu-latest
     steps:
@@ -239,6 +278,13 @@ jobs:
           name: transporteiberico-jar
           path: jars
 
+      - name: Descargar el modpack (si se construyó)
+        if: needs.modpack.result == 'success'
+        uses: actions/download-artifact@v4
+        with:
+          name: panthrix-pack
+          path: jars
+
       - name: Leer la versión
         id: version
         env:
@@ -255,7 +301,9 @@ jobs:
           {
             echo "## Mods incluidos (Minecraft 1.20.1)"
             echo
-            for f in jars/*.jar; do echo "- \`$(basename "$f")\`"; done
+            for f in jars/*.jar jars/*.mrpack jars/*.zip; do [ -e "$f" ] && echo "- \`$(basename "$f")\`"; done
+            echo
+            echo "**Panthrix Pack** (\`.mrpack\` para Modrinth/Prism, \`.zip\` para CurseForge): los tres mods de Forge juntos, listos para importar."
             echo
             echo "- **panthrixsgalaxy**: exploración espacial (Forge; también versión Fabric)."
             echo "- **panthrixseconomy**: países, bancos, comercios, empleos y la Gran Plaza (Forge)."
@@ -272,5 +320,8 @@ jobs:
           tag_name: ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || steps.version.outputs.tag }}
           target_commitish: ${{ github.sha }}
           name: ${{ startsWith(github.ref, 'refs/tags/v') && format('Panthrixs Galaxy {0}', github.ref_name) || steps.version.outputs.name }}
-          files: jars/*.jar
+          files: |
+            jars/*.jar
+            jars/*.mrpack
+            jars/*.zip
           body_path: release-notes.md
